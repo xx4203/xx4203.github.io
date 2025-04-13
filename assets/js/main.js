@@ -1,16 +1,18 @@
+const basePath = window.location.pathname.includes("pages") ? "../" : "";
+
 // 動態載入其他 components 和他的 JS
 document.addEventListener("DOMContentLoaded", function () {
     // 如果之後還有其他要載入，可以在這裡新增 loadComponent
-    loadComponent("header", "/components/header.html", [
-        { type: "js", url: "/assets/js/_header.js" }
+    loadComponent("header", "${basePath}components/header.html", [
+        { type: "js", url: "${basePath}assets/js/_header.js" }
     ]);
 
-    loadComponent("footer", "/components/footer.html", [
-        { type: "js", url: "/assets/js/_footer.js" }
+    loadComponent("footer", "${basePath}components/footer.html", [
+        { type: "js", url: "${basePath}assets/js/_footer.js" }
     ]);
 
-    loadComponent("NewYearCard-form", "/components/NewYearCard-form.html", [
-        { type: "js", url: "/assets/js/_NewYearCard-form.js" }
+    loadComponent("NewYearCard-form", "${basePath}components/NewYearCard-form.html", [
+        { type: "js", url: "${basePath}assets/js/_NewYearCard-form.js" }
       ], () => {
         // 載入完成後呼叫初始化
         if (typeof initFormLogic === "function") {
