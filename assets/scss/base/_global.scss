@@ -1,0 +1,51 @@
+* {
+    scroll-behavior: smooth;
+
+    // 全域文字預設
+    color: $primary-color;
+    font-family: "Montserrat", "Noto Sans TC", sans-serif; 
+    font-weight: $font-weight-regular;
+
+    background: $bg-color;
+}
+
+html {
+    font-size: 10px; //重設所有文字大小之後用 rem 比較好計算
+    min-width: 150px;
+}
+
+body {
+    font-size: $font-size-paragraph;
+    margin-right: calc(100% - 100vw);/* 扣除捲軸寬度*/
+    display: grid;
+    grid-template-rows: auto 1fr auto; /* Header - Main - Footer */
+    min-height: 100vh;
+    flex-direction: column;
+    height: 100%;
+    width: 100%;
+}
+
+main {
+    width: min(calc(100% - 7rem), 60rem);
+    margin: 0 auto;
+    align-items: center;
+}
+
+// 反白文字
+::selection {
+    color: $bg-color;
+    background: $primary-color;
+}
+
+// 預設圖片大小
+img {
+    width: 100%;
+}
+
+
+//大螢幕下文字大小
+@media (min-width: 1920px) {
+    html {
+        font-size: calc(10px + (100vw - 1920px) * 10 / 1920);
+    }
+}

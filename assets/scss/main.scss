@@ -1,0 +1,32 @@
+//載入有先後順序
+
+// 變數、Mixin、Reset
+@import 'base/variables';
+@import 'base/reset';
+
+// 全域 & 版面配置
+@import 'base/global';
+@import 'base/color';
+@import 'base/typography';
+
+// 佈局
+@import 'layout/header';
+@import 'layout/sidebar';
+@import 'layout/footer';
+
+//元件
+@import 'components/scrollbar';
+@import 'components/icon';
+@import 'components/menu-icon';
+@import 'components/link';
+@import 'components/divider';
+@import 'components/form';
+@import 'components/button';
+@import 'components/carousel';
+
+//頁面
+@import 'page/homepage';
+@import 'page/article-template';
+
+
+//之後 @import 會被淘汰，要改成 @use（這個插件還不支援）

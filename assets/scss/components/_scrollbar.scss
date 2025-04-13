@@ -1,0 +1,19 @@
+/* 捲軸樣式 */
+::-webkit-scrollbar {
+    width: 0.6rem;
+    transition: width 0.3s ease-in-out;
+}
+::-webkit-scrollbar-button {
+  display: none;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 0.3rem;
+  background-color: $secondary-color;
+  border: none;
+}
+
+@media (max-width: 600px) {
+  ::-webkit-scrollbar {
+    display: none;
+  }
+}

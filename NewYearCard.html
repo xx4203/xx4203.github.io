@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="description" content="賀年卡" />
+
+		<title>New Year Card</title>
+		<link rel="icon" href="/assets/images/header/DanLo(xx4203)_logo_SilverSolid.svg" type="image/svg+xml" />
+		<link rel="apple-touch-icon" href="/assets/images/header/DanLo(xx4203)_logo_SilverSolid_app-icon.svg" />
+
+		<!-- Fonts -->
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Noto+Sans+TC:wght@100..900&display=swap" rel="stylesheet">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+		<!-- 連結 css js 檔 -->
+		<link rel="stylesheet" href="/assets/css/main.css">
+		<script src="/assets/js/main.js" defer></script>
+		<script src="/assets/js/_carousel.js" defer></script>
+	</head>
+	
+	<body>
+		<div id="header"></div> <!-- 載入 header.html -->
+		<div class="article-title">
+			<div class="divider-light"></div>
+			<h1 class="title2">賀年卡！</h1>
+			<div class="divider-light"></div>
+		</div>
+		<main class="article-layout">
+			<section>
+				<p>超級遲來的賀年卡！<br>
+					原本預計一月多要發布結果莫名其妙就四月了<br>
+					（在年底前都還算數ㄅ O_O）
+				</p>
+			</section>
+
+			<!-- 相片輪播 記得在header加_carousel.js-->
+			<div class="carousel-wrapper">
+				<div class="carousel-container">
+				  <div class="carousel" id="carousel">
+					<img src="/assets/images/NewYearCard/2025/2025_NewYearCard_img01.jpg" alt="2025-賀年卡_01.jpg" />
+					<img src="/assets/images/NewYearCard/2025/2025_NewYearCard_img02.jpg" alt="2025-賀年卡_02.jpg" />
+					<img src="/assets/images/NewYearCard/2025/2025_NewYearCard_img03.jpg" alt="2025-賀年卡_03.jpg" />
+					<img src="/assets/images/NewYearCard/2025/2025_NewYearCard_img04.gif" alt="2025-賀年卡_03.gif" />
+				  </div>
+				  <div class="carousel-arrow left">
+					<div class="arrow-line line1"></div>
+					<div class="arrow-line line2"></div>
+				  </div>
+				  <div class="carousel-arrow right">
+					<div class="arrow-line line1"></div>
+					<div class="arrow-line line2"></div>
+				  </div>
+				</div>
+				<div class="dots" id="dots"><div class="dots"></div></div>
+			</div>
+			
+			<section>
+				<p>
+					這次是印製成書籤<br>
+					靈感來自帶有重生意含的艾斯庫拉皮斯的蛇杖，覺得滿符合之前幫這兩個角色寫的設定和故事（但我真ㄉ畫得好慢）
+				</p>
+				<p>
+					如果喜歡的話可以填寫下面的表單索取<br>
+					（想要交換卡片的畫也很歡迎！）<br>
+					賀年卡會在填寫完表單後約一至二週以郵局平信寄出，如果有順利收到也歡迎跟我說！
+				</p>
+				<p>
+					最後，祝今年也都順順利利！
+				</p>
+				<div class="divider-lightning"></div>
+				<p>
+					<span class="bold">Dan Lo</span><br>
+					2025 春<span class="footnote2"> ⋯？</span>
+				</p>
+			</section>
+
+			<!-- 載入 賀年卡表單 -->
+			<div id="NewYearCard-form"></div>
+		</main>
+
+		<div id="footer"></div> <!-- 載入 footer.html -->
+		<script>
+			document.addEventListener("DOMContentLoaded", function () {
+				loadComponent("footer", "../components/footer.html", [
+					{ type: "js", url: "../assets/js/_footer.js" }
+				]);
+			});
+		</script>
+	</body>
+	<footer>
+	</footer>
+</html>

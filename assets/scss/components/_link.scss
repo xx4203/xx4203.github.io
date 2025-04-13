@@ -1,0 +1,10 @@
+/* 預設連結效果 */
+a:not(.nav-link) {
+    color: var(--accent-color);
+    margin: 0 0.2rem;
+  
+    &:hover {
+      color: $primary-color;
+      font-weight: $font-weight-bold;
+    }
+  }

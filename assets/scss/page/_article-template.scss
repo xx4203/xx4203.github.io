@@ -1,0 +1,30 @@
+.article-layout {
+    display: grid;
+    grid-template-rows: auto auto 1fr;
+    gap: 2rem;
+}
+
+.article-title {
+    width: min(calc(100% - 7rem), 60rem);
+    margin: 0 auto 3rem;
+    h1 {
+        margin: 1rem 0;
+        text-align:center;
+        color: var(--accent-color);
+        font-weight: $font-weight-medium;
+    }
+}
+
+section {
+    p:not(.Q-direction) {
+        text-align:center;
+        width: min(90%, 30rem);
+        margin: 0 auto 3rem;
+        line-height: 2.2rem;
+        // background: #000;
+        &:first-of-type {
+            margin-top: 1rem;
+        }
+    }
+    
+}

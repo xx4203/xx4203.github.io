@@ -1,0 +1,33 @@
+#menu-icon {
+    display: flex ;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+
+    // menu-icon 零件
+    div {
+        background: $secondary-color;
+        width: 2.4rem;
+        height: 0.2rem;
+        transition: all 0.2s ease;
+    }
+
+    &.active {
+        & div:nth-child(1) {
+            transform: 
+            translate(0, 0.7rem) /* 向下移動使得旋轉後居中 */
+            rotate(45deg); /* 順時針旋轉45度 */
+        }
+        & div:nth-child(2) {
+            opacity: 0; /* 隱藏中間線條 */
+            transform: scale(0, 1);
+        }
+        & div:nth-child(3) {
+            transform: 
+                translate(0, -0.7rem) /* 向下移動使得旋轉後居中 */
+                rotate(-45deg); /* 順時針旋轉45度 */
+        }
+    }
+}

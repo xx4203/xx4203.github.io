@@ -1,0 +1,51 @@
+<!-- 表單 ref: https://www.letswrite.tw/custom-google-form/-->
+<!-- 提交完表單頁面導向 -->
+<iframe name="iframe_redirect" id="iframe_redirect" style="display:none;" onload="if(typeof sent_redirect!='undefined'){window.location='/NewYearCard.html';}"></iframe>
+<!-- F12搜尋 name 值、formResponse 連結 -->
+<form onsubmit="sent_redirect=true" target="iframe_redirect" action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSfcfC-bKwWphDqY-hvQ6jEzd36-Qly0crGbN_v-U_v3m6dytw/formResponse" method="post">
+    <h2 class="form-title">賀年卡表單</h2>
+    <div class="divider-light"></div>
+    <!-- Q1:姓名 -->
+    <div>
+        <label id="name-label" for="name" class="Q-title required">該怎麼稱呼您！</label>
+        <p class="Q-direction">只要是能夠收信的名字都可以</p>
+        <input id="name" type="text" name="entry.1883211845" value="" placeholder="收件名字" required>
+    </div>
+    <!-- Q2:索取或交換 -->
+    <div>
+        <legend class="Q-title required">賀年卡想要⋯</legend>
+        <div class="radio-group">
+          <input type="radio" name="entry.306163396" value="索取" id="get" checked />
+          <label for="get">索取！</label>
+          <input type="radio" name="entry.306163396" value="交換" id="change" />
+          <label for="change">交換！</label>
+        </div>
+        <p class="Q-direction">選擇交換的話，會在信件附上回信地址，以平信回寄就可以ㄌ！</p>
+      </div>
+    <!-- Q3:instagram帳號 -->
+    <div id="q3-instagram-wrapper">
+        <label id="instagram-id-label" for="instagram-id" class="Q-title">交換卡片回報！</label>
+        <p class="Q-direction">之後收到交換的卡片，如果願意讓我標記您的 Instagram 帳號，歡迎填寫！沒有的話留空也沒關係ㄉ！</p>
+        <input id="instagram-id" type="text" name="entry.972126680" value="" placeholder="instagram 帳號（選填）">
+        <div class="divider-light"></div>
+    </div>
+    <!-- Q4:郵遞區號 -->
+    <div>
+        <label id="postcode-label" for="postcode" class="Q-title required">郵遞區號 3+3</label>
+        <p class="Q-direction">可以在<a href="https://www.post.gov.tw/post/internet/Postal/index.jsp?ID=208">郵局官網</a>查詢</p>
+        <input id="postcode" type="text" name="entry.273593910" value="" placeholder="郵遞區號" required>
+    </div>
+    <!-- Q5:收信地址 -->
+    <div>
+        <label id="address-label" for="address" class="Q-title required">收信地址</label>
+        <input id="address" type="text" name="entry.2048484017" value="" placeholder="地址" required>
+    </div>
+    <!-- Q6:其他 -->
+    <div>
+        <label id="other-label" for="other" class="Q-title required">還有什麼想說的！</label>
+        <p class="Q-direction">或是想推薦什麼書、漫畫、音樂、影視都非常歡迎！</p>
+        <textarea id="other" name="entry.1814489457" rows="4" required></textarea>
+    </div>
+    <!-- 提交 -->
+    <button class="primary-btn" type="submit" name="button" value="submit">送出表單</button>
+</form>
