@@ -446,7 +446,7 @@ form {
   border-radius: 0.5rem;
 }
 form button {
-  margin: 2rem auto 1rem;
+  margin: 2rem auto 0;
 }
 form section {
   overflow: hidden;
@@ -585,7 +585,7 @@ textarea {
 .success-message.show {
   display: block;
   height: auto;
-  padding: 2rem;
+  padding: 2.5rem 2rem 2rem;
   opacity: 1;
   transform: scale(1);
 }
