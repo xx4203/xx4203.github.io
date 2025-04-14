@@ -55,11 +55,9 @@ const isNewYearCardPage = window.location.pathname.includes('new-year-card.html'
 // 成功送出表單訊息
 
 function formSubmitted() {
-  if (typeof sent_redirect !== "undefined") {
-    const form = document.getElementById("myForm");
-    form.querySelector(".form-fields").style.display = "none";
-    form.querySelector(".success-message").style.display = "block";
-  }
+  const form = document.getElementById("myForm");
+  form.querySelector(".form-fields").style.display = "none";
+  form.querySelector(".success-message").style.display = "block";
 }
 
 document.getElementById("backButton").addEventListener("click", function () {
