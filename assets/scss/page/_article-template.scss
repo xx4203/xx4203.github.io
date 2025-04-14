@@ -2,6 +2,20 @@
     display: grid;
     grid-template-rows: auto auto 1fr;
     gap: 2rem;
+    overflow: hidden;
+
+    section {
+        p:not(.Q-direction) {
+            text-align:center;
+            width: min(90%, 30rem);
+            margin: 0 auto 3rem;
+            line-height: 2.2rem;
+            &:first-of-type {
+                margin-top: 1rem;
+            }
+        }
+        
+    }
 }
 
 .article-title {
@@ -15,16 +29,3 @@
     }
 }
 
-section {
-    p:not(.Q-direction) {
-        text-align:center;
-        width: min(90%, 30rem);
-        margin: 0 auto 3rem;
-        line-height: 2.2rem;
-        // background: #000;
-        &:first-of-type {
-            margin-top: 1rem;
-        }
-    }
-    
-}

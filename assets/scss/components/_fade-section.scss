@@ -1,0 +1,11 @@
+.fade-section {
+    opacity: 0;
+    transform: translateY(2rem);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+    will-change: opacity, transform;
+  
+    &.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }

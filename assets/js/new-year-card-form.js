@@ -54,7 +54,7 @@ function formSubmitted() {
   const success = form.querySelector(".success-message");
   success.classList.add("show");
 
-  // ✅ 確保顯示後再綁定返回按鈕事件
+  // 確保顯示後再綁定返回按鈕事件
   const backButton = document.getElementById("backButton");
   if (backButton) {
     backButton.addEventListener("click", () => {
@@ -63,4 +63,27 @@ function formSubmitted() {
       form.reset();
     });
   }
+}
+
+
+
+//
+//表單送出成功訊息
+function formSubmitted() {
+  const form = document.getElementById("myForm");
+  const success = form.querySelector(".success-message");
+  const fields = form.querySelector(".form-fields");
+
+  // 隱藏原本表單欄位
+  fields.style.display = "none";
+
+  // 顯示成功訊息，套用動畫類別
+  success.classList.add("show");
+
+  // 綁定返回按鈕
+  document.getElementById("backButton").addEventListener("click", function () {
+    fields.style.display = "block";
+    success.classList.remove("show");
+    form.reset();
+  });
 }

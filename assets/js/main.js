@@ -1,5 +1,8 @@
 // main.js
 
+
+//
+// 動態載入html/js檔案
 // 判斷當前 HTML 是否在 pages 子資料夾內
 const basePath = window.location.pathname.includes("/pages") ? "../" : "";
 const rootPath = location.hostname.includes("github.io")
@@ -32,7 +35,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 });
-
 
 /**
  * 動態載入 HTML 和 JS
@@ -75,6 +77,8 @@ function loadComponent(containerId, htmlPath, assets) {
 }
 
 
+
+//
 // 除了 nav-link 連結，其他都新分頁開啟
 
 document.addEventListener('DOMContentLoaded', function () {
@@ -95,4 +99,31 @@ document.addEventListener('DOMContentLoaded', function () {
         });
       })
       .catch(error => console.error('Error loading footer:', error));
+});
+
+
+
+//
+// section 動畫
+document.addEventListener("DOMContentLoaded", function () {
+  const sections = document.querySelectorAll("section");
+
+  sections.forEach((section, index) => {
+    section.classList.add("fade-section");
+    // 延遲每個 section 的顯示時間（例如 0.2s、0.4s、0.6s）
+    section.style.transitionDelay = `${index * 0.2}s`;
   });
+
+  const observer = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add("visible");
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.2
+  });
+
+  sections.forEach(section => observer.observe(section));
+});
