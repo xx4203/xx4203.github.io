@@ -1,5 +1,6 @@
 .primary-btn {
     color: $tertiary-color;
+    font-size: $font-size-paragraph;
     background: var(--accent-color);
     border: none;
     border-radius: 2rem;
@@ -20,6 +21,7 @@
 
 .secondary-btn {
     color: $tertiary-color;
+    font-size: $font-size-paragraph;
     background: $secondary-color;
     border: 0.2rem solid transparent;
     border-radius: 2rem;

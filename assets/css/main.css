@@ -78,7 +78,7 @@ img {
 }
 
 .bg-sec-color {
-  color: #f7f7f7;
+  color: #ebebeb;
 }
 
 /* 字重 */
@@ -197,16 +197,17 @@ img {
 }
 @media (max-height: 400px) and (max-width: 1920px) {
   #nav-container {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    align-items: center;
-    justify-content: start;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-end;
     height: 6rem;
     padding: 0;
   }
   #nav-list {
     margin: 0.5rem 0 0;
     justify-content: end;
+    min-height: 3rem;
   }
   #nav-logo {
     height: 100%;
@@ -409,7 +410,7 @@ textarea {
   padding: 0 1rem;
   box-sizing: border-box;
   border: 0.2rem solid transparent;
-  background: #f7f7f7;
+  background: #ebebeb;
   border-radius: 0.5rem;
   transition: 0.1s ease;
 }
@@ -465,7 +466,7 @@ textarea {
   cursor: pointer;
 }
 .radio-group label:hover {
-  background-color: #f7f7f7;
+  background-color: #ebebeb;
 }
 .radio-group input[type=radio]:checked + label {
   background-color: var(--accent-color);
@@ -494,6 +495,7 @@ textarea {
 }
 .primary-btn {
   color: #fff;
+  font-size: 1.4rem;
   background: var(--accent-color);
   border: none;
   border-radius: 2rem;
@@ -513,6 +515,7 @@ textarea {
 
 .secondary-btn {
   color: #fff;
+  font-size: 1.4rem;
   background: #c2c2c2;
   border: 0.2rem solid transparent;
   border-radius: 2rem;
