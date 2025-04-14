@@ -49,3 +49,8 @@ img {
         font-size: calc(10px + (100vw - 1920px) * 10 / 1920);
     }
 }
+
+figcaption {
+    font-size: $font-size-footnote1;
+    color: $secondary-color;
+}

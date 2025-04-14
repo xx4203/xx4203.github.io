@@ -60,6 +60,11 @@ img {
     font-size: calc(10px + (100vw - 1920px) * 10 / 1920);
   }
 }
+figcaption {
+  font-size: 1.2rem;
+  color: #bbb;
+}
+
 /* 顏色 */
 .pri-color {
   color: #666;
@@ -256,6 +261,51 @@ img {
   margin: 3rem;
 }
 
+.homepage {
+  display: grid;
+}
+
+#index-welcome-img {
+  width: max(80%, 100% - (100vw - 60rem) * 0.1);
+  order: -1; /* 上移 */
+  margin: 0 auto;
+}
+
+.article-layout {
+  display: grid;
+  grid-template-rows: auto auto 1fr;
+  gap: 2rem;
+  height: auto;
+  overflow: hidden;
+}
+@media (max-width: 680px) {
+  .article-layout {
+    overflow: visible;
+  }
+}
+.article-layout section {
+  text-align: center;
+}
+.article-layout section p:not(form p) {
+  width: min(90%, 30rem);
+  margin: 0 auto 3rem;
+  line-height: 2.2rem;
+}
+.article-layout section p:not(form p):first-of-type {
+  margin-top: 1rem;
+}
+
+.article-title {
+  width: min(100% - 7rem, 60rem);
+  margin: 0 auto 3rem;
+}
+.article-title h1 {
+  margin: 1rem 0;
+  text-align: center;
+  color: var(--accent-color);
+  font-weight: 600;
+}
+
 /* 捲軸樣式 */
 ::-webkit-scrollbar {
   width: 0.6rem;
@@ -422,6 +472,7 @@ form section {
 
 .Q-title {
   display: block;
+  text-align: left;
   font-size: 1.4rem;
   font-weight: 700;
   margin: 2rem 0 0.2rem;
@@ -433,6 +484,7 @@ form section {
 }
 
 .Q-direction {
+  text-align: left;
   color: #bbb;
   font-size: 1.2rem;
   margin: 0 0 0.5rem;
@@ -692,45 +744,6 @@ textarea {
   transform: translateY(0);
 }
 
-.homepage {
-  display: grid;
-}
-
-#index-welcome-img {
-  width: max(80%, 100% - (100vw - 60rem) * 0.1);
-  order: -1; /* 上移 */
-  margin: 0 auto;
-}
-
-.article-layout {
-  display: grid;
-  grid-template-rows: auto auto 1fr;
-  gap: 2rem;
-  height: auto;
-  overflow: hidden;
-}
-@media (max-width: 680px) {
-  .article-layout {
-    overflow: visible;
-  }
-}
-.article-layout section p:not(.Q-direction) {
-  text-align: center;
-  width: min(90%, 30rem);
-  margin: 0 auto 3rem;
-  line-height: 2.2rem;
-}
-.article-layout section p:not(.Q-direction):first-of-type {
-  margin-top: 1rem;
-}
-
-.article-title {
-  width: min(100% - 7rem, 60rem);
-  margin: 0 auto 3rem;
-}
-.article-title h1 {
-  margin: 1rem 0;
-  text-align: center;
-  color: var(--accent-color);
-  font-weight: 600;
+img.small {
+  width: max(30%, 15rem);
 }/*# sourceMappingURL=main.css.map */

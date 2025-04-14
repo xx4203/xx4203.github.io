@@ -37,6 +37,7 @@ form {
   
 .Q-title {
     display: block;
+    text-align: left;
     font-size: $font-size-paragraph;
     font-weight: $font-weight-bold;
     margin: 2rem 0 0.2rem;
@@ -49,6 +50,7 @@ form {
 }
 
 .Q-direction {
+    text-align: left;
     color: $secondary-color;
     font-size: $font-size-footnote1;
     margin: 0 0 0.5rem;

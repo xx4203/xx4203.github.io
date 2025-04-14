@@ -14,6 +14,10 @@
 @import 'layout/sidebar';
 @import 'layout/footer';
 
+//頁面
+@import 'page/homepage';
+@import 'page/article-template';
+
 //元件
 @import 'components/scrollbar';
 @import 'components/icon';
@@ -24,10 +28,9 @@
 @import 'components/form';
 @import 'components/carousel';
 @import 'components/fade-section';
+@import 'components/img';
 
-//頁面
-@import 'page/homepage';
-@import 'page/article-template';
+
 
 
 //之後 @import 會被淘汰，要改成 @use（這個插件還不支援）
