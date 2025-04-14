@@ -11,8 +11,8 @@ document.addEventListener("DOMContentLoaded", function () {
         { type: "js", url: `${basePath}assets/js/_header.js` }
     ]);
 
-    loadComponent("footer", `/components/footer.html`, [
-        { type: "js", url: `/assets/js/_footer.js` }
+    loadComponent("footer", `${basePath}components/footer.html`, [
+        { type: "js", url: `${basePath}assets/js/_footer.js` }
     ]);
 
     loadComponent("NewYearCard-form", `${basePath}components/NewYearCard-form.html`, [
