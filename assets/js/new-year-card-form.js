@@ -52,21 +52,14 @@ function formSubmitted() {
   const form = document.getElementById("myForm");
   form.querySelector(".form-fields").style.display = "none";
   form.querySelector(".success-message").style.display = "block";
-}
 
-// DOM Ready 後的行為
-document.addEventListener("DOMContentLoaded", () => {
-  // 初始化邏輯
-  initFormLogic();
-
-  // 成功畫面中的返回按鈕
+  // ✅ 確保顯示後再綁定返回按鈕事件
   const backButton = document.getElementById("backButton");
   if (backButton) {
     backButton.addEventListener("click", () => {
-      const form = document.getElementById("myForm");
       form.querySelector(".form-fields").style.display = "block";
       form.querySelector(".success-message").style.display = "none";
       form.reset();
     });
   }
-});
+}
