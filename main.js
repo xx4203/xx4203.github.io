@@ -2,7 +2,9 @@
 
 // 判斷當前 HTML 是否在 pages 子資料夾內
 const basePath = window.location.pathname.includes("pages") ? "../" : "";
-
+const rootPath = location.hostname.includes("github.io")
+  ? "https://xx4203.com"
+  : "";
 
 // 動態載入其他 components 和他的 JS
 document.addEventListener("DOMContentLoaded", function () {
