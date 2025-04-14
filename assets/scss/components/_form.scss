@@ -145,7 +145,6 @@ textarea {
 // 成功送出表單
 .success-message {
     text-align: center;
-    padding: 2rem;
     opacity: 0;
     height: 0;
     transform: scale(0);
@@ -154,6 +153,7 @@ textarea {
     &.show {
         display: block;
         height: auto;
+        padding: 2rem;
         opacity: 1;
         transform: scale(1);
     // 所有子元素淡入動畫

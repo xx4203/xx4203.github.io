@@ -25,7 +25,7 @@
 }
 
 html {
-  font-size: 10.5px;
+  font-size: 10px;
   min-width: 150px;
 }
 
@@ -100,15 +100,15 @@ img {
 
 /* 字級 */
 .title1 {
-  font-size: 3.5rem;
+  font-size: 3.6rem;
 }
 
 .title2 {
-  font-size: 2.5rem;
+  font-size: 2.6rem;
 }
 
 .title3 {
-  font-size: 2rem;
+  font-size: 2.2rem;
   margin: 0 0 1rem;
 }
 
@@ -216,7 +216,7 @@ img {
   }
 }
 .footer {
-  height: 10rem;
+  height: 20rem;
   display: flex;
   flex-direction: column-reverse;
   justify-content: center;
@@ -249,6 +249,11 @@ img {
 }
 .footer-social-link i {
   padding: 0.5rem;
+}
+
+#back-to-top {
+  font-size: 2.6rem;
+  margin: 3rem;
 }
 
 /* 捲軸樣式 */
@@ -409,7 +414,7 @@ form section {
 }
 
 .form-title {
-  font-size: 2rem;
+  font-size: 2.2rem;
   font-weight: 600;
   margin: 0 auto 1.5rem;
   width: fit-content;
@@ -520,7 +525,6 @@ textarea {
 
 .success-message {
   text-align: center;
-  padding: 2rem;
   opacity: 0;
   height: 0;
   transform: scale(0);
@@ -529,6 +533,7 @@ textarea {
 .success-message.show {
   display: block;
   height: auto;
+  padding: 2rem;
   opacity: 1;
   transform: scale(1);
 }
@@ -659,7 +664,7 @@ textarea {
 }
 
 @media (max-width: 680px) {
-  main {
+  .article-layout {
     overflow: visible;
   }
   .arrow-line {
@@ -701,7 +706,13 @@ textarea {
   display: grid;
   grid-template-rows: auto auto 1fr;
   gap: 2rem;
+  height: auto;
   overflow: hidden;
+}
+@media (max-width: 680px) {
+  .article-layout {
+    overflow: visible;
+  }
 }
 .article-layout section p:not(.Q-direction) {
   text-align: center;

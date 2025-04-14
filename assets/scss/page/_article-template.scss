@@ -2,7 +2,12 @@
     display: grid;
     grid-template-rows: auto auto 1fr;
     gap: 2rem;
+    height: auto;
     overflow: hidden;
+
+    @media (max-width: 680px) {
+        overflow: visible; // 為了 carousel 的可滑動效果
+    }
 
     section {
         p:not(.Q-direction) {
