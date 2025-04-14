@@ -1,7 +1,7 @@
 // main.js
 
 // 判斷當前 HTML 是否在 pages 子資料夾內
-const basePath = window.location.pathname.includes("/pages") ? "../" : "./";
+const basePath = window.location.pathname.includes("/pages") ? "../" : "";
 const rootPath = location.hostname.includes("github.io")
   ? "https://xx4203.com" // GitHub Pages 的自訂網域
   : "";
