@@ -200,7 +200,7 @@ img {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    align-items: flex-end;
+    align-items: space-between;
     height: 6rem;
     padding: 0;
   }
@@ -208,9 +208,11 @@ img {
     margin: 0.5rem 0 0;
     justify-content: end;
     min-height: 3rem;
+    margin-left: auto;
   }
   #nav-logo {
     height: 100%;
+    margin-right: auto;
   }
 }
 .footer {
