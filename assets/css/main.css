@@ -477,7 +477,13 @@ textarea {
   text-align: center;
   padding: 2rem;
   display: none;
-  transition: 0.3s ease;
+  transform: scale(0.95);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.success-message.show {
+  display: block;
+  opacity: 1;
+  transform: scale(1);
 }
 
 @media (max-width: 400px) {

@@ -51,7 +51,8 @@ function formSubmitted() {
   console.log("表單已送出（iframe onload）");
   const form = document.getElementById("myForm");
   form.querySelector(".form-fields").style.display = "none";
-  form.querySelector(".success-message").style.display = "block";
+  const success = form.querySelector(".success-message");
+  success.classList.add("show");
 
   // ✅ 確保顯示後再綁定返回按鈕事件
   const backButton = document.getElementById("backButton");
