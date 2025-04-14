@@ -38,7 +38,7 @@ function initFormLogic() {
 }
 
 
-const isNewYearCardPage = window.location.pathname.includes('NewYearCard.html');
+const isNewYearCardPage = window.location.pathname.includes('new-year-card.html');
 
     if (isNewYearCardPage) {
     // 換主色

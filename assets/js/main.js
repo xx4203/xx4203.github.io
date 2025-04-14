@@ -10,15 +10,15 @@ const rootPath = location.hostname.includes("github.io")
 document.addEventListener("DOMContentLoaded", function () {
     // 如果之後還有其他要載入，可以在這裡新增 loadComponent
     loadComponent("header", `${basePath}components/header.html`, [
-        { type: "js", url: `${basePath}assets/js/_header.js` }
+        { type: "js", url: `${basePath}assets/js/header.js` }
     ]);
 
     loadComponent("footer", `${basePath}components/footer.html`, [
-        { type: "js", url: `${basePath}assets/js/_footer.js` }
+        { type: "js", url: `${basePath}assets/js/footer.js` }
     ]);
 
-    loadComponent("NewYearCard-form", `${basePath}components/NewYearCard-form.html`, [
-        { type: "js", url: `${basePath}assets/js/_NewYearCard-form.js` }
+    loadComponent("new-year-card-form", `${basePath}components/new-year-card-form.html`, [
+        { type: "js", url: `${basePath}assets/js/new-year-card-form.js` }
       ], () => {
         // 載入完成後呼叫初始化
         if (typeof initFormLogic === "function") {
@@ -42,8 +42,8 @@ function loadComponent(containerId, htmlPath, assets) {
         
         // 載入 JS，並在載入完成後初始化
         loadScripts(assets, () => {
-          if (containerId === "NewYearCard-form" && typeof initFormLogic === "function") {
-            initFormLogic();  // _NewYearCard-form.js 裡 export 的函式
+          if (containerId === "new-year-card-form" && typeof initFormLogic === "function") {
+            initFormLogic();  // _new-year-card-form.js 裡 export 的函式
           }
         });
       })
