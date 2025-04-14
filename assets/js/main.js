@@ -1,24 +1,24 @@
 // main.js
 
 // 判斷當前 HTML 是否在 pages 子資料夾內
-const basePath = window.location.pathname.includes("pages") ? "../" : "";
+// const basePath = window.location.pathname.includes("pages") ? "../" : "";
 const rootPath = location.hostname.includes("github.io")
-  ? "https://xx4203.com"
+  ? "https://xx4203.com" // GitHub Pages 的自訂網域
   : "";
 
 // 動態載入其他 components 和他的 JS
 document.addEventListener("DOMContentLoaded", function () {
     // 如果之後還有其他要載入，可以在這裡新增 loadComponent
-    loadComponent("header", `${basePath}components/header.html`, [
-        { type: "js", url: `${basePath}assets/js/_header.js` }
+    loadComponent("header", `${rootPath}components/header.html`, [
+        { type: "js", url: `${rootPath}assets/js/_header.js` }
     ]);
 
-    loadComponent("footer", "../components/footer.html", [
-        { type: "js", url: "../assets/js/_footer.js" }
+    loadComponent("footer", `${rootPath}components/footer.html`, [
+        { type: "js", url: `${rootPath}assets/js/_footer.js` }
     ]);
 
-    loadComponent("NewYearCard-form", `${basePath}components/NewYearCard-form.html`, [
-        { type: "js", url: `${basePath}assets/js/_NewYearCard-form.js` }
+    loadComponent("NewYearCard-form", `${rootPath}components/NewYearCard-form.html`, [
+        { type: "js", url: `${rootPath}assets/js/_NewYearCard-form.js` }
       ], () => {
         // 載入完成後呼叫初始化
         if (typeof initFormLogic === "function") {
