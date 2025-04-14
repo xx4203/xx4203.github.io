@@ -114,7 +114,7 @@ line-height: calc($font-size-paragraph + 1rem);
 
 // 不同尺寸應用 - 高度
 
-@media (max-height: 720px) and (max-width:1920px) {
+@media (max-height: 500px) and (max-width:1920px) {
   #nav-container {
     display: grid;
     grid-template-columns: auto 1fr;
