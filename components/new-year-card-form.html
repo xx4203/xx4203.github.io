@@ -1,6 +1,6 @@
 <!-- 表單 ref: https://www.letswrite.tw/custom-google-form/-->
 <!-- 提交完表單頁面導向 -->
-<iframe name="hidden_iframe" id="hidden_iframe" style="display: none;"></iframe>
+<iframe name="hidden_iframe" id="hidden_iframe" style="display: none;" onload="formSubmitted()"></iframe>
 
 <!-- F12搜尋 name 值、formResponse 連結 -->
 <form id="myForm" target="hidden_iframe" onsubmit="formSubmitted()" action="https://script.google.com/macros/s/AKfycbwghhlBSOyUxUUw6UeH15DY1qsbXeC6f1uMglfpnNlS5D4g1ZPJU_b1T1TB9hpsFBRIEQ/exec" method="post">
@@ -49,6 +49,8 @@
             <p class="Q-direction">或是想推薦什麼書、漫畫、音樂、影視都非常歡迎！</p>
             <textarea id="other" name="其他" rows="4" required></textarea>
         </div>
+        <!-- 提交 -->
+        <button id="submit" class="primary-btn" type="submit" name="button" value="submit">送出表單</button>
     </div>
 
     <!-- 成功送出表單 -->
@@ -68,8 +70,4 @@
         
         <button type="button" id="backButton" class="secondary-btn">返回表單</button>
     </div>
-
-    <!-- 提交 -->
-    <button id="submit" class="primary-btn" type="submit" name="button" value="submit">送出表單</button>
-
 </form>
