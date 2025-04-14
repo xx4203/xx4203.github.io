@@ -15,7 +15,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
     loadComponent("footer", `${basePath}components/footer.html`, [
         { type: "js", url: `${basePath}assets/js/footer.js` }
-    ]);
+        
+    ] , () => {
+      // 載入完成後呼叫初始化
+      if (typeof initFormLogic === "function") {
+        initFormLogic();
+      }
+  });
 
     loadComponent("new-year-card-form", `${basePath}components/new-year-card-form.html`, [
         { type: "js", url: `${basePath}assets/js/new-year-card-form.js` }
