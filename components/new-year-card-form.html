@@ -3,8 +3,7 @@
 <iframe name="iframe_redirect" id="iframe_redirect" style="display:none;" onload="formSubmitted()"></iframe>
 
 <!-- F12搜尋 name 值、formResponse 連結 -->
-<form id="myForm" onsubmit="formSubmitted()" action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSfcfC-bKwWphDqY-hvQ6jEzd36-Qly0crGbN_v-U_v3m6dytw/formResponse" method="post">
-
+<form id="myForm" target="iframe_redirect" onsubmit="sent_redirect=true" action="https://docs.google.com/forms/u/0/d/e/1FAIpQLSfcfC-bKwWphDqY-hvQ6jEzd36-Qly0crGbN_v-U_v3m6dytw/formResponse" method="post">
     <h2 class="form-title">賀年卡表單</h2>
     <div class="divider-light"></div>
     <div class="form-fields">
