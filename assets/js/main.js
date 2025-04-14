@@ -79,7 +79,7 @@ function loadComponent(containerId, htmlPath, assets) {
 
 document.addEventListener('DOMContentLoaded', function () {
     // 載入 footer.html
-    fetch('components/footer.html')
+    fetch(`${basePath}components/footer.html`)
       .then(response => response.text())
       .then(data => {
         // 將 footer 內容插入到對應的 DOM 元素中
