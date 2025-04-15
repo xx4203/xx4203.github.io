@@ -117,18 +117,19 @@ line-height: calc($font-size-paragraph + 1rem);
 
 @media (max-height: 400px) and (max-width:1920px) {
   #nav-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: space-between;
-    height: 6rem;
-    padding: 0;
-    // display: grid;
-    // grid-template-columns: auto 1fr;
-    // align-items: center;
-    // justify-content: start;
+    // display: flex;
+    // flex-direction: column;
+    // flex-wrap: wrap;
+    // justify-content: center;
+    // align-items: space-between;
     // height: 6rem;
     // padding: 0;
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    justify-content: start;
+    height: 6rem;
+    padding: 0;
   }
   #nav-list {
     margin: 0.5rem 0 0;
