@@ -163,15 +163,15 @@ figcaption {
   line-height: 2.4rem;
 }
 
-.nav-link {
+.nav-link:not(#nav-logo) {
   color: #666;
   padding: 0 1rem;
 }
-.nav-link:hover {
+.nav-link:not(#nav-logo):hover {
   color: var(--accent-color);
   font-weight: 700;
 }
-.nav-link:active {
+.nav-link:not(#nav-logo):active {
   font-weight: 700;
 }
 

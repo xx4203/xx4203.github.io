@@ -27,7 +27,7 @@ text-align: center;
 line-height: calc($font-size-paragraph + 1rem);
 }
 
-.nav-link {
+.nav-link:not(#nav-logo) {
   color: $primary-color;
   padding: 0 1rem;
 
