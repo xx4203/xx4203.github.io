@@ -2,4 +2,7 @@ img {
     &.small {
         width: max(30%, 15rem);
     }
+    &.medium {
+        width: max(60%, 30rem);
+    }
 }
