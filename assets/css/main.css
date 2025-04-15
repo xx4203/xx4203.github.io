@@ -141,7 +141,7 @@ nav {
   width: min(100% - 5rem, 60rem);
   padding: 0 2.5rem;
   margin: 0 auto;
-  transition: 0.2s ease-in-out;
+  transition: 0.4s ease-in-out;
 }
 
 #nav-logo {
@@ -177,7 +177,7 @@ header {
   position: sticky;
   top: 0;
   z-index: 1000;
-  transition: transform 0.4s ease, opacity 0.4s ease;
+  transition: 0.4s ease;
 }
 header.mini-header #nav-container {
   display: grid;
@@ -201,7 +201,7 @@ header.hide {
   opacity: 0;
 }
 header.show {
-  transform: translateY(0);
+  transform: translateY(-100%);
   opacity: 1;
 }
 

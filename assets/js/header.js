@@ -13,21 +13,29 @@ const header = document.getElementById("header");
 window.addEventListener("scroll", () => {
   const currentScroll = window.scrollY;
 
+  
+  
   // 開始往下滾
-  if (currentScroll > lastScroll && currentScroll > 100) {
-    header.classList.add("header", "hide");
-    header.classList.remove("show");
+  if (currentScroll > lastScroll && currentScroll > 1) {
+    header.classList.add("mini-header");
   }
+
+  // 持續滾動一段後
+  if (currentScroll > lastScroll && currentScroll > 500) {
+    header.classList.add( "hide");
+  }
+
   // 往上滾動
-  else if (currentScroll < lastScroll) {
-    header.classList.add("mini-header", "show");
+  else if (currentScroll < lastScroll && currentScroll > 500) {
     header.classList.remove("hide");
   }
 
   // 回到頂部時移除樣式
-  if (currentScroll < 1) {
-    header.classList.remove("mini-header", "hide", "show");
-  }
+  if (currentScroll < lastScroll && currentScroll < 1) {
+    header.classList.remove("mini-header", "hide");
+  } 
+
+  
 
   lastScroll = currentScroll;
 });
