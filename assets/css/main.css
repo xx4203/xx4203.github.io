@@ -203,7 +203,7 @@ figcaption {
 @media (max-height: 400px) and (max-width: 1920px) {
   #nav-container {
     display: grid;
-    grid-template-columns: auto 1fr;
+    grid-template-columns: 6rem 1fr;
     align-items: center;
     justify-content: start;
     height: 6rem;
