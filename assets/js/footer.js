@@ -19,11 +19,11 @@ document.getElementById("copyEmail").addEventListener("click", function () {
 });
 
 
-
-const links = document.querySelectorAll('a');
-links.forEach(link => {
-  if (!link.classList.contains('nav-link')) {
-    link.setAttribute('target', '_blank');
-    link.setAttribute('rel', 'noopener noreferrer');
-  }
+//
+// 回到頂部
+document.getElementById('back-top').addEventListener('click', () => {
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  });
 });

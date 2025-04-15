@@ -38,3 +38,17 @@
         border: 0.2rem solid $secondary-color;
     }
 }
+
+.icon-btn {
+    cursor: pointer;
+    color: $secondary-color;
+    transition: transform 0.15s ease-in-out;
+  
+    &:hover {
+      color: var(--accent-color);
+    }
+    &:active {
+      transform: scale(1.2);
+      transform-origin: center;
+    }
+}

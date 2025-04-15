@@ -80,25 +80,12 @@ function loadComponent(containerId, htmlPath, assets) {
 
 //
 // 除了 nav-link 連結，其他都新分頁開啟
-
-document.addEventListener('DOMContentLoaded', function () {
-    // 載入 footer.html
-    fetch(`${basePath}components/footer.html`)
-      .then(response => response.text())
-      .then(data => {
-        // 將 footer 內容插入到對應的 DOM 元素中
-        document.getElementById('footer').innerHTML = data;
-  
-        // 確保 footer 載入後，再修改所有 <a> 標籤的 target 屬性
-        const links = document.querySelectorAll('footer a');
-        links.forEach(link => {
-          if (!link.classList.contains('nav-link')) {  // 排除 .nav-link 類別
-            link.setAttribute('target', '_blank');    // 設定新分頁開啟
-            link.setAttribute('rel', 'noopener noreferrer'); // 增加安全性
-          }
-        });
-      })
-      .catch(error => console.error('Error loading footer:', error));
+const links = document.querySelectorAll('a');
+links.forEach(link => {
+  if (!link.classList.contains('nav-link')) {
+    link.setAttribute('target', '_blank');
+    link.setAttribute('rel', 'noopener noreferrer');
+  }
 });
 
 

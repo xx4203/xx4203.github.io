@@ -285,7 +285,7 @@ header.show {
   padding: 0.5rem;
 }
 
-#back-to-top {
+#back-top {
   font-size: 2.6rem;
   margin: 3rem;
 }
@@ -357,20 +357,6 @@ header.show {
     display: none;
   }
 }
-/* icon 效果 */
-.icon-btn {
-  cursor: pointer;
-  color: #bbb;
-  transition: transform 0.15s ease-in-out;
-}
-.icon-btn:hover {
-  color: var(--accent-color);
-}
-.icon-btn:active {
-  transform: scale(1.2);
-  transform-origin: center;
-}
-
 #menu-icon {
   display: flex;
   flex-direction: column;
@@ -464,6 +450,19 @@ a:not(.nav-link):hover {
   background: #fff;
   color: #bbb;
   border: 0.2rem solid #bbb;
+}
+
+.icon-btn {
+  cursor: pointer;
+  color: #bbb;
+  transition: transform 0.15s ease-in-out;
+}
+.icon-btn:hover {
+  color: var(--accent-color);
+}
+.icon-btn:active {
+  transform: scale(1.2);
+  transform-origin: center;
 }
 
 form {
