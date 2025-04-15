@@ -40,6 +40,40 @@ line-height: calc($font-size-paragraph + 1rem);
   }
 }
 
+
+
+//
+// mini-header
+// #mini-header {
+//   position: sticky;
+//   top: 0;
+//   z-index: 999;
+//   background: $bg-color;
+//   padding: 0.5rem 2rem;
+//   opacity: 1;
+//   transform: translateY(0);
+//   transition: opacity 0.3s ease, transform 0.3s ease;
+
+//   &.hidden {
+//     opacity: 0;
+//     pointer-events: none;
+//     transform: translateY(-100%);
+//   }
+
+//   // 可選：縮小 Logo、調整 spacing
+//   #nav-logo {
+//     img {
+//       height: 3rem;
+//     }
+//   }
+
+//   #nav-list {
+//     grid-template-columns: repeat(4, 5rem);
+//     gap: 1rem;
+//   }
+// }
+
+
 //
 // header 動態
 header {

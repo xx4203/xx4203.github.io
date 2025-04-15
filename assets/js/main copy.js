@@ -1,34 +1,39 @@
 // main.js
 
-// =========================
+
+//
 // 動態載入html/js檔案
-// =========================
+// 判斷當前 HTML 是否在 pages 子資料夾內
 const basePath = window.location.pathname.includes("/pages") ? "../" : "";
 const rootPath = location.hostname.includes("github.io")
-  ? "https://xx4203.com"
+  ? "https://xx4203.com" // GitHub Pages 的自訂網域
   : "";
 
-// =========================
-// Component 載入器
-// =========================
+// 動態載入其他 components 和他的 JS
 document.addEventListener("DOMContentLoaded", function () {
-  loadComponent("header", `${basePath}components/header.html`, [
-    { type: "js", url: `${basePath}assets/js/header.js` }
-  ]);
+    // 如果之後還有其他要載入，可以在這裡新增 loadComponent
+    loadComponent("header", `${basePath}components/header.html`, [
+        { type: "js", url: `${basePath}assets/js/header.js` }
+    ]);
 
-  loadComponent("footer", `${basePath}components/footer.html`, [
-    { type: "js", url: `${basePath}assets/js/footer.js` }
-  ], () => {
-    if (typeof initFormLogic === "function") initFormLogic();
-    setExternalLinksNewTab(); // footer載入後重設 a 標籤
+    loadComponent("footer", `${basePath}components/footer.html`, [
+        { type: "js", url: `${basePath}assets/js/footer.js` }
+        
+    ] , () => {
+      // 載入完成後呼叫初始化
+      if (typeof initFormLogic === "function") {
+        initFormLogic();
+      }
   });
 
-  loadComponent("new-year-card-form", `${basePath}components/new-year-card-form.html`, [
-    { type: "js", url: `${basePath}assets/js/new-year-card-form.js` }
-  ], () => {
-    if (typeof initFormLogic === "function") initFormLogic();
-    setExternalLinksNewTab(); // 表單載入後重設 a 標籤
-  });
+    loadComponent("new-year-card-form", `${basePath}components/new-year-card-form.html`, [
+        { type: "js", url: `${basePath}assets/js/new-year-card-form.js` }
+      ], () => {
+        // 載入完成後呼叫初始化
+        if (typeof initFormLogic === "function") {
+          initFormLogic();
+        }
+    });
 });
 
 /**
@@ -48,7 +53,6 @@ function loadComponent(containerId, htmlPath, assets) {
           if (containerId === "new-year-card-form" && typeof initFormLogic === "function") {
             initFormLogic();  // _new-year-card-form.js 裡 export 的函式
           }
-          setExternalLinksNewTab();
         });
       })
       .catch(error => console.error(`Error loading ${htmlPath}:`, error));
@@ -74,27 +78,27 @@ function loadComponent(containerId, htmlPath, assets) {
 
 
 
-// =========================
-// 除了 .nav-link 以外的連結皆新分頁開啟
-// =========================
-function setExternalLinksNewTab() {
-  const links = document.querySelectorAll("a");
-  links.forEach(link => {
-    if (!link.classList.contains("nav-link")) {
-      link.setAttribute("target", "_blank");
-      link.setAttribute("rel", "noopener noreferrer");
-    }
-  });
-}
+//
+// 除了 nav-link 連結，其他都新分頁開啟
+const links = document.querySelectorAll('a');
+links.forEach(link => {
+  if (!link.classList.contains('nav-link')) {
+    link.setAttribute('target', '_blank');
+    link.setAttribute('rel', 'noopener noreferrer');
+  }
+});
 
-// =========================
-// Section 進入動畫
-// =========================
+
+
+//
+// section 動畫
 document.addEventListener("DOMContentLoaded", function () {
   const sections = document.querySelectorAll("section");
+
   sections.forEach((section, index) => {
     section.classList.add("fade-section");
-    section.style.transitionDelay = `${index * 0.1}s`;
+    // 延遲每個 section 的顯示時間（例如 0.2s、0.4s、0.6s）
+    section.style.transitionDelay = `${index * 0.2}s`;
   });
 
   const observer = new IntersectionObserver((entries, observer) => {
@@ -104,7 +108,9 @@ document.addEventListener("DOMContentLoaded", function () {
         observer.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.2 });
+  }, {
+    threshold: 0.2
+  });
 
   sections.forEach(section => observer.observe(section));
 });

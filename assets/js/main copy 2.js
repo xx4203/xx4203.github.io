@@ -31,48 +31,51 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 });
 
-/**
- * 動態載入 HTML 和 JS
- * @param {string} containerId - 放置 Component 的 <div> ID
- * @param {string} htmlPath - HTML 檔案路徑
- * @param {Array} assets - JS 檔案列表
- */
 function loadComponent(containerId, htmlPath, assets) {
-    fetch(htmlPath)
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById(containerId).innerHTML = data;
-        
-        // 載入 JS，並在載入完成後初始化
-        loadScripts(assets, () => {
-          if (containerId === "new-year-card-form" && typeof initFormLogic === "function") {
-            initFormLogic();  // _new-year-card-form.js 裡 export 的函式
-          }
-          setExternalLinksNewTab();
-        });
-      })
-      .catch(error => console.error(`Error loading ${htmlPath}:`, error));
-  }
-  
-  function loadScripts(files, callback) {
-    let loaded = 0;
-    const total = files.length;
-  
-    files.forEach(file => {
-      if (file.type === "js") {
-        const script = document.createElement("script");
-        script.src = file.url;
-        script.defer = true;
-        script.onload = () => {
-          loaded++;
-          if (loaded === total && callback) callback();
-        };
-        document.body.appendChild(script);
-      }
-    });
+  fetch(htmlPath)
+    .then(response => response.text())
+    .then(data => {
+      document.getElementById(containerId).innerHTML = data;
+
+      loadScripts(assets, () => {
+        if (containerId === "header") {
+          // 複製 header 為 mini-header
+          const originalHeader = document.getElementById("header");
+          const miniHeader = document.createElement("div");
+          miniHeader.id = "mini-header";
+          miniHeader.innerHTML = originalHeader.innerHTML;
+          document.body.appendChild(miniHeader);
+
+          // 初始化樣式
+          miniHeader.style.position = "sticky";
+          miniHeader.style.top = "0";
+          miniHeader.style.zIndex = "999";
+          miniHeader.style.display = "none";
+        }
+
+        setExternalLinksNewTab();
+      });
+    })
+    .catch(error => console.error(`Error loading ${htmlPath}:`, error));
 }
 
+function loadScripts(files, callback) {
+  let loaded = 0;
+  const total = files.length;
 
+  files.forEach(file => {
+    if (file.type === "js") {
+      const script = document.createElement("script");
+      script.src = file.url;
+      script.defer = true;
+      script.onload = () => {
+        loaded++;
+        if (loaded === total && callback) callback();
+      };
+      document.body.appendChild(script);
+    }
+  });
+}
 
 // =========================
 // 除了 .nav-link 以外的連結皆新分頁開啟
