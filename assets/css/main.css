@@ -263,6 +263,7 @@ figcaption {
 
 .homepage {
   display: grid;
+  overflow: hidden;
 }
 
 #index-welcome-img {
