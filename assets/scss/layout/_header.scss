@@ -117,13 +117,6 @@ line-height: calc($font-size-paragraph + 1rem);
 
 @media (max-height: 400px) and (max-width:1920px) {
   #nav-container {
-    // display: flex;
-    // flex-direction: column;
-    // flex-wrap: wrap;
-    // justify-content: center;
-    // align-items: space-between;
-    // height: 6rem;
-    // padding: 0;
     display: grid;
     grid-template-columns: 6rem 1fr;
     align-items: center;
