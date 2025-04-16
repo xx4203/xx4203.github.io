@@ -48,10 +48,14 @@ figcaption {
 }
 
 
-// 不同尺寸螢幕下文字縮放
+// 不同尺寸視窗下文字縮放
 @media (min-width: 1920px) {
     html {
         font-size: calc(10px + (100vw - 1920px) * 10 / 1920);
     }
 }
-
+@media (max-width: 280px) {
+    html {
+      font-size: calc(10px * (100vw / 280px));
+    }
+  }

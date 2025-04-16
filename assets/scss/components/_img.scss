@@ -1,8 +1,8 @@
 img {
     &.small {
-        width: max(30%, 15rem);
+        width: max(30%, calc(100% - 4rem));
     }
     &.medium {
-        width: max(60%, 30rem);
+        width: min(40rem, calc(100% - 2rem));
     }
 }

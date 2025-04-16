@@ -63,6 +63,11 @@ figcaption {
     font-size: calc(10px + (100vw - 1920px) * 10 / 1920);
   }
 }
+@media (max-width: 280px) {
+  html {
+    font-size: 3.5714285714vw;
+  }
+}
 /* 顏色 */
 .pri-color {
   color: #666;
@@ -297,7 +302,7 @@ figcaption {
   margin: 3rem;
 }
 
-.homepage {
+main.homepage {
   display: grid;
   overflow: hidden;
 }
@@ -308,7 +313,7 @@ figcaption {
   margin: 0 auto;
 }
 
-.article-layout {
+main.article-layout {
   display: grid;
   grid-template-rows: auto auto 1fr;
   gap: 2rem;
@@ -316,19 +321,19 @@ figcaption {
   overflow: hidden;
 }
 @media (max-width: 680px) {
-  .article-layout {
+  main.article-layout {
     overflow: visible;
   }
 }
-.article-layout section {
+main.article-layout section {
   text-align: center;
 }
-.article-layout section p:not(form p) {
+main.article-layout section p:not(form p) {
   width: min(90%, 30rem);
   margin: 0 auto 3rem;
   line-height: 2.2rem;
 }
-.article-layout section p:not(form p):first-of-type {
+main.article-layout section p:not(form p):first-of-type {
   margin-top: 1rem;
 }
 
@@ -781,8 +786,8 @@ textarea {
 }
 
 img.small {
-  width: max(30%, 15rem);
+  width: max(30%, 100% - 4rem);
 }
 img.medium {
-  width: max(60%, 30rem);
+  width: min(40rem, 100% - 2rem);
 }/*# sourceMappingURL=main.css.map */
