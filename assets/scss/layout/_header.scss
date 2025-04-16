@@ -1,4 +1,8 @@
-nav { 
+#header {
+  z-index: 1000;
+}
+
+#nav-container { 
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -14,17 +18,19 @@ nav {
   height: 60%;
   margin: 0 auto;
   overflow: hidden;
-  img {
+  #site-logo   {
     height: 100%;
+    fill: var(--accent-color);
   }
 }
 
+
 #nav-list {
-margin: 0 auto;
-display: grid;
-grid-template-columns: repeat(5, 7rem);
-text-align: center;
-line-height: calc($font-size-paragraph + 1rem);
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: repeat(5, 7rem);
+  text-align: center;
+  line-height: calc($font-size-paragraph + 1rem);
 }
 
 .nav-link:not(#nav-logo) {
@@ -41,81 +47,54 @@ line-height: calc($font-size-paragraph + 1rem);
 }
 
 
-
-//
-// mini-header
-// #mini-header {
-//   position: sticky;
-//   top: 0;
-//   z-index: 999;
-//   background: $bg-color;
-//   padding: 0.5rem 2rem;
-//   opacity: 1;
-//   transform: translateY(0);
-//   transition: opacity 0.3s ease, transform 0.3s ease;
-
-//   &.hidden {
-//     opacity: 0;
-//     pointer-events: none;
-//     transform: translateY(-100%);
-//   }
-
-//   // 可選：縮小 Logo、調整 spacing
-//   #nav-logo {
-//     img {
-//       height: 3rem;
-//     }
-//   }
-
-//   #nav-list {
-//     grid-template-columns: repeat(4, 5rem);
-//     gap: 1rem;
-//   }
-// }
-
-
-//
-// header 動態
-header {
+// =========================
+// #mini-header 動態
+// =========================
+#mini-header {
   position: sticky;
   top: 0;
-  z-index: 1000;
-  transition: 0.4s ease;
+  z-index: 999;
+  transition: 0.5s ease;
+  opacity: 0;
+  height: 0rem;
+  width: 100%;
+  background: $bg-color;
+  transform: translateY(-6rem);
+  visibility: collapse;
 
-  &.mini-header {
-    #nav-container {
-      display: grid;
-      grid-template-columns: 6rem 1fr;
-      align-items: center;
-      justify-content: start;
-      height: 6rem;
-      padding: 0;
-    }
-    #nav-list {
-      margin: 0.5rem 0 0;
-      justify-content: end;
-      margin-left: auto;
-    }
-    #nav-logo {
-      height: 100%;
-      margin-right: auto;
-    }
+  #nav-container {
+    display: grid;
+    grid-template-columns: 6rem 1fr;
+    align-items: center;
+    justify-content: start;
+    height: 6rem;
+  }
+  #nav-list {
+    margin: 0.5rem 0 0;
+    justify-content: end;
+    margin-left: auto;
+  }
+  #nav-logo {
+    height: 6rem;
+    margin-right: auto;
   }
 
   &.hide {
-    transform: translateY(-100%);
+    transform: translateY(-6rem);
     opacity: 0;
   }
   &.show {
-    transform: translateY(-100%);
+    visibility: visible;
+    // transition: 0.4s ease;
+    transform: translateY(0);
     opacity: 1;
   }
 }
 
 
-
-//
+// =========================
 // 不同尺寸應用 - 寬度（nav-list 數量 和 menu-icon）
+// =========================
 @media (max-width:300px) {
   #nav-list {
     grid-template-columns: repeat(1, 7rem);
@@ -180,7 +159,9 @@ header {
 }
 
 
-// 不同尺寸應用 - 高度（迷你header）
+// =========================
+// 不同尺寸應用 - 高度（mini-header）
+// =========================
 @media (max-height: 400px) and (max-width:1920px) {
   #nav-container {
     display: grid;
@@ -188,7 +169,7 @@ header {
     align-items: center;
     justify-content: start;
     height: 6rem;
-    padding: 0;
+    width: min(calc(100% - 5rem), 60rem);
   }
   #nav-list {
     margin: 0.5rem 0 0;
@@ -196,7 +177,7 @@ header {
     margin-left: auto;
   }
   #nav-logo {
-    height: 100%;
+    height: 6rem;
     margin-right: auto;
   }
 }

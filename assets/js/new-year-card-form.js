@@ -36,39 +36,20 @@ function initFormLogic() {
   });
 }
 
-// 換主色 & Logo（僅限 new-year-card.html）
+
+// =========================
+// 更換 new-year-card.html 頁面 accent-color
+// =========================
 const isNewYearCardPage = window.location.pathname.includes('new-year-card.html');
 if (isNewYearCardPage) {
   document.documentElement.style.setProperty('--accent-color', '#ff5517');
   const logo = document.getElementById('site-logo');
-  if (logo) {
-    logo.src = '/assets/images/header/DanLo(xx4203)_logo_OrangeLine.svg';
-  }
-}
-
-// iframe onload 送出後觸發的函式
-function formSubmitted() {
-  console.log("表單已送出（iframe onload）");
-  const form = document.getElementById("myForm");
-  form.querySelector(".form-fields").style.display = "none";
-  const success = form.querySelector(".success-message");
-  success.classList.add("show");
-
-  // 確保顯示後再綁定返回按鈕事件
-  const backButton = document.getElementById("backButton");
-  if (backButton) {
-    backButton.addEventListener("click", () => {
-      form.querySelector(".form-fields").style.display = "block";
-      form.querySelector(".success-message").style.display = "none";
-      form.reset();
-    });
-  }
 }
 
 
-
-//
+// =========================
 //表單送出成功訊息
+// =========================
 function formSubmitted() {
   const form = document.getElementById("myForm");
   const success = form.querySelector(".success-message");
