@@ -665,7 +665,7 @@ textarea {
 }
 .carousel-wrapper {
   width: 100%;
-  overflow: hidden;
+  overflow: visible;
   margin: 0 auto 2rem;
 }
 
@@ -681,10 +681,10 @@ textarea {
   scroll-behavior: smooth;
   gap: 1rem;
   padding-bottom: 1rem;
+  height: min(58rem, 100vw);
 }
 .carousel img {
   scroll-snap-align: center;
-  flex: 0 0 80%;
   aspect-ratio: 3/4;
   object-fit: cover;
   border-radius: 1rem;

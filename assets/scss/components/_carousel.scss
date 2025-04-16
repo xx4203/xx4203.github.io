@@ -1,6 +1,6 @@
 .carousel-wrapper {
     width: 100%;
-    overflow: hidden;
+    overflow: visible;
     margin: 0 auto 2rem;
 }
   
@@ -16,10 +16,10 @@
     scroll-behavior: smooth;
     gap: 1rem;
     padding-bottom: 1rem;
-  
+    height: min(58rem, 100vw);
     img {
         scroll-snap-align: center;
-        flex: 0 0 80%;
+        // flex: 0 0 80%;
         aspect-ratio: 3 / 4;
         object-fit: cover;
         border-radius: 1rem;
@@ -48,15 +48,12 @@
     &.left {
       left: 0;
     }
-  
     &.right {
       right: 0;
     }
-
     &:hover {
         transform: scale(1.4);
     }
-
     .arrow-line {
         position: absolute;
         top: 50%;
@@ -65,14 +62,12 @@
         height: 0.2rem;
         border-radius: 0.1rem;
     }
-
     &.left .line1 {
     transform: translate(0, 0.36rem) rotate(45deg) ;
     }
     &.left .line2 {
     transform: translate(0, -0.36rem) rotate(-45deg);
     }
-
     &.right .line1 {
     transform: translate(0, 0.36rem)  rotate(-45deg);
     }
