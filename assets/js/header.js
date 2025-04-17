@@ -11,6 +11,17 @@ header.insertAdjacentElement("afterend", miniHeader);
 
 
 // =========================
+//menu-icon 動態
+// =========================
+document.body.addEventListener("click", function (e) {
+  const icon = e.target.closest(".menu-icon");
+  if (icon) {
+    icon.classList.toggle("active");
+  }
+});
+
+
+// =========================
 // mini-header 滾動變化
 // =========================
 let lastScroll = 0;
