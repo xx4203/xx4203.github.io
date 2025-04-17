@@ -13,8 +13,8 @@
 
 		<!-- Fonts -->
 		<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Noto+Sans+TC:wght@100..900&display=swap" rel="stylesheet">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Noto+Sans+TC:wght@100..900&display=swap">
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
 
 		<!-- 連結 css js -->
@@ -56,7 +56,7 @@
 					<div class="arrow-line line2"></div>
 				  </div>
 				</div>
-				<div class="dots" id="dots"><div class="dots"></div></div>
+				<div class="dots" id="carousel-dots"><div class="dots"></div></div>
 			</section>
 			
 			<section>
@@ -84,20 +84,9 @@
 					2025 春<span class="footnote2"> ⋯？</span>
 				</p>
 			</section>
-
-			<!-- 載入 賀年卡表單 -->
-			<section id="new-year-card-form"></section>
+			<section id="new-year-card-form"></section> <!-- 載入 賀年卡表單 -->
 		</main>
 
 		<footer id="footer" class="footer"></footer> <!-- 載入 footer.html -->
-
-		<!-- 連結 js 檔 -->
-		<script>
-			document.addEventListener("DOMContentLoaded", function () {
-				loadComponent("footer", "../components/footer.html", [
-					{ type: "js", url: "../assets/js/footer.js" }
-				]);
-			});
-		</script>
 	</body>
 </html>

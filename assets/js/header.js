@@ -1,35 +1,6 @@
 // =========================
-//menu-icon 動態
-// =========================
-document.getElementById("menu-icon").addEventListener("click", function () {
-    this.classList.toggle("active"); // 點擊時切換 .active
-});
-
-
-// =========================
-// logo 和 nav-list 動態
-// =========================
-document.addEventListener("DOMContentLoaded", () => {
-  const logo = document.getElementById("nav-logo");
-  const navList = document.getElementById("nav-list");
-
-  // 先讓 logo 動
-  setTimeout(() => {
-    logo.classList.add("animate-in");
-  }, 100);
-
-  // nav-list 比 logo 晚一點出現
-  setTimeout(() => {
-    navList.classList.add("animate-in");
-  }, 300);
-});
-
-
-
-// =========================
 // 建立 mini-header
 // =========================
-// 取得 #header 元素
 const originHeader = document.getElementById("header");
 // 建立 #mini-header
 const miniHeader = document.createElement("header");

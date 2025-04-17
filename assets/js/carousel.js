@@ -1,6 +1,6 @@
 document.addEventListener("DOMContentLoaded", function () {
   const carousel = document.getElementById("carousel");
-  const dotsContainer = document.getElementById("dots");
+  const dotsContainer = document.getElementById("carousel-dots");
   const images = carousel.querySelectorAll("img");
   const leftArrow = document.querySelector(".carousel-arrow.left");
   const rightArrow = document.querySelector(".carousel-arrow.right");

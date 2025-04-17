@@ -347,6 +347,9 @@ main.article-layout section p:not(form p):first-of-type {
   color: var(--accent-color);
   font-weight: 600;
 }
+.article-title div:first-of-type {
+  order: -1;
+}
 
 /* 捲軸樣式 */
 ::-webkit-scrollbar {

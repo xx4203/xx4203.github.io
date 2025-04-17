@@ -1,3 +1,6 @@
+// =========================
+// copy-email-btn
+// =========================
 document.getElementById("copyEmail").addEventListener("click", function () {
     const textToCopy = "xox4203@gmail.com"; // 要複製的文字
     const icon = this;
@@ -19,8 +22,9 @@ document.getElementById("copyEmail").addEventListener("click", function () {
 });
 
 
-//
-// 回到頂部
+// =========================
+// back-top-btn
+// =========================
 document.getElementById('back-top').addEventListener('click', () => {
   window.scrollTo({
     top: 0,

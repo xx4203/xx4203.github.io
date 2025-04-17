@@ -26,11 +26,15 @@ main.article-layout {
 .article-title {
     width: min(calc(100% - 7rem), 60rem);
     margin: 0 auto 3rem;
+    
     h1 {
         margin: 1rem 0;
         text-align:center;
         color: var(--accent-color);
         font-weight: $font-weight-medium;
+    }
+    & div:first-of-type {
+        order: -1;
     }
 }
 
