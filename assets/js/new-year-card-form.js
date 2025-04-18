@@ -40,7 +40,7 @@ function initFormLogic() {
 // =========================
 // 更換 new-year-card.html 頁面 accent-color
 // =========================
-const isNewYearCardPage = window.location.pathname.includes('new-year-card.html');
+const isNewYearCardPage = window.location.pathname.includes('new-year-card');
 if (isNewYearCardPage) {
   document.documentElement.style.setProperty('--accent-color', '#ff5517');
   const logo = document.getElementById('site-logo');

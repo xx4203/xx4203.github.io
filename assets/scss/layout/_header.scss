@@ -58,7 +58,6 @@
   opacity: 0;
   height: 0rem;
   width: 100%;
-  background: $bg-color;
   transform: translateY(-6rem);
   visibility: collapse;
 
@@ -68,6 +67,8 @@
     align-items: center;
     justify-content: start;
     height: 6rem;
+    background: rgba($bg-color, 0.8);
+    backdrop-filter: blur(1rem);
   }
   #nav-list {
     margin: 0.5rem 0 0;

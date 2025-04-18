@@ -19,8 +19,8 @@
     height: min(58rem, 100vw);
     img {
         scroll-snap-align: center;
-        // flex: 0 0 80%;
         aspect-ratio: 3 / 4;
+        height: 100%;
         object-fit: cover;
         border-radius: 1rem;
         object-position: center;

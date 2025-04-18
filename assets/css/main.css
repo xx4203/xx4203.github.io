@@ -19,7 +19,6 @@
   color: #666;
   font-family: "Montserrat", "Noto Sans TC", sans-serif;
   font-weight: 500;
-  background: #fff;
 }
 
 html {
@@ -187,7 +186,6 @@ figcaption {
   opacity: 0;
   height: 0rem;
   width: 100%;
-  background: #fff;
   transform: translateY(-6rem);
   visibility: collapse;
 }
@@ -197,6 +195,8 @@ figcaption {
   align-items: center;
   justify-content: start;
   height: 6rem;
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(1rem);
 }
 #mini-header #nav-list {
   margin: 0.5rem 0 0;
@@ -689,6 +689,7 @@ textarea {
 .carousel img {
   scroll-snap-align: center;
   aspect-ratio: 3/4;
+  height: 100%;
   object-fit: cover;
   border-radius: 1rem;
   object-position: center;
