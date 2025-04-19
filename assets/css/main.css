@@ -208,13 +208,14 @@ figcaption {
   margin-right: auto;
 }
 #mini-header.hide {
-  transform: translateY(-6rem);
   opacity: 0;
+  transform: translateY(-6rem);
+  visibility: hidden;
 }
 #mini-header.show {
-  visibility: visible;
-  transform: translateY(0);
   opacity: 1;
+  transform: translateY(0);
+  visibility: visible;
 }
 
 @media (max-width: 300px) {
