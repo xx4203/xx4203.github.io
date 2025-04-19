@@ -704,9 +704,7 @@ textarea {
   top: 0%;
   width: calc(10% - 2rem);
   height: calc(100% - 2rem);
-  background: rgba(102, 102, 102, 0);
   border: none;
-  color: #fff;
   font-size: 4rem;
   padding: 0.5rem;
   cursor: pointer;
@@ -729,6 +727,7 @@ textarea {
   width: 1.2rem;
   height: 0.2rem;
   border-radius: 0.1rem;
+  background: #fff;
 }
 .carousel-arrow.left .line1 {
   transform: translate(0, 0.36rem) rotate(45deg);

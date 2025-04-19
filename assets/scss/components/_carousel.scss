@@ -36,9 +36,7 @@
     top: 0%;
     width: calc(10% - 2rem);
     height: calc(100% - 2rem);
-    background: rgba($primary-color, 0);
     border: none;
-    color: $bg-color;
     font-size: 4rem;
     padding: 0.5rem;
     cursor: pointer;
@@ -61,6 +59,7 @@
         width: 1.2rem;
         height: 0.2rem;
         border-radius: 0.1rem;
+        background: $tertiary-color;
     }
     &.left .line1 {
     transform: translate(0, 0.36rem) rotate(45deg) ;
