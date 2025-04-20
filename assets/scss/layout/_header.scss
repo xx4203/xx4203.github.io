@@ -164,7 +164,7 @@
 // =========================
 // 不同尺寸應用 - 高度（mini-header）
 // =========================
-@media (max-height: 400px) and (max-width:1920px) {
+@media (max-height: 400px) and (max-width: 1920px) {
   #nav-container {
     display: grid;
     grid-template-columns: 6rem 1fr;
