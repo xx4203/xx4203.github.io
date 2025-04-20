@@ -40,8 +40,8 @@
 }
 
 .icon-btn {
+    display: inline-block;
     cursor: pointer;
-    color: var(--secondary-color);
     transition: transform 0.15s ease-in-out;
   
     &:hover {

@@ -1,22 +1,93 @@
 @charset "UTF-8";
-.pri-color {
-  color: #666;
+* {
+  text-decoration: none;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
 }
 
-.sec-color {
+* {
+  scroll-behavior: smooth;
+  color: var(--primary-color);
+  font-family: "Montserrat", "Noto Sans TC", sans-serif;
+  font-weight: 500;
+}
+
+html {
+  font-size: 10px;
+  min-width: 150px;
+}
+
+body {
+  font-size: 1.4rem;
+  margin-right: calc(100% - 100vw); /* 扣除捲軸寬度*/
+  display: grid;
+  grid-template-rows: auto 1fr auto; /* Header - Main - Footer */
+  min-height: 100vh;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  background: var(--bg-color);
+  transition: 0.5s ease;
+}
+
+main {
+  width: min(100% - 7rem, 60rem);
+  margin: 0 auto;
+  align-items: center;
+}
+
+::selection {
+  color: var(--bg-color);
+  background: var(--primary-color);
+}
+
+img {
+  width: 100%;
+}
+
+figcaption {
+  font-size: 1.2rem;
   color: #bbb;
 }
 
+@media (min-width: 1920px) {
+  html {
+    font-size: calc(10px + (100vw - 1920px) * 10 / 1920);
+  }
+}
+@media (min-height: 1080px) {
+  html {
+    font-size: calc(10px + (100vh - 1080px) * 10 / 1080);
+  }
+}
+@media (max-width: 280px) {
+  html {
+    font-size: 3.5714285714vw;
+  }
+}
+.pri-color {
+  color: var(--primary-color);
+}
+
+.sec-color {
+  color: var(--secondary-color);
+}
+
+.ter-color {
+  color: var(--tertiary-color);
+}
+
 .acc-color {
-  color: #304fff;
+  color: var(--accent-color);
 }
 
 .bg-color {
-  color: #fff;
+  color: var(--bg-color);
 }
 
 .bg-sec-color {
-  color: #f2f2f2;
+  color: var(--bg-secondary-color);
 }
 
 :root {
@@ -27,6 +98,24 @@
   --accent-color-a10: color-mix(in srgb, var(--accent-color) 10%, transparent 0%);
   --bg-color: #fff;
   --bg-color-a80: color-mix(in srgb, var(--bg-color) 80%, transparent 0%);
+  --bg-secondary-color: #f2f2f2;
+}
+
+:root.dark-mode {
+  --primary-color: #e6e6e6;
+  --secondary-color: #808080;
+  --tertiary-color: #212121;
+  --accent-color: #5e76ff;
+  --bg-color: #212121;
+  --bg-secondary-color: #2a2a2a;
+}
+
+:root.light-mode {
+  --primary-color: #666;
+  --secondary-color: #bbb;
+  --tertiary-color: #fff;
+  --accent-color: #304fff;
+  --bg-color: #fff;
   --bg-secondary-color: #f2f2f2;
 }
 
@@ -82,74 +171,9 @@
   font-size: 1rem;
 }
 
-* {
-  text-decoration: none;
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-}
-
-* {
-  scroll-behavior: smooth;
-  color: var(--primary-color);
-  font-family: "Montserrat", "Noto Sans TC", sans-serif;
-  font-weight: 500;
-}
-
-html {
-  font-size: 10px;
-  min-width: 150px;
-}
-
-body {
-  font-size: 1.4rem;
-  margin-right: calc(100% - 100vw); /* 扣除捲軸寬度*/
-  display: grid;
-  grid-template-rows: auto 1fr auto; /* Header - Main - Footer */
-  min-height: 100vh;
-  flex-direction: column;
-  height: 100%;
-  width: 100%;
-  background: var(--bg-color);
-}
-
-main {
-  width: min(100% - 7rem, 60rem);
-  margin: 0 auto;
-  align-items: center;
-}
-
-::selection {
-  color: var(--bg-color);
-  background: var(--primary-color);
-}
-
-img {
-  width: 100%;
-}
-
-figcaption {
-  font-size: 1.2rem;
-  color: #bbb;
-}
-
-@media (min-width: 1920px) {
-  html {
-    font-size: calc(10px + (100vw - 1920px) * 10 / 1920);
-  }
-}
-@media (min-height: 1080px) {
-  html {
-    font-size: calc(10px + (100vh - 1080px) * 10 / 1080);
-  }
-}
-@media (max-width: 280px) {
-  html {
-    font-size: 3.5714285714vw;
-  }
-}
 #header {
   z-index: 1000;
+  width: 100%;
 }
 
 #nav-container {
@@ -158,8 +182,8 @@ figcaption {
   justify-content: center;
   gap: 1rem;
   height: 20rem;
-  width: min(100% - 5rem, 60rem);
-  padding: 0 2.5rem;
+  width: min(100% - 7rem, 60rem);
+  padding: 0 3.5rem;
   margin: 0 auto;
   transition: 0.4s ease-in-out;
 }
@@ -177,14 +201,14 @@ figcaption {
 #nav-list {
   margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(5, 7rem);
+  gap: 2rem;
   text-align: center;
   line-height: 2.4rem;
 }
 
 .nav-link:not(#nav-logo) {
   color: var(--primary-color);
-  padding: 0 1rem;
+  padding: 0;
 }
 .nav-link:not(#nav-logo):hover {
   color: var(--accent-color);
@@ -223,6 +247,9 @@ figcaption {
   height: 6rem;
   margin-right: auto;
 }
+#mini-header #menu-icon {
+  margin-right: 0;
+}
 #mini-header.hide {
   opacity: 0;
   transform: translateY(-6rem);
@@ -236,27 +263,20 @@ figcaption {
 
 @media (max-width: 300px) {
   #nav-list {
-    grid-template-columns: repeat(1, 7rem);
-  }
-  #new-year-card,
-  #little-elefan,
-  #manga,
-  #about {
-    visibility: collapse;
-    height: 0;
-    order: 4;
+    display: none;
   }
 }
 @media (min-width: 300px) {
   #nav-list {
-    grid-template-columns: repeat(2, 7rem);
+    grid-template-columns: repeat(3, auto);
   }
   #menu-icon,
   #little-elefan,
   #manga {
+    display: none;
     visibility: collapse;
     height: 0;
-    order: 4;
+    order: 5;
   }
 }
 @media (max-height: 400px) and (max-width: 1920px) {
@@ -264,18 +284,20 @@ figcaption {
     display: grid;
     grid-template-columns: 6rem 1fr;
     align-items: center;
-    justify-content: start;
     height: 6rem;
-    width: min(100% - 5rem, 60rem);
-  }
-  #nav-list {
-    margin: 0.5rem 0 0;
-    justify-content: end;
-    margin-left: auto;
+    width: min(100% - 7rem, 60rem);
   }
   #nav-logo {
     height: 6rem;
     margin-right: auto;
+  }
+  #nav-list {
+    margin: 0.5rem 0 0;
+    justify-content: end;
+  }
+  #menu-icon {
+    margin: 0.5rem 0 0;
+    justify-content: end;
   }
 }
 .footer {
@@ -390,11 +412,14 @@ main.article-layout section p:not(form p):first-of-type {
   }
 }
 #menu-icon {
+  display: block;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 0.5rem;
+  width: 2.4rem;
+  margin: 0 auto;
   cursor: pointer;
 }
 #menu-icon div {
@@ -485,8 +510,8 @@ a:not(.nav-link):hover {
 }
 
 .icon-btn {
+  display: inline-block;
   cursor: pointer;
-  color: var(--secondary-color);
   transition: transform 0.15s ease-in-out;
 }
 .icon-btn:hover {
@@ -575,6 +600,7 @@ textarea {
   background: var(--bg-secondary-color);
   border-radius: 0.5rem;
   transition: 0.1s ease;
+  font-size: 1.4rem;
 }
 input::placeholder,
 textarea::placeholder {

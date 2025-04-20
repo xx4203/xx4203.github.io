@@ -8,48 +8,12 @@ $accent-color:       #304fff;
 $bg-color:           #fff;
 $bg-secondary-color: #f2f2f2;
 
-.pri-color    { color: $primary-color; }
-.sec-color    { color: $secondary-color; }
-.acc-color    { color: $accent-color; }
-.bg-color     { color: $bg-color; }
-.bg-sec-color { color: $bg-secondary-color; }
-
-:root {
-    --primary-color:      #{$primary-color};
-    --secondary-color:    #{$secondary-color};
-    --tertiary-color:     #{$tertiary-color};
-
-    --accent-color:       #{$accent-color};
-    --accent-color-a10:   color-mix(in srgb, var(--accent-color) 10%, transparent 0%);
-
-    --bg-color:           #{$bg-color};
-    --bg-color-a80:       color-mix(in srgb, var(--bg-color) 80%, transparent 0%);
-
-    --bg-secondary-color: #{$bg-secondary-color};
-}
-
-@media(prefers-color-scheme: dark) {
-	:root {
-		--primary-color:      #e6e6e6;
-        --secondary-color:    #808080;
-        --tertiary-color:     #212121;
-        --accent-color:       #5e76ff;
-        --bg-color:           #212121;
-        --bg-secondary-color: #2a2a2a;
-	}
-}
-
 // =========================
 // 字重
 // =========================
 $font-weight-regular: 500;
 $font-weight-medium: 600;
 $font-weight-bold: 700;
-
-.regular { font-weight: $font-weight-regular; }
-.medium  { font-weight: $font-weight-medium; }
-.bold    { font-weight: $font-weight-bold; }
-
 
 // =========================
 // 字級
@@ -61,18 +25,3 @@ $font-size-title4: 1.8rem;
 $font-size-paragraph: 1.4rem;
 $font-size-footnote1: 1.2rem;
 $font-size-footnote2: 1rem;
-
-.title1 { font-size: $font-size-title1; }
-.title2 { font-size: $font-size-title2; }
-.title3 { 
-  font-size: $font-size-title3;
-  margin: 0 0 1rem; 
-}
-.title4 { font-size: $font-size-title4; }
-.paragraph {
-  font-size: $font-size-paragraph;
-  margin: 0 0 0.5rem;
-}
-.footnote1 { font-size: $font-size-footnote1; }
-.footnote2 { font-size: $font-size-footnote2; }
-

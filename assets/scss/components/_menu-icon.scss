@@ -1,10 +1,14 @@
 #menu-icon {
+    display: block;
     display: flex ;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 0.5rem;
+    width: 2.4rem;
+    margin: 0 auto;
     cursor: pointer;
+    // padding: 0 1rem;
 
     // menu-icon 零件
     div {

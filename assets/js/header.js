@@ -34,7 +34,6 @@ function remToPx(rem) {
   return rem * parseFloat(getComputedStyle(document.documentElement).fontSize);
 }
 
- 
 window.addEventListener("scroll", () => {
   const currentScroll = window.scrollY;
 
@@ -60,3 +59,48 @@ window.addEventListener("scroll", () => {
   }
   lastScroll = currentScroll;
 });
+
+
+// =========================
+// 手動切換 dark/light theme
+// =========================
+function initThemeToggle() {
+  const toggleButtons = document.querySelectorAll(".theme-toggle");
+  const themeIcons = document.querySelectorAll(".theme-toggle i");
+
+  const storedTheme = localStorage.getItem("theme");
+  const systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+  const currentTheme = storedTheme || (systemPrefersDark ? "dark" : "light");
+
+  setTheme(currentTheme);
+
+  toggleButtons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      const isDark = document.documentElement.classList.contains("dark-mode");
+      const newTheme = isDark ? "light" : "dark";
+      setTheme(newTheme);
+      localStorage.setItem("theme", newTheme);
+    });
+  });
+
+  function setTheme(theme) {
+    document.documentElement.classList.remove("dark-mode", "light-mode");
+  
+    if (theme === "dark") {
+      document.documentElement.classList.add("dark-mode");
+      themeIcons.forEach((icon) => {
+        icon.classList.remove("bi-moon-fill");
+        icon.classList.add("bi-sun-fill");
+      });
+    } else {
+      document.documentElement.classList.add("light-mode");
+      themeIcons.forEach((icon) => {
+        icon.classList.remove("bi-sun-fill");
+        icon.classList.add("bi-moon-fill");
+      });
+    }
+  }
+}
+
+// 最後再執行主題切換初始化
+initThemeToggle();

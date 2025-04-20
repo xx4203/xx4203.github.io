@@ -81,6 +81,7 @@ textarea {
     background: var(--bg-secondary-color);
     border-radius: 0.5rem;
     transition: 0.1s ease;
+    font-size: $font-size-paragraph;
 
     &::placeholder {
         color: var(--secondary-color);
