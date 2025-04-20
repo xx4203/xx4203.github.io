@@ -4,7 +4,7 @@ a:not(.nav-link) {
     margin: 0 0.2rem;
   
     &:hover {
-      color: $primary-color;
+      color: var(--primary-color);
       font-weight: $font-weight-bold;
     }
   }

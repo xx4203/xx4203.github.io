@@ -34,7 +34,7 @@
 }
 
 .nav-link:not(#nav-logo) {
-  color: $primary-color;
+  color: var(--primary-color);
   padding: 0 1rem;
 
   &:hover {
@@ -67,7 +67,7 @@
     align-items: center;
     justify-content: start;
     height: 6rem;
-    background: rgba($bg-color, 0.8);
+    background: var(--bg-color-a80);
     backdrop-filter: blur(1rem);
   }
   #nav-list {

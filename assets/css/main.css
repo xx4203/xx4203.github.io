@@ -1,73 +1,4 @@
 @charset "UTF-8";
-/* color palettes */
-:root {
-  --accent-color: #304fff;
-  --accent-color-a10: color-mix(in srgb, var(--accent-color) 10%, transparent 0%);
-}
-
-/* 字重 */
-/* 字級 */
-* {
-  text-decoration: none;
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-}
-
-* {
-  scroll-behavior: smooth;
-  color: #666;
-  font-family: "Montserrat", "Noto Sans TC", sans-serif;
-  font-weight: 500;
-}
-
-html {
-  font-size: 10px;
-  min-width: 150px;
-}
-
-body {
-  font-size: 1.4rem;
-  margin-right: calc(100% - 100vw); /* 扣除捲軸寬度*/
-  display: grid;
-  grid-template-rows: auto 1fr auto; /* Header - Main - Footer */
-  min-height: 100vh;
-  flex-direction: column;
-  height: 100%;
-  width: 100%;
-}
-
-main {
-  width: min(100% - 7rem, 60rem);
-  margin: 0 auto;
-  align-items: center;
-}
-
-::selection {
-  color: #fff;
-  background: #666;
-}
-
-img {
-  width: 100%;
-}
-
-figcaption {
-  font-size: 1.2rem;
-  color: #bbb;
-}
-
-@media (min-width: 1920px) {
-  html {
-    font-size: calc(10px + (100vw - 1920px) * 10 / 1920);
-  }
-}
-@media (max-width: 280px) {
-  html {
-    font-size: 3.5714285714vw;
-  }
-}
-/* 顏色 */
 .pri-color {
   color: #666;
 }
@@ -88,7 +19,27 @@ figcaption {
   color: #f2f2f2;
 }
 
-/* 字重 */
+:root {
+  --primary-color: #666;
+  --secondary-color: #bbb;
+  --tertiary-color: #fff;
+  --accent-color: #304fff;
+  --accent-color-a10: color-mix(in srgb, var(--accent-color) 10%, transparent 0%);
+  --bg-color: #fff;
+  --bg-color-a80: color-mix(in srgb, var(--bg-color) 80%, transparent 0%);
+  --bg-secondary-color: #f2f2f2;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --primary-color: #e6e6e6;
+    --secondary-color: #808080;
+    --tertiary-color: #212121;
+    --accent-color: #5e76ff;
+    --bg-color: #212121;
+    --bg-secondary-color: #2a2a2a;
+  }
+}
 .regular {
   font-weight: 500;
 }
@@ -101,7 +52,6 @@ figcaption {
   font-weight: 700;
 }
 
-/* 字級 */
 .title1 {
   font-size: 3.6rem;
 }
@@ -132,6 +82,72 @@ figcaption {
   font-size: 1rem;
 }
 
+* {
+  text-decoration: none;
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+
+* {
+  scroll-behavior: smooth;
+  color: var(--primary-color);
+  font-family: "Montserrat", "Noto Sans TC", sans-serif;
+  font-weight: 500;
+}
+
+html {
+  font-size: 10px;
+  min-width: 150px;
+}
+
+body {
+  font-size: 1.4rem;
+  margin-right: calc(100% - 100vw); /* 扣除捲軸寬度*/
+  display: grid;
+  grid-template-rows: auto 1fr auto; /* Header - Main - Footer */
+  min-height: 100vh;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  background: var(--bg-color);
+}
+
+main {
+  width: min(100% - 7rem, 60rem);
+  margin: 0 auto;
+  align-items: center;
+}
+
+::selection {
+  color: var(--bg-color);
+  background: var(--primary-color);
+}
+
+img {
+  width: 100%;
+}
+
+figcaption {
+  font-size: 1.2rem;
+  color: #bbb;
+}
+
+@media (min-width: 1920px) {
+  html {
+    font-size: calc(10px + (100vw - 1920px) * 10 / 1920);
+  }
+}
+@media (min-height: 1080px) {
+  html {
+    font-size: calc(10px + (100vh - 1080px) * 10 / 1080);
+  }
+}
+@media (max-width: 280px) {
+  html {
+    font-size: 3.5714285714vw;
+  }
+}
 #header {
   z-index: 1000;
 }
@@ -167,7 +183,7 @@ figcaption {
 }
 
 .nav-link:not(#nav-logo) {
-  color: #666;
+  color: var(--primary-color);
   padding: 0 1rem;
 }
 .nav-link:not(#nav-logo):hover {
@@ -195,7 +211,7 @@ figcaption {
   align-items: center;
   justify-content: start;
   height: 6rem;
-  background: rgba(255, 255, 255, 0.8);
+  background: var(--bg-color-a80);
   backdrop-filter: blur(1rem);
 }
 #mini-header #nav-list {
@@ -280,7 +296,7 @@ figcaption {
   font-size: 1rem;
 }
 .footer #copyright p {
-  color: #bbb;
+  color: var(--secondary-color);
 }
 
 .footer-social-link {
@@ -309,7 +325,7 @@ main.homepage {
 }
 
 #index-welcome-img {
-  width: max(80%, 100% - (100vw - 60rem) * 0.1);
+  width: 100%;
   order: -1; /* 上移 */
   margin: 0 auto;
 }
@@ -364,7 +380,7 @@ main.article-layout section p:not(form p):first-of-type {
 
 ::-webkit-scrollbar-thumb {
   border-radius: 0.3rem;
-  background-color: #bbb;
+  background-color: var(--secondary-color);
   border: none;
 }
 
@@ -382,7 +398,7 @@ main.article-layout section p:not(form p):first-of-type {
   cursor: pointer;
 }
 #menu-icon div {
-  background: #bbb;
+  background: var(--secondary-color);
   width: 2.4rem;
   height: 0.2rem;
   transition: all 0.2s ease;
@@ -404,7 +420,7 @@ a:not(.nav-link) {
   margin: 0 0.2rem;
 }
 a:not(.nav-link):hover {
-  color: #666;
+  color: var(--primary-color);
   font-weight: 700;
 }
 
@@ -416,7 +432,7 @@ a:not(.nav-link):hover {
 .divider-light {
   width: 100%;
   height: 0.1rem;
-  background: #bbb;
+  background: var(--secondary-color);
 }
 
 .divider-lightning {
@@ -430,7 +446,7 @@ a:not(.nav-link):hover {
 }
 
 .primary-btn {
-  color: #fff;
+  color: var(--tertiary-color);
   font-size: 1.4rem;
   background: var(--accent-color);
   border: none;
@@ -441,18 +457,18 @@ a:not(.nav-link):hover {
   cursor: pointer;
 }
 .primary-btn:hover {
-  background: #666;
+  background: var(--primary-color);
 }
 .primary-btn:active {
-  background: #fff;
-  color: #bbb;
-  border: 0.2rem solid #bbb;
+  background: var(--bg-color);
+  color: var(--secondary-color);
+  border: 0.2rem solid var(--secondary-color);
 }
 
 .secondary-btn {
-  color: #fff;
+  color: var(--tertiary-color);
   font-size: 1.4rem;
-  background: #bbb;
+  background: var(--secondary-color);
   border: 0.2rem solid transparent;
   border-radius: 2rem;
   padding: 0.6rem 2rem;
@@ -460,17 +476,17 @@ a:not(.nav-link):hover {
   transition: 0.15s ease-in-out;
 }
 .secondary-btn:hover {
-  background: #666;
+  background: var(--primary-color);
 }
 .secondary-btn:active {
-  background: #fff;
-  color: #bbb;
-  border: 0.2rem solid #bbb;
+  background: var(--bg-color);
+  color: var(--secondary-color);
+  border: 0.2rem solid var(--secondary-color);
 }
 
 .icon-btn {
   cursor: pointer;
-  color: #bbb;
+  color: var(--secondary-color);
   transition: transform 0.15s ease-in-out;
 }
 .icon-btn:hover {
@@ -487,7 +503,7 @@ form {
   max-width: 35rem;
   margin: 0 auto;
   padding: 2rem 3rem;
-  border: 0.15rem solid #bbb;
+  border: 0.15rem solid var(--secondary-color);
   border-radius: 0.5rem;
 }
 form button {
@@ -530,7 +546,7 @@ form section {
 
 .Q-direction {
   text-align: left;
-  color: #bbb;
+  color: var(--secondary-color);
   font-size: 1.2rem;
   margin: 0 0 0.5rem;
 }
@@ -556,24 +572,24 @@ textarea {
   padding: 0 1rem;
   box-sizing: border-box;
   border: 0.2rem solid transparent;
-  background: #f2f2f2;
+  background: var(--bg-secondary-color);
   border-radius: 0.5rem;
   transition: 0.1s ease;
 }
 input::placeholder,
 textarea::placeholder {
-  color: #bbb;
+  color: var(--secondary-color);
   font-size: 1.2rem;
   transition: 0.1s ease;
 }
 input:hover,
 textarea:hover {
-  border: 0.2rem solid #666;
+  border: 0.2rem solid var(--primary-color);
 }
 input:focus,
 textarea:focus {
   border: 0.2rem solid var(--accent-color);
-  background: #fff;
+  background: var(--bg-color);
   outline: none;
 }
 input:focus::placeholder,
@@ -604,19 +620,19 @@ textarea {
   text-align: center;
   padding: 1.5rem 1.5rem;
   margin: 0.5rem 0;
-  border: 0.2rem solid #bbb;
+  border: 0.2rem solid var(--secondary-color);
   border-radius: 1rem;
-  background-color: #fff;
+  background-color: var(--bg-color);
   transition: all 0.3s ease;
   box-sizing: border-box;
   cursor: pointer;
 }
 .radio-group label:hover {
-  background-color: #f2f2f2;
+  background-color: var(--bg-secondary-color);
 }
 .radio-group input[type=radio]:checked + label {
   background-color: var(--accent-color);
-  color: #fff;
+  color: var(--tertiary-color);
   border-color: var(--accent-color);
 }
 
@@ -727,7 +743,7 @@ textarea {
   width: 1.2rem;
   height: 0.2rem;
   border-radius: 0.1rem;
-  background: #fff;
+  background: var(--tertiary-color);
 }
 .carousel-arrow.left .line1 {
   transform: translate(0, 0.36rem) rotate(45deg);
@@ -752,7 +768,7 @@ textarea {
   height: 0.6rem;
   margin: 0.5rem;
   border-radius: 50%;
-  background: #bbb;
+  background: var(--secondary-color);
   border: none;
   cursor: pointer;
 }

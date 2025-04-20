@@ -16,7 +16,7 @@
         font-size: $font-size-footnote2;
         
         p {
-            color: $secondary-color;
+            color: var(--secondary-color);
         }
     }
 }

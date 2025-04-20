@@ -59,7 +59,7 @@
         width: 1.2rem;
         height: 0.2rem;
         border-radius: 0.1rem;
-        background: $tertiary-color;
+        background: var(--tertiary-color);
     }
     &.left .line1 {
     transform: translate(0, 0.36rem) rotate(45deg) ;
@@ -86,7 +86,7 @@
         height: 0.6rem;
         margin: 0.5rem;
         border-radius: 50%;
-        background: $secondary-color;
+        background: var(--secondary-color);
         border: none;
         cursor: pointer;
 

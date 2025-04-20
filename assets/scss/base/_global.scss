@@ -2,11 +2,9 @@
     scroll-behavior: smooth;
 
     // 全域文字預設
-    color: $primary-color;
+    color: var(--primary-color);
     font-family: "Montserrat", "Noto Sans TC", sans-serif; 
     font-weight: $font-weight-regular;
-
-    // background: $bg-color;
 }
 
 html {
@@ -23,6 +21,7 @@ body {
     flex-direction: column;
     height: 100%;
     width: 100%;
+    background: var(--bg-color);
 }
 
 main {
@@ -33,8 +32,8 @@ main {
 
 // 反白文字
 ::selection {
-    color: $bg-color;
-    background: $primary-color;
+    color: var(--bg-color);
+    background: var(--primary-color);
 }
 
 // 預設圖片大小
