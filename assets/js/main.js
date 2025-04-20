@@ -29,6 +29,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (typeof initFormLogic === "function") initFormLogic();
     setExternalLinksNewTab(); // 表單載入後重設 a 標籤
   });
+  loadComponent("new-year-card-form_close", `${basePath}components/new-year-card-form_close.html`);
 });
 
 /**
@@ -72,8 +73,6 @@ function loadComponent(containerId, htmlPath, assets) {
     });
 }
 
-
-
 // =========================
 // 除了 .nav-link 以外的連結皆新分頁開啟
 // =========================
@@ -108,3 +107,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
   sections.forEach(section => observer.observe(section));
 });
+
+// =========================
+// 更換 new-year-card.html 頁面 accent-color
+// =========================
+const isNewYearCardPage = window.location.pathname.includes('new-year-card');
+if (isNewYearCardPage) {
+  document.documentElement.style.setProperty('--accent-color', '#ff5517');
+  const logo = document.getElementById('site-logo');
+}

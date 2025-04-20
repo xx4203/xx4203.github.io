@@ -671,6 +671,10 @@ textarea {
   animation-delay: 1s;
 }
 
+.close-message {
+  padding: 2.5rem 2rem 2rem;
+}
+
 @keyframes fadeUp {
   to {
     opacity: 1;
