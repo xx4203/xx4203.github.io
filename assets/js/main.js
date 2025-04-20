@@ -3,7 +3,7 @@
 // =========================
 // 動態載入html/js檔案
 // =========================
-const basePath = window.location.pathname.includes("/pages") ? "../" : "";
+const basePath = window.location.pathname.includes("/pages") ? "../../" : "";
 const rootPath = location.hostname.includes("github.io")
   ? "https://xx4203.com"
   : "";
