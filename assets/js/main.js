@@ -23,13 +23,6 @@ document.addEventListener("DOMContentLoaded", function () {
     setExternalLinksNewTab(); // footer載入後重設 a 標籤
   });
 
-  loadComponent("new-year-card-form", `${basePath}components/new-year-card-form.html`, [
-    { type: "js", url: `${basePath}assets/js/new-year-card-form.js` }
-  ], () => {
-    if (typeof initFormLogic === "function") initFormLogic();
-    setExternalLinksNewTab(); // 表單載入後重設 a 標籤
-  });
-  loadComponent("new-year-card-form_close", `${basePath}components/new-year-card-form_close.html`);
 });
 
 /**
