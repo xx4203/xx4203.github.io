@@ -1,0 +1,34 @@
+.swiper {
+  width: 27rem;
+  height: 36rem;
+  margin: 2rem auto 0;
+}
+
+
+.swiper-slide {
+  border-radius: 1rem;
+  box-shadow: 0 0.4rem 1rem rgba(0,0,0,0.2);
+}
+
+.swiper-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+.manga-info {
+   margin-top: 2rem;
+}
+
+.manga-info h1 {
+  font-size: $font-size-title4;
+  text-align: center;
+}
+
+.manga-info p {
+  margin: 0.5rem 0 0;
+  color: var(--secondary-color);
+  text-align: center;
+}
