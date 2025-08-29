@@ -1,3 +1,36 @@
+
+// =========================
+// 動態載入表單html檔案
+// =========================
+document.addEventListener("DOMContentLoaded", () => {
+  const formContainer = document.getElementById("new-year-card-form");
+  const formCloseContainer = document.getElementById("new-year-card-form_close");
+
+  if (formContainer) {
+    // 載入表單
+    fetch("../../components/new-year-card-form.html")
+      .then(res => res.text())
+      .then(html => {
+        formContainer.innerHTML = html;
+      })
+      .catch(err => console.error("載入 new-year-card-form.html 失敗：", err));
+  }
+
+  if (formCloseContainer) {
+    // 載入關閉頁
+    fetch("../../components/new-year-card-form_close.html")
+      .then(res => res.text())
+      .then(html => {
+        formCloseContainer.innerHTML = html;
+      })
+      .catch(err => console.error("載入 new-year-card-form_close.html 失敗：", err));
+  }
+});
+
+
+// =========================
+// 其他
+// =========================
 function initFormLogic() {
   // 切換 IG 欄位
   const radioButtons = document.querySelectorAll('input[name="entry.306163396"]');

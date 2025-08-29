@@ -16,6 +16,7 @@
 html {
   font-size: 10px;
   min-width: 150px;
+  overflow-x: hidden;
 }
 
 body {
@@ -840,4 +841,41 @@ img.small {
 }
 img.medium {
   width: min(40rem, 100% - 2rem);
+}
+
+body.disable-overflow {
+  overflow-x: hidden;
+}
+
+.swiper {
+  width: 27rem;
+  height: 36rem;
+  margin: 2rem auto 0;
+}
+
+.swiper-slide {
+  border-radius: 1rem;
+}
+
+.swiper-slide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+.manga-info {
+  margin-top: 2rem;
+}
+
+.manga-info h1 {
+  font-size: 1.8rem;
+  text-align: center;
+}
+
+.manga-info p {
+  margin: 0.5rem 0 0;
+  color: var(--secondary-color);
+  text-align: center;
 }/*# sourceMappingURL=main.css.map */
