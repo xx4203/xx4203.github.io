@@ -1,3 +1,9 @@
+//body 直接取消 overflow-x 會和 mini-header 的顯示衝突
+body.disable-overflow {
+  overflow-x: hidden;
+}
+
+
 .swiper {
   width: 27rem;
   height: 36rem;
