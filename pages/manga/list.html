@@ -60,7 +60,7 @@
 		<!-- 連結 css js -->
 		<link rel="stylesheet" href="../../assets/css/main.css">
 		<script src="../../assets/js/main.js" defer></script>
-		<script src="../../assets/js/manga-list.js" defer></script>
+		<script src="../../assets/js/manga-swipper.js" defer></script>
         
         <!-- Swiper CDN -->
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
@@ -72,19 +72,25 @@
 	<body class="disable-overflow">
 		<header id="header"></header> <!-- 載入 header.html -->
 		<div class="article-title">
-			<div class="divider-light"></div>
-			<h1 class="title2">漫畫！</h1>
-			<div class="divider-light"></div>
-		</div>
+				<div class="divider-light"></div>
+				<h1 class="title2">漫畫置物櫃</h1>
+				<div class="divider-light"></div>
+		</div>	
 		<main class="article-layout">
+			
+			<section>
+				<div class="divider-lightning"></div>
+				<h2 class="title4">《 極短篇 》</h2>
+				<div class="divider-lightning"></div>
+			</section>
             <!-- Swiper 容器 -->
-            <div class="swiper mySwiper">
+            <section class="swiper mySwiper">
                 <div class="swiper-wrapper">
                 <!-- slide 內容由 JS 動態產生 -->
                 </div>
-            </div>
+            </section>
             <!-- 漫畫資訊 -->
-            <div class="manga-info"></div>
+            <section class="manga-info"></section>
 		</main>
 
 		<footer id="footer" class="footer"></footer> <!-- 載入 footer.html -->

@@ -100,15 +100,16 @@ figcaption {
   --bg-color: #fff;
   --bg-color-a80: color-mix(in srgb, var(--bg-color) 80%, transparent 0%);
   --bg-secondary-color: #f2f2f2;
+  --bg-secondary-color-a90:color-mix(in srgb, var(--bg-secondary-color) 90%, transparent 0%);
 }
 
 :root.dark-mode {
   --primary-color: #e6e6e6;
   --secondary-color: #808080;
   --tertiary-color: #212121;
-  --accent-color: #5e76ff;
+  --accent-color: #2b5dff;
   --bg-color: #212121;
-  --bg-secondary-color: #2a2a2a;
+  --bg-secondary-color: #0c0c0c;
 }
 
 :root.light-mode {
@@ -125,9 +126,9 @@ figcaption {
     --primary-color: #e6e6e6;
     --secondary-color: #808080;
     --tertiary-color: #212121;
-    --accent-color: #5e76ff;
+    --accent-color: #2b5dff;
     --bg-color: #212121;
-    --bg-secondary-color: #2a2a2a;
+    --bg-secondary-color: #0c0c0c;
   }
 }
 .regular {
@@ -157,6 +158,7 @@ figcaption {
 
 .title4 {
   font-size: 1.8rem;
+  margin: 1rem 0;
 }
 
 .paragraph {
@@ -465,7 +467,7 @@ a:not(.nav-link):hover {
   font-weight: 700;
   color: var(--accent-color);
   text-align: center;
-  margin-bottom: 2rem;
+  margin: 2rem 0;
 }
 .divider-lightning::after {
   content: "𐓏";
@@ -850,7 +852,7 @@ body.disable-overflow {
 .swiper {
   width: 27rem;
   height: 36rem;
-  margin: 2rem auto 0;
+  margin: 0 auto;
 }
 
 .swiper-slide {
@@ -865,10 +867,6 @@ body.disable-overflow {
   cursor: pointer;
 }
 
-.manga-info {
-  margin-top: 2rem;
-}
-
 .manga-info h1 {
   font-size: 1.8rem;
   text-align: center;
@@ -878,4 +876,106 @@ body.disable-overflow {
   margin: 0.5rem 0 0;
   color: var(--secondary-color);
   text-align: center;
+}
+
+body {
+  margin: 0;
+  background: var(--bg-color);
+  color: var(--primary-color);
+}
+
+.manga-reader {
+  position: relative;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+.manga-reader .page-container {
+  height: 100%;
+  justify-content: center;
+  align-items: center;
+}
+.manga-reader .page-container img {
+  max-height: 100%;
+  width: 100%;
+  object-fit: contain;
+}
+.manga-reader .control-bar {
+  position: absolute;
+  top: calc(100vh - 7rem);
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 2rem;
+  background: var(--accent-color);
+  padding: 0.8rem 2rem;
+  border-radius: 15rem;
+}
+.manga-reader .control-bar button {
+  background: none;
+  border: none;
+  font-size: 1.8rem;
+  cursor: pointer;
+  transition: 0.08s ease-in-out;
+}
+.manga-reader .control-bar button:hover {
+  transform: scale(1.1);
+}
+.manga-reader .control-bar button:active {
+  transform: scale(1.1);
+}
+.manga-reader #chapterMenu {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 25rem;
+  height: 100%;
+  background: var(--bg-secondary-color-a90);
+  backdrop-filter: blur(1rem);
+  padding: 2rem;
+  overflow-y: auto;
+  transition: transform 0.3s;
+}
+.manga-reader #chapterMenu.hidden {
+  transform: translateX(100%);
+}
+.manga-reader #chapterMenu #chapterList {
+  list-style: none;
+  padding: 0;
+}
+.manga-reader #chapterMenu #chapterList li {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background: var(--bg-color);
+  border-radius: 1rem;
+}
+.manga-reader #chapterMenu #chapterList li.active {
+  border: 2px solid var(--primary-color);
+}
+.manga-reader #chapterMenu #chapterList li:last-of-type {
+  margin: 0 0 4rem 0;
+}
+.manga-reader #chapterMenu #chapterList li a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.manga-reader #chapterMenu #chapterList li a img {
+  width: 6rem;
+  height: 6rem;
+  object-fit: cover;
+  border-radius: 0.5rem;
+  margin: 0 0.8rem 0 0;
+}
+.manga-reader #chapterMenu #chapterList li a div h4 {
+  margin: 0;
+  font-size: 1.4rem;
+}
+.manga-reader #chapterMenu #chapterList li a div p {
+  margin: 0;
+  font-size: 1.4rem;
+  color: var(--secondary-color);
 }/*# sourceMappingURL=main.css.map */

@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>請不要這樣｜Dan Lo</title>
+
+    <!-- Fonts -->
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Noto+Sans+TC:wght@100..900&display=swap">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <!-- css -->
+    <link rel="stylesheet" href="../../assets/css/main.css">
+  </head>
+
+  <body>
+    <!-- 閱讀器結構 -->
+    <div class="manga-reader">
+      <!-- 頁面顯示區 -->
+      <div class="page-container"></div>
+
+      <!-- 工具列 -->
+      <div class="control-bar">
+
+        <!-- 全螢幕切換 -->
+        <button id="fullscreenBtn"><i class="bi bi-fullscreen"></i></button>
+
+        <!-- 單頁/雙頁切換 -->
+        <button id="toggleView" class="toggle-btn"><i class="bi bi-square-half"></i></button>
+
+        <!-- 章節選單 -->
+        <button id="menuToggle" class="menu-btn"><i class="bi bi-list-ul"></i></button>
+      </div>
+
+      <!-- 側邊章節欄位 -->
+      <div id="chapterMenu" class="chapter-menu hidden"><ul id="chapterList"></ul></div>
+
+    </div>
+    
+
+    <!-- JS -->
+    <script src="/assets/js/manga-swipper.js"></script>
+    <script src="/assets/js/manga-reader.js"></script>
+    <script>
+      // 根據當前檔名找到作品
+      const currentSlug = "202009_請不要這樣";
+      const currentManga = mangaList.find(m => m.url.includes(currentSlug));
+      initReader(currentManga, mangaList);
+    </script>
+  </body>
+</html>

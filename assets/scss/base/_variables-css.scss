@@ -9,26 +9,27 @@
 .bg-sec-color { color: var(--bg-secondary-color) }
 
 :root {
-  --primary-color:      #{$primary-color};
-  --secondary-color:    #{$secondary-color};
-  --tertiary-color:     #{$tertiary-color};
+  --primary-color:         #{$primary-color};
+  --secondary-color:       #{$secondary-color};
+  --tertiary-color:        #{$tertiary-color};
 
-  --accent-color:       #{$accent-color};
-  --accent-color-a10:   color-mix(in srgb, var(--accent-color) 10%, transparent 0%);
+  --accent-color:          #{$accent-color};
+  --accent-color-a10:      color-mix(in srgb, var(--accent-color) 10%, transparent 0%);
 
-  --bg-color:           #{$bg-color};
-  --bg-color-a80:       color-mix(in srgb, var(--bg-color) 80%, transparent 0%);
+  --bg-color:              #{$bg-color};
+  --bg-color-a80:          color-mix(in srgb, var(--bg-color) 80%, transparent 0%);
 
-  --bg-secondary-color: #{$bg-secondary-color};
+  --bg-secondary-color:    #{$bg-secondary-color};
+  --bg-secondary-color-a90:color-mix(in srgb, var(--bg-secondary-color) 90%, transparent 0%);
 }
 
 :root.dark-mode {
   --primary-color:      #e6e6e6;
   --secondary-color:    #808080;
   --tertiary-color:     #212121;
-  --accent-color:       #5e76ff;
+  --accent-color:       #2b5dff;
   --bg-color:           #212121;
-  --bg-secondary-color: #2a2a2a;
+  --bg-secondary-color: #0c0c0c;
 }
 :root.light-mode {
   --primary-color:      #{$primary-color};
@@ -44,9 +45,9 @@
 		--primary-color:      #e6e6e6;
     --secondary-color:    #808080;
     --tertiary-color:     #212121;
-    --accent-color:       #5e76ff;
+    --accent-color:       #2b5dff;
     --bg-color:           #212121;
-    --bg-secondary-color: #2a2a2a;
+    --bg-secondary-color: #0c0c0c;
 }
 }
 
@@ -67,7 +68,9 @@
   font-size: $font-size-title3;
   margin: 0 0 1rem; 
 }
-.title4 { font-size: $font-size-title4; }
+.title4 { 
+  font-size: $font-size-title4; 
+  margin: 1rem 0; }
 .paragraph {
   font-size: $font-size-paragraph;
   margin: 0 0 0.5rem;
