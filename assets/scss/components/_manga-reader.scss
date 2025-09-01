@@ -72,6 +72,18 @@ body {
       }
     }
   }
+  //工具列行動裝置設定
+    @media (max-width: 768px) and (hover: none) {
+    #fullscreenBtn {
+      display: none;
+      visibility: collapse;
+      height: 0;
+    }
+  }
+
+
+
+
 
 
   // 側邊章節列表
@@ -81,7 +93,7 @@ body {
     right: 0;
     width: 25rem;
     height: 100%;
-    background: var(--bg-secondary-color-a90);
+    background: var(--bg-secondary-color-a75);
     backdrop-filter: blur(1rem);
     padding: 2rem;
     overflow-y: auto;
@@ -98,25 +110,41 @@ body {
       li {
         display: flex;
         align-items: center;
-        gap: 1rem;
-        margin-bottom: 1.5rem;
+        gap: 2rem;
+        margin-bottom: 1rem;
         padding: 1rem;
         background: var(--bg-color);
         border-radius: 1rem;
-        box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 1);
+        border: 0.2rem solid var(--secondary-color-a10);
+        transition: transform 0.2s;
+        cursor: pointer; // ← 新增，整個 li 都可變手形
+
+        &:hover {
+          border: 0.2rem solid var(--accent-color);
+        }
 
         &.active {
           border: 0.2rem solid var(--primary-color);
         }
-        &:last-of-type {
-          margin: 0 0 4rem 0;
+
+        &:first-of-type {
+          background: none;
+          border: none;
+          cursor: unset;
         }
 
+        &:last-of-type {
+          margin: 0 0 4rem;
+          background: none;
+          border: none;
+          cursor: unset;
+        }
 
         a {
           display: flex;
           align-items: center;
           gap: 10px;
+          width: 100%; // 讓 a 撐滿 li
 
           img {
             width: 6rem;
@@ -138,6 +166,79 @@ body {
               color: var(--secondary-color);
             }
           }
+        }
+      }
+
+
+
+      //章節列表 HEADER
+      .chapter-header {
+        justify-content: center;        
+
+        .chapter-logo {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-direction: column;
+          cursor: pointer;
+          
+          #site-logo {
+            height: 10rem;
+            fill: var(--secondary-color);
+
+            &:hover{
+              fill: var(--accent-color);
+            }
+          }
+          span {
+            margin: -1rem 0 1rem;
+            color: var(--secondary-color);
+          }
+        }
+      }
+      
+
+
+      //章節列表 FOOTER
+      .chapter-footer {
+        display: flex;
+        flex-direction: column-reverse;
+        justify-content: center;
+        align-items: center;
+        padding: 0 2rem;
+        
+        #copyright {
+            display: flex;
+            flex-wrap: wrap; 
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            column-gap: 1rem;
+            font-size: $font-size-footnote2;
+            
+            p {
+                color: var(--secondary-color);
+            }
+        }
+        .footer-social-link {
+          display: grid;
+          grid-template-columns: repeat(2, 3rem);
+          align-items: center;
+          justify-content: center;
+          overflow: hidden;
+          a {
+              overflow: visible;
+              display: block;
+          }
+          i {
+              padding: 0.5rem;
+              
+          }
+      }
+
+        #back-top {
+            font-size: $font-size-title2;
+            margin: 3rem 0 3rem;
         }
       }
     }

@@ -11,6 +11,9 @@
 :root {
   --primary-color:         #{$primary-color};
   --secondary-color:       #{$secondary-color};
+  --secondary-color-a10:   color-mix(in srgb, var(--secondary-color) 10%, transparent 0%);
+  --secondary-color-a20:   color-mix(in srgb, var(--secondary-color) 20%, transparent 0%);
+
   --tertiary-color:        #{$tertiary-color};
 
   --accent-color:          #{$accent-color};
@@ -20,7 +23,8 @@
   --bg-color-a80:          color-mix(in srgb, var(--bg-color) 80%, transparent 0%);
 
   --bg-secondary-color:    #{$bg-secondary-color};
-  --bg-secondary-color-a90:color-mix(in srgb, var(--bg-secondary-color) 90%, transparent 0%);
+  --bg-secondary-color-a75:color-mix(in srgb, var(--bg-secondary-color) 75%, transparent 0%);
+  --bg-secondary-color-a80:color-mix(in srgb, var(--bg-secondary-color) 80%, transparent 0%);
 }
 
 :root.dark-mode {
