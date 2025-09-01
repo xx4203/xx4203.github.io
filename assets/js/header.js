@@ -43,7 +43,7 @@ window.addEventListener("scroll", () => {
 
   if (currentScroll > triggerScroll && currentScroll > lastScroll) {
     // 滾動超過門檻 + 向下滑時觸發
-    miniHeaderScroll.classList.add("show");
+    miniHeaderScroll.classList.add("hide");
     miniHeaderScroll.classList.remove("hide");
   } else if (currentScroll < lastScroll && currentScroll > triggerScroll) {
     // 向上滑但還在門檻以下（還不回頂部）

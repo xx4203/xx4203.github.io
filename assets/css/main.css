@@ -886,7 +886,7 @@ body {
 
 .manga-reader {
   position: relative;
-  height: 100vh;
+  height: 100svh;
   width: 100vw;
   overflow: hidden;
 }
@@ -900,6 +900,14 @@ body {
   width: 100%;
   object-fit: contain;
 }
+.manga-reader .left-page {
+  object-position: right center;
+  display: block;
+}
+.manga-reader .right-page {
+  object-position: left center;
+  display: block;
+}
 .manga-reader .control-bar {
   position: absolute;
   top: calc(100vh - 7rem);
@@ -910,6 +918,11 @@ body {
   background: var(--accent-color);
   padding: 0.8rem 2rem;
   border-radius: 15rem;
+  transition: 0.3s ease;
+}
+.manga-reader .control-bar.hidden {
+  transform: translate(-50%, 200%);
+  opacity: 20;
 }
 .manga-reader .control-bar button {
   background: none;

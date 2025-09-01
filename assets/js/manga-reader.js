@@ -17,24 +17,49 @@ function initReader(manga, mangaList) {
     pageContainer.innerHTML = "";
 
     if (isDoublePage) {
-      // 雙頁顯示
-      let pages = allPages.slice(currentPage, currentPage + 2);
-
-      // 封面/第一頁在右、第二頁在左
-      if (pages.length === 2) pages = [pages[1], pages[0]];
-
-      pages.forEach(src => {
-        const img = document.createElement("img");
-        img.src = src;
-        img.style.flex = "1 1 50%";        // 讓兩張圖各佔一半寬度
-        img.style.maxWidth = "50%";
-        img.style.objectFit = "contain";
-        pageContainer.appendChild(img);
-      });
-
+      const remainingPages = allPages.length - currentPage;
+      pageContainer.innerHTML = "";
       pageContainer.style.display = "flex";
       pageContainer.style.width = "100vw";
-      pageContainer.style.gap = "0";       // 取消空隙
+      pageContainer.style.gap = "0"; // 取消空隙
+
+      // 如果只剩最後一頁且總頁數為奇數，單獨置中
+      if (remainingPages === 1) {
+        const img = document.createElement("img");
+        img.src = allPages[currentPage];
+        img.style.width = "auto";
+        img.style.maxWidth = "50%"; // 或你想要的大小
+        img.style.objectFit = "contain";
+        img.style.margin = "0 auto"; // 置中
+        pageContainer.appendChild(img);
+      } else {
+        // 正常雙頁顯示
+        let pages = allPages.slice(currentPage, currentPage + 2);
+
+        // 封面/第一頁在右、第二頁在左
+        if (pages.length === 2) pages = [pages[1], pages[0]];
+
+        pages.forEach((src, i) => {
+          const img = document.createElement("img");
+          img.src = src;
+          img.style.width = "50%";
+          img.style.height = "auto";
+          img.style.objectFit = "contain";
+
+          // 左頁靠右、右頁靠左
+          if (i === 0) {
+            img.classList.add("left-page");
+            img.style.marginLeft = "auto";
+            img.style.marginRight = "0";
+          } else {
+            img.classList.add("right-page");
+            img.style.marginLeft = "0";
+            img.style.marginRight = "auto";
+          }
+
+          pageContainer.appendChild(img);
+        });
+      }
     } else {
       const img = document.createElement("img");
       img.src = allPages[currentPage];
@@ -44,6 +69,7 @@ function initReader(manga, mangaList) {
       pageContainer.style.width = "";
       pageContainer.style.display = "flex";
     }
+
   }
 
   // 單/雙頁切換
@@ -61,16 +87,30 @@ function initReader(manga, mangaList) {
 
   // 點擊翻頁（右翻書）+ 選單開啟時禁用翻頁
   pageContainer.addEventListener("click", (e) => {
-    if (!menu.classList.contains("hidden")) return;
+    if (!menu.classList.contains("hidden")) return; // 選單開啟時禁用翻頁
 
-    if (e.clientX < window.innerWidth / 2) {
+    const containerWidth = pageContainer.clientWidth;
+    const clickX = e.clientX - pageContainer.getBoundingClientRect().left;
+
+    const leftZone = containerWidth * 0.25;
+    const rightZone = containerWidth * 0.75;
+
+    if (clickX < leftZone) {
+      // 左側 → 下一頁
       currentPage = Math.min(currentPage + (isDoublePage ? 2 : 1), allPages.length - 1);
-    } else {
+      if (isDoublePage && currentPage % 2 !== 0) currentPage--;
+      renderPage();
+    } else if (clickX > rightZone) {
+      // 右側 → 上一頁
       currentPage = Math.max(currentPage - (isDoublePage ? 2 : 1), 0);
+      if (isDoublePage && currentPage % 2 !== 0) currentPage--;
+      renderPage();
+    } else {
+      // 中間 → 切換工具列
+      const controlBar = document.querySelector(".control-bar");
+      controlBar.classList.toggle("hidden");
     }
 
-    if (isDoublePage && currentPage % 2 !== 0) currentPage--;
-    renderPage();
   });
 
   // 章節選單

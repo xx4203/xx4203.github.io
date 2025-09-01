@@ -1,0 +1,159 @@
+[
+  {
+    "title": "極短篇",
+    "slug": "shorts",
+    "chapters": [
+      { 
+        "title": "請不要這樣", 
+        "slug": "請不要這樣" ,
+        "cover": "/assets/images/manga/202009_請不要這樣/cover.png", 
+        "year": 2020,
+        "pages": 2, 
+        "images": [
+         "/assets/images/manga/202009_請不要這樣/01.png",
+         "/assets/images/manga/202009_請不要這樣/02.png"
+        ]
+      },
+      {
+        "title": "沒有人要吃的榴槤",
+        "slug": "沒有人要吃的榴槤",
+        "cover": "/assets/images/manga/202107_沒有人要吃的榴槤/cover.png",
+        "year": 2021,
+        "pages": 2,
+        "images": [
+          "/assets/images/manga/202107_沒有人要吃的榴槤/01.png",
+          "/assets/images/manga/202107_沒有人要吃的榴槤/02.png"
+        ]
+      },
+      {
+        "title": "花海",
+        "slug": "花海",
+        "cover": "/assets/images/manga/202108_花海/cover.png",
+        "year": 2021,
+        "pages": 3,
+        "images": [
+          "/assets/images/manga/202108_花海/01.png",
+          "/assets/images/manga/202108_花海/02.png",
+          "/assets/images/manga/202108_花海/03.png"
+        ]
+      },
+      {
+        "title": "目珠",
+        "slug": "目珠",
+        "cover": "/assets/images/manga/202108_目珠/cover.png",
+        "year": 2021,
+        "pages": 3,
+        "images": [
+          "/assets/images/manga/202108_目珠/01.png",
+          "/assets/images/manga/202108_目珠/02.png",
+          "/assets/images/manga/202108_目珠/03.png"
+        ]
+      },
+      {
+        "title": "WINGS",
+        "slug": "WINGS",
+        "cover": "/assets/images/manga/202112_WINGS/cover.png",
+        "year": 2021,
+        "pages": 3,
+        "images": [
+          "/assets/images/manga/202112_WINGS/01.png",
+          "/assets/images/manga/202112_WINGS/02.png",
+          "/assets/images/manga/202112_WINGS/03.png"
+        ]
+      },
+      {
+        "title": "春分",
+        "slug": "春分",
+        "cover": "/assets/images/manga/202203_春分/cover.png",
+        "year": 2022,
+        "pages": 3,
+        "images": [
+          "/assets/images/manga/202203_春分/01.png",
+          "/assets/images/manga/202203_春分/02.png",
+          "/assets/images/manga/202203_春分/03.png"
+        ]
+      },
+      {
+        "title": "有祕密的寵物們",
+        "slug": "有祕密的寵物們",
+        "cover": "/assets/images/manga/202207_有祕密的寵物們/cover.png",
+        "year": 2022,
+        "pages": 4,
+        "images": [
+          "/assets/images/manga/202207_有祕密的寵物們/01.png",
+          "/assets/images/manga/202207_有祕密的寵物們/02.png",
+          "/assets/images/manga/202207_有祕密的寵物們/03.png",
+          "/assets/images/manga/202207_有祕密的寵物們/04.png"
+        ]
+      },
+      {
+        "title": "頂樓加蓋",
+        "slug": "頂樓加蓋",
+        "cover": "/assets/images/manga/202208_頂樓加蓋/cover.png",
+        "year": 2022,
+        "pages": 2,
+        "images": [
+          "/assets/images/manga/202208_頂樓加蓋/01.png",
+          "/assets/images/manga/202208_頂樓加蓋/02.png"
+        ]
+      },
+      {
+        "title": "啪嚓",
+        "slug": "啪嚓",
+        "cover": "/assets/images/manga/202209_啪嚓/cover.png",
+        "year": 2022,
+        "pages": 2,
+        "images": [
+          "/assets/images/manga/202209_啪嚓/01.png",
+          "/assets/images/manga/202209_啪嚓/02.png"
+        ]
+      },
+      {
+        "title": "無聲的存在",
+        "slug": "無聲的存在",
+        "cover": "/assets/images/manga/202303_無聲的存在/cover.png",
+        "year": 2023,
+        "pages": 4,
+        "images": [
+          "/assets/images/manga/202303_無聲的存在/01.png",
+          "/assets/images/manga/202303_無聲的存在/02.png",
+          "/assets/images/manga/202303_無聲的存在/03.png",
+          "/assets/images/manga/202303_無聲的存在/04.png"
+        ]
+      },
+      {
+        "title": "雨天",
+        "slug": "雨天",
+        "cover": "/assets/images/manga/202301_雨天/cover.png",
+        "year": 2023,
+        "pages": 11,
+        "images": [
+          "/assets/images/manga/202301_雨天/01.png",
+          "/assets/images/manga/202301_雨天/02.png",
+          "/assets/images/manga/202301_雨天/03.png",
+          "/assets/images/manga/202301_雨天/04.png",
+          "/assets/images/manga/202301_雨天/05.png",
+          "/assets/images/manga/202301_雨天/06.png",
+          "/assets/images/manga/202301_雨天/07.png",
+          "/assets/images/manga/202301_雨天/08.png",
+          "/assets/images/manga/202301_雨天/09.png",
+          "/assets/images/manga/202301_雨天/10.png",
+          "/assets/images/manga/202301_雨天/11.png"
+        ]
+      },
+      {
+        "title": "週末",
+        "slug": "週末",
+        "cover": "/assets/images/manga/202404_週末/cover.png",
+        "year": 2024,
+        "pages": 4,
+        "images": [
+          "/assets/images/manga/202404_週末/01.png",
+          "/assets/images/manga/202404_週末/02.png",
+          "/assets/images/manga/202404_週末/03.png",
+          "/assets/images/manga/202404_週末/04.png"
+        ]
+      }
+    ]
+  }
+]

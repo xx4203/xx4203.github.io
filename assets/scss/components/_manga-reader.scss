@@ -8,7 +8,7 @@ body {
 // 漫畫閱讀器
 .manga-reader {
   position: relative;
-  height: 100vh;
+  height: 100svh;
   width: 100vw;
   overflow: hidden;
 
@@ -25,6 +25,19 @@ body {
     }
   }
 
+
+  .left-page {
+    object-position: right center;
+    display: block;
+  }
+
+  .right-page {
+    object-position: left center;
+    display: block;
+  }
+
+
+
   // 工具列
   .control-bar {
     position: absolute;
@@ -36,6 +49,12 @@ body {
     background: var(--accent-color);
     padding: 0.8rem 2rem;
     border-radius: 15rem;
+    transition: 0.3s ease;
+
+    &.hidden {
+      transform: translate(-50%, 200%);
+      opacity: 20;
+    }
 
     button {
       background: none;

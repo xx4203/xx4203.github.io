@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="zh-Hant-TW">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>漫畫｜Dan Lo</title>
+
+    <meta property="og:title" content="漫畫｜Dan Lo">
+    <meta property="og:type" content="illustration.manga" />
+    <meta property="og:url" content="https://xx4203.com/">
+    <meta property="og:description" content="2020・2 頁・為什麼每次都不走我身邊？">
+    <meta property="og:locale" content="zh-Hant-TW" />
+    <meta property="og:site_name" content="Dan Lo" />
+    <meta property="og:image" content="/assets/images/homepage/og-image.png">
+    <meta property="og:image:alt" content="小大象_LittleElefan_og-img_伸展中.png" />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="627" />
+
+    <link rel="icon" href="/assets/images/favicon/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/assets/images/favicon/favicon-1350x1350.png" type="image/png" />
+    <link rel="apple-touch-icon" href="/assets/images/favicon/apple-touch-icon.svg" type="image/svg+xml"/>
+    <link rel="apple-touch-icon" href="/assets/images/favicon/apple-touch-icon.png" />
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Noto+Sans+TC:wght@100..900&display=swap">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+
+    <!-- css -->
+    <link rel="stylesheet" href="../../assets/css/main.css">
+  </head>
+
+  <body>
+    <!-- 閱讀器結構 -->
+    <div class="manga-reader">
+      <!-- 頁面顯示區 -->
+      <div class="page-container"></div>
+
+      <!-- 工具列 -->
+      <div class="control-bar">
+
+        <!-- 全螢幕切換 -->
+        <button id="fullscreenBtn"><i class="bi bi-fullscreen"></i></button>
+
+        <!-- 單頁/雙頁切換 -->
+        <button id="toggleView" class="toggle-btn"><i class="bi bi-square-half"></i></button>
+
+        <!-- 章節選單 -->
+        <button id="menuToggle" class="menu-btn"><i class="bi bi-list-ul"></i></button>
+      </div>
+
+      <!-- 側邊章節欄位 -->
+      <div id="chapterMenu" class="chapter-menu hidden"><ul id="chapterList"></ul></div>
+
+    </div>
+
+    <!-- 只需 reader.js；列表頁專用的 manga-swipper.js 不要在章節頁載入 -->
+    <script src="/assets/js/manga-reader.js"></script>
+
+    <!-- 從 JSON 讀資料 + hash 路由 -->
+    <script>
+        (async function () {
+        function parseHash() {
+        const raw = location.hash.replace(/^#/, ''); // 去掉 #
+        const [workSlug, chapterSlugRaw] = raw.split('/');
+        const chapterSlug = chapterSlugRaw ? decodeURIComponent(chapterSlugRaw) : null;
+        return { workSlug, chapterSlug };
+        }
+
+        const { workSlug, chapterSlug } = parseHash();
+        if (!workSlug || !chapterSlug) {
+        console.error('缺少作品或章節參數，hash 需為 #<workSlug>/<chapterSlug>');
+        return;
+        }
+
+
+        // 載入 JSON（用絕對路徑）
+        const res = await fetch('/assets/js/manga-library.json', { cache: 'no-store' });
+        const library = await res.json();
+
+        // 找作品
+        const work = library.find(w => w.slug === workSlug);
+        if (!work) return console.error('找不到作品：', workSlug);
+
+        // 找章節
+        const chapter = work.chapters.find(c => c.slug === chapterSlug);
+        if (!chapter) return console.error('找不到章節：', chapterSlug);
+
+        // 組成 initReader 需要的物件
+        const manga = {
+            title: chapter.title,
+            cover: chapter.cover,
+            images: chapter.images || [],
+            year: chapter.year,
+            pages: chapter.pages,
+            url: `/pages/manga/chapter.html#${work.slug}/${chapter.slug}`
+        };
+
+        const mangaList = work.chapters.map(c => ({
+            title: c.title,
+            cover: c.cover,
+            year: c.year,
+            pages: c.pages,
+            url: `/pages/manga/chapter.html#${work.slug}/${c.slug}`
+        }));
+
+        // 動態更新 meta
+        document.title = `${chapter.title}｜Dan Lo`;
+        const setMeta = (sel, val) => {
+            const el = document.querySelector(sel);
+            if (el && val) el.setAttribute('content', val);
+        };
+        setMeta('meta[property="og:title"]', `${chapter.title}｜Dan Lo`);
+        setMeta('meta[property="og:description"]', `${chapter.year}・${chapter.pages} 頁・${work.title}`);
+        setMeta('meta[property="og:url"]', location.href);
+        setMeta('meta[property="og:image"]', chapter.cover);
+
+        // 呼叫 reader
+        initReader(manga, mangaList);
+
+        // 章節跳轉（換 hash → reload）
+        window.addEventListener('hashchange', () => location.reload());
+        })();
+    </script>
+
+  </body>
+</html>
