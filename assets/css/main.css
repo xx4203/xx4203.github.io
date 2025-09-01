@@ -919,6 +919,7 @@ body {
   padding: 0.8rem 2rem;
   border-radius: 15rem;
   transition: 0.3s ease;
+  z-index: 9999;
 }
 .manga-reader .control-bar.hidden {
   transform: translate(-50%, 200%);

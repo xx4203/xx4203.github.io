@@ -80,8 +80,8 @@ function initReader(manga, mangaList) {
     if (isDoublePage && currentPage % 2 !== 0) currentPage--;
 
     toggleBtn.innerHTML = isDoublePage
-      ? '<i class="bi bi-square-fill"></i>'
-      : '<i class="bi bi-square-half"></i>';
+      ? '<i class="bi bi-book-fill"></i>'
+      : '<i class="bi bi-book-half"></i>';
     renderPage();
   });
 
@@ -153,3 +153,11 @@ function initReader(manga, mangaList) {
   // 初始渲染
   renderPage();
 }
+
+
+
+
+
+document.querySelector(".page-container").addEventListener("click", e => {
+  console.log("點擊位置:", e.clientX, e.clientY);
+});
