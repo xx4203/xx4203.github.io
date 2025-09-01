@@ -160,6 +160,47 @@ function initReader(manga, mangaList) {
 
 
 
+//滑鼠翻頁手形符號
+pageContainer.addEventListener("mousemove", (e) => {
+  const imgs = pageContainer.querySelectorAll("img");
+  if (!imgs.length) return;
+
+  let minX, maxX;
+
+  if (isDoublePage) {
+    if (imgs.length === 2) {
+      const rectLeft = imgs[0].getBoundingClientRect();
+      const rectRight = imgs[1].getBoundingClientRect();
+      minX = rectLeft.left;
+      maxX = rectRight.right;
+    } else {
+      const rect = pageContainer.getBoundingClientRect();
+      minX = rect.left;
+      maxX = rect.right;
+    }
+  } else {
+    const rect = imgs[0].getBoundingClientRect();
+    minX = rect.left;
+    maxX = rect.right;
+  }
+
+  const totalWidth = maxX - minX;
+  const leftZone = minX + totalWidth * 0.35;
+  const rightZone = minX + totalWidth * 0.65;
+
+  if (e.clientX < leftZone && e.clientX >= minX || e.clientX > rightZone && e.clientX <= maxX) {
+    pageContainer.style.cursor = "pointer"; // 或 "grab"
+  } else {
+    pageContainer.style.cursor = "default";
+  }
+});
+
+
+
+
+
+
+
   //滑動翻頁
   let startX = 0;
   let isDragging = false;
