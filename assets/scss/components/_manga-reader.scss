@@ -8,7 +8,7 @@ body {
 // 漫畫閱讀器
 .manga-reader {
   position: relative;
-  height: 100svh;
+  height: 100vh;
   width: 100vw;
   overflow: hidden;
 
@@ -41,7 +41,8 @@ body {
   // 工具列
   .control-bar {
     position: absolute;
-    top: calc(100vh - 7rem);
+    // top: 90%;
+    top:min(calc(100vh - 8rem), 90%);
     left: 50%;
     transform: translateX(-50%);
     display: flex;
@@ -50,17 +51,16 @@ body {
     padding: 0.8rem 2rem;
     border-radius: 15rem;
     transition: 0.3s ease;
-    z-index: 9999;
 
     &.hidden {
       transform: translate(-50%, 200%);
-      opacity: 20;
+      opacity: 0;
     }
 
     button {
       background: none;
       border: none;
-      font-size: $font-size-title4;
+      font-size: $font-size-title3;
       cursor: pointer;
       transition: 0.08s ease-in-out;
 
@@ -103,9 +103,10 @@ body {
         padding: 1rem;
         background: var(--bg-color);
         border-radius: 1rem;
+        box-shadow: 0 0 1rem 0 rgba(0, 0, 0, 1);
 
         &.active {
-          border: 2px solid var(--primary-color);
+          border: 0.2rem solid var(--primary-color);
         }
         &:last-of-type {
           margin: 0 0 4rem 0;

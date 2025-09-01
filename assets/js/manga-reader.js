@@ -85,33 +85,118 @@ function initReader(manga, mangaList) {
     renderPage();
   });
 
+
+
+
   // 點擊翻頁（右翻書）+ 選單開啟時禁用翻頁
   pageContainer.addEventListener("click", (e) => {
-    if (!menu.classList.contains("hidden")) return; // 選單開啟時禁用翻頁
+  if (!menu.classList.contains("hidden")) return; // 選單開啟時禁用翻頁
 
-    const containerWidth = pageContainer.clientWidth;
-    const clickX = e.clientX - pageContainer.getBoundingClientRect().left;
+  const imgs = pageContainer.querySelectorAll("img");
+  if (!imgs.length) return;
 
-    const leftZone = containerWidth * 0.25;
-    const rightZone = containerWidth * 0.75;
+  if (isDoublePage) {
+    let minX, maxX;
 
-    if (clickX < leftZone) {
-      // 左側 → 下一頁
-      currentPage = Math.min(currentPage + (isDoublePage ? 2 : 1), allPages.length - 1);
-      if (isDoublePage && currentPage % 2 !== 0) currentPage--;
-      renderPage();
-    } else if (clickX > rightZone) {
-      // 右側 → 上一頁
-      currentPage = Math.max(currentPage - (isDoublePage ? 2 : 1), 0);
-      if (isDoublePage && currentPage % 2 !== 0) currentPage--;
-      renderPage();
+    if (imgs.length === 2) {
+      // 雙頁正常情況 → 取兩張圖的範圍
+      const rectLeft = imgs[0].getBoundingClientRect();
+      const rectRight = imgs[1].getBoundingClientRect();
+      minX = rectLeft.left;
+      maxX = rectRight.right;
     } else {
-      // 中間 → 切換工具列
-      const controlBar = document.querySelector(".control-bar");
-      controlBar.classList.toggle("hidden");
+      // 雙頁模式但只有一張圖（最後一頁） → 用整個容器
+      const rect = pageContainer.getBoundingClientRect();
+      minX = rect.left;
+      maxX = rect.right;
     }
 
-  });
+    const clickX = e.clientX;
+    const totalWidth = maxX - minX;
+    const leftZone = minX + totalWidth * 0.35;
+    const rightZone = minX + totalWidth * 0.65;
+
+    if (clickX < leftZone && clickX >= minX) {
+      // 左側 → 下一頁
+      currentPage = Math.min(currentPage + 2, allPages.length - 1);
+      if (currentPage % 2 !== 0) currentPage--; // 保證偶數頁
+      renderPage();
+    } else if (clickX > rightZone && clickX <= maxX) {
+      // 右側 → 上一頁
+      currentPage = Math.max(currentPage - 2, 0);
+      if (currentPage % 2 !== 0) currentPage--;
+      renderPage();
+    } else {
+      // 中間 → 工具列切換
+      document.querySelector(".control-bar").classList.toggle("hidden");
+    }
+
+  } else {
+    // 單頁模式
+    const rect = imgs[0].getBoundingClientRect();
+    const minX = rect.left;
+    const maxX = rect.right;
+    const clickX = e.clientX;
+
+    const width = rect.width;
+    const leftZone = minX + width * 0.35;
+    const rightZone = minX + width * 0.65;
+
+    if (clickX < leftZone && clickX >= minX) {
+      // 左側 → 下一頁
+      currentPage = Math.min(currentPage + 1, allPages.length - 1);
+      renderPage();
+    } else if (clickX > rightZone && clickX <= maxX) {
+      // 右側 → 上一頁
+      currentPage = Math.max(currentPage - 1, 0);
+      renderPage();
+    } else {
+      // 中間 → 工具列切換
+      document.querySelector(".control-bar").classList.toggle("hidden");
+    }
+  }
+});
+
+
+
+
+  //滑動翻頁
+  let startX = 0;
+  let isDragging = false;
+
+  function handleStart(e) {
+    startX = e.type.includes("mouse") ? e.clientX : e.touches[0].clientX;
+    isDragging = true;
+  }
+
+  function handleEnd(e) {
+    if (!isDragging) return;
+    const endX = e.type.includes("mouse") ? e.clientX : e.changedTouches[0].clientX;
+    const deltaX = endX - startX;
+    isDragging = false;
+
+    if (Math.abs(deltaX) > 50) {
+      if (deltaX > 0) {
+        // 從左往右滑 → 下一頁
+        currentPage = Math.min(currentPage + (isDoublePage ? 2 : 1), allPages.length - 1);
+      } else {
+        // 從右往左滑 → 上一頁
+        currentPage = Math.max(currentPage - (isDoublePage ? 2 : 1), 0);
+      }
+      if (isDoublePage && currentPage % 2 !== 0) currentPage--;
+      renderPage();
+    }
+  }
+
+  pageContainer.addEventListener("mousedown", handleStart);
+  pageContainer.addEventListener("mouseup", handleEnd);
+  pageContainer.addEventListener("touchstart", handleStart);
+  pageContainer.addEventListener("touchend", handleEnd);
+
+
+
+
+
 
   // 章節選單
   menuBtn.addEventListener("click", (e) => {
@@ -150,14 +235,12 @@ function initReader(manga, mangaList) {
     }
   });
 
+
+
+
+
+
+
   // 初始渲染
   renderPage();
 }
-
-
-
-
-
-document.querySelector(".page-container").addEventListener("click", e => {
-  console.log("點擊位置:", e.clientX, e.clientY);
-});

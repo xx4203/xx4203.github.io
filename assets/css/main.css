@@ -886,7 +886,7 @@ body {
 
 .manga-reader {
   position: relative;
-  height: 100svh;
+  height: 100vh;
   width: 100vw;
   overflow: hidden;
 }
@@ -910,7 +910,7 @@ body {
 }
 .manga-reader .control-bar {
   position: absolute;
-  top: calc(100vh - 7rem);
+  top: min(100vh - 8rem, 90%);
   left: 50%;
   transform: translateX(-50%);
   display: flex;
@@ -919,16 +919,15 @@ body {
   padding: 0.8rem 2rem;
   border-radius: 15rem;
   transition: 0.3s ease;
-  z-index: 9999;
 }
 .manga-reader .control-bar.hidden {
   transform: translate(-50%, 200%);
-  opacity: 20;
+  opacity: 0;
 }
 .manga-reader .control-bar button {
   background: none;
   border: none;
-  font-size: 1.8rem;
+  font-size: 2.2rem;
   cursor: pointer;
   transition: 0.08s ease-in-out;
 }
@@ -965,9 +964,10 @@ body {
   padding: 1rem;
   background: var(--bg-color);
   border-radius: 1rem;
+  box-shadow: 0 0 1rem 0 rgb(0, 0, 0);
 }
 .manga-reader #chapterMenu #chapterList li.active {
-  border: 2px solid var(--primary-color);
+  border: 0.2rem solid var(--primary-color);
 }
 .manga-reader #chapterMenu #chapterList li:last-of-type {
   margin: 0 0 4rem 0;
