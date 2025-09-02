@@ -174,11 +174,20 @@ function initReader(manga, mangaList) {
 
 
   // =========================
-  // 點擊翻頁
+  // 單一 hasDragged 變數
   // =========================
   let hasDragged = false;
+  let startX = 0;
+  let isDragging = false;
+
+  // =========================
+  // 點擊翻頁
+  // =========================
   pageContainer.addEventListener("click", (e) => {
-    if (hasDragged) { hasDragged = false; return; }
+    if (hasDragged) { 
+      hasDragged = false; // 用完就重置
+      return; 
+    }
     if (!menu.classList.contains("hidden")) return;
 
     const imgs = pageContainer.querySelectorAll("img");
@@ -197,35 +206,45 @@ function initReader(manga, mangaList) {
     else document.querySelector(".control-bar").classList.toggle("hidden");
   });
 
-  
   // =========================
-  // 滑動翻頁
+  // 滑動翻頁（單指拖動）
   // =========================
-  let startX = 0;
-  let isDragging = false;
-
   function handleStart(e) {
-    if (e.type.startsWith("touch") && e.touches.length > 1) { isDragging = false; return; }
+    if (e.type.startsWith("touch") && e.touches.length > 1) {
+      isDragging = false;
+      return;
+    }
     startX = e.type.includes("mouse") ? e.clientX : e.touches[0].clientX;
     isDragging = true;
     hasDragged = false;
   }
 
+  function handleMove(e) {
+    if (!isDragging) return;
+    if (e.type.startsWith("touch") && e.touches.length > 1) {
+      isDragging = false;
+    }
+  }
+
   function handleEnd(e) {
     if (!isDragging) return;
+
     const endX = e.type.includes("mouse") ? e.clientX : e.changedTouches[0].clientX;
     const deltaX = endX - startX;
+
     isDragging = false;
 
     if (Math.abs(deltaX) > 50) {
-      hasDragged = true;
+      hasDragged = true; // 滑動翻頁後，點擊翻頁會被阻擋
       goPage(deltaX > 0 ? "next" : "prev");
     }
   }
 
+  // 監聽事件
   pageContainer.addEventListener("mousedown", handleStart);
   pageContainer.addEventListener("mouseup", handleEnd);
   pageContainer.addEventListener("touchstart", handleStart);
+  pageContainer.addEventListener("touchmove", handleMove);
   pageContainer.addEventListener("touchend", handleEnd);
 
 
