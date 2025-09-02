@@ -1110,4 +1110,12 @@ body {
 .manga-reader #chapterMenu #chapterList .chapter-footer #back-top {
   font-size: 2.6rem;
   margin: 3rem 0 3rem;
+}
+
+.progressive-img {
+  filter: blur(0.1);
+  transition: filter 0.3s ease;
+}
+.progressive-img.loaded {
+  filter: blur(0);
 }/*# sourceMappingURL=main.css.map */

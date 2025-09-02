@@ -70,7 +70,7 @@ function initThemeToggle() {
 
   const storedTheme = localStorage.getItem("theme");
   const systemPrefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-  const currentTheme = storedTheme || "light"; //預設 light
+  const currentTheme = storedTheme || (systemPrefersDark ? "dark" : "light");
 
   setTheme(currentTheme);
 

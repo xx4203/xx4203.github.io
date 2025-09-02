@@ -277,3 +277,13 @@ body {
     }
   }
 }
+
+
+.progressive-img {
+  filter: blur(0.1);
+  transition: filter 0.3s ease;
+
+  &.loaded {
+    filter: blur(0);
+  }
+}

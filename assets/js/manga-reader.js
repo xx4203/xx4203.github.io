@@ -16,26 +16,49 @@ function initReader(manga, mangaList) {
   const chapterList = document.getElementById("chapterList");
   const fullscreenBtn = document.getElementById("fullscreenBtn");
 
+
+  function getLowResPath(path) {
+    return path.replace(/(\.\w+)$/, '-low$1'); // xxx.png → xxx-low.png
+  }
+  function renderImage(src, style = {}) {
+    const img = document.createElement("img");
+    img.src = getLowResPath(src); // 先放低畫質
+    img.style.objectFit = "contain";
+    Object.assign(img.style, style);
+
+    // 預先載入高畫質
+    const highRes = new Image();
+    highRes.src = src;
+    highRes.onload = () => {
+      img.src = src; 
+      img.classList.add("loaded"); // 可以用 CSS transition 淡入
+    };
+
+    return img;
+  }
+
   // 渲染頁面
   function renderPage() {
     pageContainer.innerHTML = "";
 
     if (isDoublePage) {
       const remainingPages = allPages.length - currentPage;
-      pageContainer.innerHTML = "";
       pageContainer.style.display = "flex";
       pageContainer.style.width = "100vw";
       pageContainer.style.gap = "0"; // 取消空隙
 
       // 如果只剩最後一頁且總頁數為奇數，單獨置中
       if (remainingPages === 1) {
-        const img = document.createElement("img");
-        img.src = allPages[currentPage];
+        const img = renderImage(allPages[currentPage], {
+          maxWidth: "100%",
+        });
+        img.classList.add("progressive-img");
         img.style.width = "auto";
         img.style.maxWidth = "50%";
         img.style.objectFit = "contain";
         img.style.margin = "0 auto"; // 置中
         pageContainer.appendChild(img);
+
       } else {
         // 正常雙頁顯示
         let pages = allPages.slice(currentPage, currentPage + 2);
@@ -44,8 +67,11 @@ function initReader(manga, mangaList) {
         if (pages.length === 2) pages = [pages[1], pages[0]];
 
         pages.forEach((src, i) => {
-          const img = document.createElement("img");
-          img.src = src;
+          const img = renderImage(src, {
+            width: "50%",
+            height: "auto",
+          });
+          img.classList.add("progressive-img");
           img.loading = "lazy"; 
           img.style.width = "50%";
           img.style.height = "auto";
@@ -66,16 +92,19 @@ function initReader(manga, mangaList) {
         });
       }
     } else {
-      const img = document.createElement("img");
-      img.src = allPages[currentPage];
+      const img = renderImage(allPages[currentPage], {
+        maxWidth: "100%",
+      });
+      img.classList.add("progressive-img");
       img.style.maxWidth = "100%";
       img.style.objectFit = "contain";
       pageContainer.appendChild(img);
+
       pageContainer.style.width = "";
       pageContainer.style.display = "flex";
     }
-
   }
+
 
 
   // =========================
