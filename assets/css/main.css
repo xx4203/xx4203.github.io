@@ -865,7 +865,6 @@ body.disable-overflow {
 .swiper-slide {
   border-radius: 1rem;
 }
-
 .swiper-slide img {
   display: block;
   width: 100%;
@@ -878,7 +877,6 @@ body.disable-overflow {
   font-size: 1.8rem;
   text-align: center;
 }
-
 .manga-info p {
   margin: 0.5rem 0 0;
   color: var(--secondary-color);
@@ -1095,7 +1093,7 @@ body {
 }
 .manga-reader #chapterMenu #chapterList .chapter-footer .footer-social-link {
   display: grid;
-  grid-template-columns: repeat(2, 3rem);
+  grid-template-columns: repeat(3, 3rem);
   align-items: center;
   justify-content: center;
   overflow: hidden;
@@ -1103,6 +1101,9 @@ body {
 .manga-reader #chapterMenu #chapterList .chapter-footer .footer-social-link a {
   overflow: visible;
   display: block;
+}
+.manga-reader #chapterMenu #chapterList .chapter-footer .footer-social-link a:hover {
+  color: var(--accent-color);
 }
 .manga-reader #chapterMenu #chapterList .chapter-footer .footer-social-link i {
   padding: 0.5rem;

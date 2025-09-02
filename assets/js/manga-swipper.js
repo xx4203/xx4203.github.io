@@ -14,17 +14,40 @@ fetch("/assets/js/manga-library.json")
       });
     });
 
+    
+
+    //低畫質版本路徑
+    function getLowResPath(path) {
+      return path.replace(/(\.\w+)$/, '-low$1'); // xxx.png → xxx-low.png
+    }
+
     // 動態產生 Swiper 結構
     const swiperWrapper = document.querySelector(".swiper-wrapper");
     swiperWrapper.innerHTML = mangaList
       .map(
         (m, i) => `
-        <div class="swiper-slide">
-          <img src="${m.cover}" alt="${m.title}" data-index="${i}">
-        </div>
-      `
+          <div class="swiper-slide">
+            <img 
+              src="${getLowResPath(m.cover)}" 
+              data-highres="${m.cover}" 
+              alt="${m.title}" 
+              data-index="${i}"
+              class="progressive-cover"
+            >
+          </div>
+        `
       )
       .join("");
+
+    // 低畫質載完後再替換高畫質
+    document.querySelectorAll(".progressive-cover").forEach((img) => {
+      const highRes = new Image();
+      highRes.src = img.dataset.highres;
+      highRes.onload = () => {
+        img.src = highRes.src;
+        img.classList.add("loaded"); // 用 CSS 淡入
+      };
+    });
 
     // 更新資訊的容器
     const infoBox = document.querySelector(".manga-info");

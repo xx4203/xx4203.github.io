@@ -174,19 +174,27 @@ function initReader(manga, mangaList) {
 
 
   // =========================
-  // 單一 hasDragged 變數
+  // 翻頁控制狀態
   // =========================
   let hasDragged = false;
   let startX = 0;
   let isDragging = false;
 
   // =========================
+  // 檢查是否縮放 (移動端)
+  // =========================
+  function isZoomed() {
+    return window.visualViewport && window.visualViewport.scale > 1.0;
+  }
+
+  // =========================
   // 點擊翻頁
   // =========================
   pageContainer.addEventListener("click", (e) => {
-    if (hasDragged) { 
-      hasDragged = false; // 用完就重置
-      return; 
+    if (isZoomed()) return; // 放大狀態下停用
+    if (hasDragged) {
+      hasDragged = false; // 滑動後的點擊不觸發
+      return;
     }
     if (!menu.classList.contains("hidden")) return;
 
@@ -195,7 +203,7 @@ function initReader(manga, mangaList) {
 
     const rects = Array.from(imgs).map(img => img.getBoundingClientRect());
     const minX = rects[0].left;
-    const maxX = rects[rects.length-1].right;
+    const maxX = rects[rects.length - 1].right;
     const totalWidth = maxX - minX;
     const clickX = e.clientX;
     const leftZone = minX + totalWidth * 0.35;
@@ -210,6 +218,10 @@ function initReader(manga, mangaList) {
   // 滑動翻頁（單指拖動）
   // =========================
   function handleStart(e) {
+    if (isZoomed()) { // 放大狀態不啟動
+      isDragging = false;
+      return;
+    }
     if (e.type.startsWith("touch") && e.touches.length > 1) {
       isDragging = false;
       return;
@@ -235,7 +247,7 @@ function initReader(manga, mangaList) {
     isDragging = false;
 
     if (Math.abs(deltaX) > 50) {
-      hasDragged = true; // 滑動翻頁後，點擊翻頁會被阻擋
+      hasDragged = true; // 滑動翻頁後阻擋點擊翻頁
       goPage(deltaX > 0 ? "next" : "prev");
     }
   }
@@ -246,6 +258,7 @@ function initReader(manga, mangaList) {
   pageContainer.addEventListener("touchstart", handleStart);
   pageContainer.addEventListener("touchmove", handleMove);
   pageContainer.addEventListener("touchend", handleEnd);
+
 
 
   // =========================
@@ -356,6 +369,7 @@ function initReader(manga, mangaList) {
     <p>All right reserved.</p>
     </div>
     <div class="footer-social-link">
+        <a href="https://xx4203.com/"><i class="bi bi-globe2 icon-btn sec-color"></i></a>
         <a href="https://www.instagram.com/x_x4203/"><i class="bi bi-instagram icon-btn sec-color"></i></a>
         <i class="bi bi-envelope icon-btn sec-color" id="copyEmail"></i>
     </div>

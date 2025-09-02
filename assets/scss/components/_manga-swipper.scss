@@ -13,27 +13,28 @@ body.disable-overflow {
 
 .swiper-slide {
   border-radius: 1rem;
+
+  img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    cursor: pointer;
+  }
 }
 
-.swiper-slide img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  cursor: pointer;
-}
 
-// .manga-info {
-//    margin-top: 2rem;
-// }
+.manga-info {
 
-.manga-info h1 {
-  font-size: $font-size-title4;
-  text-align: center;
-}
+   h1 {
+    font-size: $font-size-title4;
+    text-align: center;
+  }
 
-.manga-info p {
-  margin: 0.5rem 0 0;
-  color: var(--secondary-color);
-  text-align: center;
+  p {
+    margin: 0.5rem 0 0;
+    color: var(--secondary-color);
+    text-align: center;
+  }
+
 }
