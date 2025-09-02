@@ -1,7 +1,7 @@
 [
   {
     "title": "極短篇",
-    "slug": "shorts",
+    "slug": "collection",
     "chapters": [
       { 
         "title": "請不要這樣", 
@@ -27,7 +27,7 @@
       },
       {
         "title": "花海",
-        "slug": "sea-of-flower",
+        "slug": "sea-of-flowers",
         "cover": "/assets/images/manga/202108_花海/cover.png",
         "year": 2021,
         "pages": 3,

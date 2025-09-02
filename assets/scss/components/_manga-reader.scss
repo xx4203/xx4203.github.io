@@ -82,7 +82,39 @@ body {
   }
 
 
+  //翻頁提示
+  .page-hint {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    background: var(--bg-secondary-color-a75);
+    backdrop-filter: blur(1rem);
+    color: var(--primary-color);
+    padding: 1.5rem 2rem;
+    border-radius: 1rem;
+    font-size: $font-size-paragraph;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+    transition: 0.3s ease;
+    transform: translate(-50%, -50%) scale(0.3);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 1;
 
+    &.show {
+      opacity: 1;
+      transform: translate(-50%, -50%) scale(1);
+    }
+    p {
+      margin: 0;
+    }
+    i {
+      font-size: $font-size-title3;
+      margin: 0.2rem;
+    }
+  }
 
 
 
@@ -98,6 +130,7 @@ body {
     padding: 2rem;
     overflow-y: auto;
     transition: transform 0.3s;
+    z-index: 2;
 
     &.hidden {
       transform: translateX(100%);

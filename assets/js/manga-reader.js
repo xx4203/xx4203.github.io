@@ -5,6 +5,10 @@ function initReader(manga, mangaList) {
   // 封面永遠在第一頁
   const allPages = [manga.cover, ...(manga.images || [])];
 
+  // === 新增：章節索引 ===
+  const allChapters = mangaList;
+  const currentChapterIndex = allChapters.findIndex(c => c.title === manga.title);
+
   const pageContainer = document.querySelector(".page-container");
   const toggleBtn = document.getElementById("toggleView");
   const menuBtn = document.getElementById("menuToggle");
@@ -28,7 +32,7 @@ function initReader(manga, mangaList) {
         const img = document.createElement("img");
         img.src = allPages[currentPage];
         img.style.width = "auto";
-        img.style.maxWidth = "50%"; // 或你想要的大小
+        img.style.maxWidth = "50%";
         img.style.objectFit = "contain";
         img.style.margin = "0 auto"; // 置中
         pageContainer.appendChild(img);
@@ -73,7 +77,60 @@ function initReader(manga, mangaList) {
 
   }
 
+
+  // =========================
+  // 翻頁提示
+  // =========================
+  function showHint(html, duration = 1500) {
+  let hint = document.getElementById("pageHint");
+    if (!hint) {
+      hint = document.createElement("div");
+      hint.id = "pageHint";
+      hint.className = "page-hint hidden";
+      document.body.appendChild(hint);
+    }
+
+    hint.innerHTML = html;
+    hint.classList.add("show");
+    hint.classList.remove("hidden");
+
+    setTimeout(() => {
+      hint.classList.remove("show");
+      setTimeout(() => hint.classList.add("hidden"), 300);
+    }, duration);
+  }
+
+
+  // =========================
+  // 共用翻頁函式
+  // =========================
+  function goPage(direction) {
+    if (direction === "next") {
+      if (currentPage >= allPages.length - (isDoublePage ? 2 : 1)) {
+        const isLastChapter = currentChapterIndex === allChapters.length - 1;
+        showHint(isLastChapter ? "END" : `<p class="paragraph">END</p>`, 800);
+      } else {
+        currentPage = Math.min(currentPage + (isDoublePage ? 2 : 1), allPages.length - 1);
+        if (isDoublePage && currentPage % 2 !== 0) currentPage--;
+        renderPage();
+      }
+    } else if (direction === "prev") {
+      if (currentPage === 0) {
+        showHint(`
+          <i class="bi bi-arrow-left-square"></i>
+          <p>閱讀方向</p>
+        `, 800);
+      } else {
+        currentPage = Math.max(currentPage - (isDoublePage ? 2 : 1), 0);
+        if (isDoublePage && currentPage % 2 !== 0) currentPage--;
+        renderPage();
+      }
+    }
+  }
+  
+  // =========================
   // 單/雙頁切換
+  // =========================
   toggleBtn.addEventListener("click", (e) => {
     isDoublePage = !isDoublePage;
 
@@ -88,75 +145,59 @@ function initReader(manga, mangaList) {
 
 
   // =========================
-  // 點擊翻頁（右翻書）+ 選單開啟時禁用翻頁
+  // 點擊翻頁
   // =========================
+  let hasDragged = false;
   pageContainer.addEventListener("click", (e) => {
-  if (!menu.classList.contains("hidden")) return; // 選單開啟時禁用翻頁
+    if (hasDragged) { hasDragged = false; return; }
+    if (!menu.classList.contains("hidden")) return;
 
-  const imgs = pageContainer.querySelectorAll("img");
-  if (!imgs.length) return;
+    const imgs = pageContainer.querySelectorAll("img");
+    if (!imgs.length) return;
 
-  if (isDoublePage) {
-    let minX, maxX;
-
-    if (imgs.length === 2) {
-      // 雙頁正常情況 → 取兩張圖的範圍
-      const rectLeft = imgs[0].getBoundingClientRect();
-      const rectRight = imgs[1].getBoundingClientRect();
-      minX = rectLeft.left;
-      maxX = rectRight.right;
-    } else {
-      // 雙頁模式但只有一張圖（最後一頁） → 用整個容器
-      const rect = pageContainer.getBoundingClientRect();
-      minX = rect.left;
-      maxX = rect.right;
-    }
-
-    const clickX = e.clientX;
+    const rects = Array.from(imgs).map(img => img.getBoundingClientRect());
+    const minX = rects[0].left;
+    const maxX = rects[rects.length-1].right;
     const totalWidth = maxX - minX;
+    const clickX = e.clientX;
     const leftZone = minX + totalWidth * 0.35;
     const rightZone = minX + totalWidth * 0.65;
 
-    if (clickX < leftZone && clickX >= minX) {
-      // 左側 → 下一頁
-      currentPage = Math.min(currentPage + 2, allPages.length - 1);
-      if (currentPage % 2 !== 0) currentPage--; // 保證偶數頁
-      renderPage();
-    } else if (clickX > rightZone && clickX <= maxX) {
-      // 右側 → 上一頁
-      currentPage = Math.max(currentPage - 2, 0);
-      if (currentPage % 2 !== 0) currentPage--;
-      renderPage();
-    } else {
-      // 中間 → 工具列切換
-      document.querySelector(".control-bar").classList.toggle("hidden");
-    }
-
-  } else {
-    // 單頁模式
-    const rect = imgs[0].getBoundingClientRect();
-    const minX = rect.left;
-    const maxX = rect.right;
-    const clickX = e.clientX;
-
-    const width = rect.width;
-    const leftZone = minX + width * 0.35;
-    const rightZone = minX + width * 0.65;
-
-    if (clickX < leftZone && clickX >= minX) {
-      // 左側 → 下一頁
-      currentPage = Math.min(currentPage + 1, allPages.length - 1);
-      renderPage();
-    } else if (clickX > rightZone && clickX <= maxX) {
-      // 右側 → 上一頁
-      currentPage = Math.max(currentPage - 1, 0);
-      renderPage();
-    } else {
-      // 中間 → 工具列切換
-      document.querySelector(".control-bar").classList.toggle("hidden");
-      }
-    }
+    if (clickX < leftZone) goPage("next");
+    else if (clickX > rightZone) goPage("prev");
+    else document.querySelector(".control-bar").classList.toggle("hidden");
   });
+
+  
+  // =========================
+  // 滑動翻頁
+  // =========================
+  let startX = 0;
+  let isDragging = false;
+
+  function handleStart(e) {
+    if (e.type.startsWith("touch") && e.touches.length > 1) { isDragging = false; return; }
+    startX = e.type.includes("mouse") ? e.clientX : e.touches[0].clientX;
+    isDragging = true;
+    hasDragged = false;
+  }
+
+  function handleEnd(e) {
+    if (!isDragging) return;
+    const endX = e.type.includes("mouse") ? e.clientX : e.changedTouches[0].clientX;
+    const deltaX = endX - startX;
+    isDragging = false;
+
+    if (Math.abs(deltaX) > 50) {
+      hasDragged = true;
+      goPage(deltaX > 0 ? "next" : "prev");
+    }
+  }
+
+  pageContainer.addEventListener("mousedown", handleStart);
+  pageContainer.addEventListener("mouseup", handleEnd);
+  pageContainer.addEventListener("touchstart", handleStart);
+  pageContainer.addEventListener("touchend", handleEnd);
 
 
   // =========================
@@ -195,53 +236,6 @@ function initReader(manga, mangaList) {
       pageContainer.style.cursor = "default";
     }
   });
-
-
-  // =========================
-  //滑動翻頁
-  // =========================
-  let startX = 0;
-  let isDragging = false;
-
-  function handleStart(e) {
-  // 如果是觸控且有兩指以上，取消翻頁
-  if (e.type.startsWith("touch") && e.touches.length > 1) {
-    isDragging = false;
-    return;
-  }
-
-  startX = e.type.includes("mouse") ? e.clientX : e.touches[0].clientX;
-  isDragging = true;
-}
-
-function handleEnd(e) {
-  // 如果是觸控且結束時手指數量不是 1，也不要翻頁
-  if (e.type.startsWith("touch") && e.changedTouches.length !== 1) return;
-
-  if (!isDragging) return;
-  const endX = e.type.includes("mouse") ? e.clientX : e.changedTouches[0].clientX;
-  const deltaX = endX - startX;
-  isDragging = false;
-
-  if (Math.abs(deltaX) > 50) {
-    if (deltaX > 0) {
-      // 從左往右滑 → 下一頁
-      currentPage = Math.min(currentPage + (isDoublePage ? 2 : 1), allPages.length - 1);
-    } else {
-      // 從右往左滑 → 上一頁
-      currentPage = Math.max(currentPage - (isDoublePage ? 2 : 1), 0);
-    }
-    if (isDoublePage && currentPage % 2 !== 0) currentPage--;
-    renderPage();
-  }
-}
-
-pageContainer.addEventListener("mousedown", handleStart);
-pageContainer.addEventListener("mouseup", handleEnd);
-pageContainer.addEventListener("touchstart", handleStart);
-pageContainer.addEventListener("touchend", handleEnd);
-
-
 
 
   // =========================
@@ -284,8 +278,6 @@ pageContainer.addEventListener("touchend", handleEnd);
   `;
   chapterList.appendChild(headerLi);
 
-
-
   // 章節列表
   mangaList.forEach(m => {
     const li = document.createElement("li");
@@ -305,8 +297,6 @@ pageContainer.addEventListener("touchend", handleEnd);
     });
     chapterList.appendChild(li);
   });
-
-
 
   // footer
   const footerLi = document.createElement("li");
@@ -351,7 +341,6 @@ pageContainer.addEventListener("touchend", handleEnd);
   }
 
 
-
   // =========================
   // 全螢幕切換 + icon 切換
   // =========================
@@ -366,19 +355,11 @@ pageContainer.addEventListener("touchend", handleEnd);
   });
 
 
-
   // 初始渲染
   renderPage();
 }
 
 
-// 禁止右鍵
-document.addEventListener("contextmenu", (e) => {
-  if (e.target.tagName === "IMG") e.preventDefault();
-});
-
-
-// 禁止拖曳圖片
-document.addEventListener("dragstart", (e) => {
-  if (e.target.tagName === "IMG") e.preventDefault();
-});
+// 禁止右鍵與拖曳
+document.addEventListener("contextmenu", e => { if(e.target.tagName==="IMG") e.preventDefault(); });
+document.addEventListener("dragstart", e => { if(e.target.tagName==="IMG") e.preventDefault(); });
