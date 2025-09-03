@@ -1023,11 +1023,17 @@ body {
   border: none;
   cursor: unset;
 }
+.manga-reader #chapterMenu #chapterList li:first-of-type.active {
+  border: none;
+}
 .manga-reader #chapterMenu #chapterList li:last-of-type {
   margin: 0 0 4rem;
   background: none;
   border: none;
   cursor: unset;
+}
+.manga-reader #chapterMenu #chapterList li:last-of-type.active {
+  border: none;
 }
 .manga-reader #chapterMenu #chapterList li a {
   display: flex;

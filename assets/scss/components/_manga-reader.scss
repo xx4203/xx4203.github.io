@@ -164,6 +164,11 @@ body {
           background: none;
           border: none;
           cursor: unset;
+
+          &.active {
+          border: none;
+        }
+
         }
 
         &:last-of-type {
@@ -171,6 +176,10 @@ body {
           background: none;
           border: none;
           cursor: unset;
+
+          &.active {
+          border: none;
+        }
         }
 
         a {
