@@ -14,12 +14,6 @@ fetch("/assets/js/manga-library.json")
       });
     });
 
-    
-
-    //低畫質版本路徑
-    function getLowResPath(path) {
-      return path.replace(/(\.\w+)$/, '-low$1'); // xxx.png → xxx-low.png
-    }
 
     // 動態產生 Swiper 結構
     const swiperWrapper = document.querySelector(".swiper-wrapper");
@@ -38,6 +32,12 @@ fetch("/assets/js/manga-library.json")
         `
       )
       .join("");
+
+
+    //低畫質版本路徑
+    function getLowResPath(path) {
+      return path.replace(/(\.\w+)$/, '-low$1'); // xxx.png → xxx-low.png
+    }
 
     // 低畫質載完後再替換高畫質
     document.querySelectorAll(".progressive-cover").forEach((img) => {
