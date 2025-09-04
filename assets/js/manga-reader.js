@@ -17,10 +17,14 @@ function initReader(manga, mangaList) {
   const fullscreenBtn = document.getElementById("fullscreenBtn");
 
 
-  //載入圖片檔案
+  // =========================
+  // 載入圖片檔案
+  // =========================
   function getLowResPath(path) {
     return path.replace(/(\.\w+)$/, '-low$1'); // xxx.png → xxx-low.png
   }
+
+  const images = []; // 儲存所有建立的 img
 
   function renderImage(src, style = {}) {
     const img = document.createElement("img");
@@ -40,13 +44,32 @@ function initReader(manga, mangaList) {
       ${base}-w1920${ext} 1920w,
       ${base}${ext} 3000w
     `;
-    img.sizes = "100vw";
 
+    images.push(img); // 加入陣列，方便 resize 更新
     return img;
   }
 
+  // 更新 images 的 sizes 為容器寬度
+  function updateImageSizes(containerSelector = ".manga-reader") {
+    const container = document.querySelector(containerSelector);
+    if (!container) return;
+    const width = container.clientWidth;
+    images.forEach(img => {
+      img.sizes = `${width}px`;
+    });
+  }
 
+  // 初始化一次
+  updateImageSizes();
+
+  // 監聽視窗 resize
+  window.addEventListener("resize", () => updateImageSizes());
+
+
+
+  // =========================
   // 渲染頁面
+  // =========================
   function renderPage() {
     pageContainer.innerHTML = "";
 

@@ -1,4 +1,7 @@
+
+// =========================
 // 讀取漫畫資料庫 JSON
+// =========================
 fetch("/assets/js/manga-library.json")
   .then(res => res.json())
   .then(data => {
@@ -15,7 +18,9 @@ fetch("/assets/js/manga-library.json")
     });
 
 
-    // 動態產生 Swiper 結構
+    // =========================
+    // // 動態產生 Swiper 結構
+    // =========================
     const swiperWrapper = document.querySelector(".swiper-wrapper");
     swiperWrapper.innerHTML = mangaList
       .map(
@@ -34,12 +39,16 @@ fetch("/assets/js/manga-library.json")
     .join("");
 
 
-    //載入圖片檔案
+    // =========================
+    // 載入cover檔案
+    // =========================
     function getLowResPath(path) {
       return path.replace(/(\.\w+)$/, '-low$1');
     }
 
-    document.querySelectorAll(".progressive-cover").forEach((img) => {
+    const imgs = document.querySelectorAll(".progressive-cover");
+
+    imgs.forEach((img) => {
       const src = img.dataset.highres;
 
       // 低畫質預設
@@ -55,11 +64,26 @@ fetch("/assets/js/manga-library.json")
         ${base}-w1920${ext} 1920w,
         ${base}${ext} 3000w
       `;
-      img.sizes = "100vw";
     });
 
+    // 更新 sizes 為 Swiper 容器寬度
+    function updateImgSizes() {
+      const swiperWidth = document.querySelector(".swiper").clientWidth;
+      imgs.forEach(img => {
+        img.sizes = `${swiperWidth}px`;
+      });
+    }
 
+    // 初始化一次
+    updateImgSizes();
+
+    // 監聽視窗 resize
+    window.addEventListener("resize", updateImgSizes);
+
+
+    // =========================
     // 更新資訊的容器
+    // =========================
     const infoBox = document.querySelector(".manga-info");
 
     function updateInfo(i) {
@@ -88,7 +112,9 @@ fetch("/assets/js/manga-library.json")
       }
     });
 
+    // =========================
     // 點擊圖片 → 開啟閱讀頁
+    // =========================
     document.querySelectorAll(".swiper-slide img").forEach((img) => {
       img.addEventListener("click", () => {
         const idx = img.dataset.index;
@@ -98,7 +124,11 @@ fetch("/assets/js/manga-library.json")
       });
     });
 
-    // 預設顯示最後一筆
+        
+    // =========================
+    // // 預設顯示最後一筆
+    // =========================
     updateInfo(mangaList.length - 1);
+
   })
-  .catch(err => console.error("載入漫畫 JSON 失敗:", err));
+.catch(err => console.error("載入漫畫 JSON 失敗:", err));
