@@ -46,13 +46,11 @@ function initReader(manga, mangaList) {
 
     // 等低畫質載入後，再塞 srcset 觸發高畫質下載
     img.onload = () => {
-      img.srcset = srcsetStr;
-      // 也可以再預載原圖
-      const highRes = new Image();
-      highRes.src = src;
-      highRes.onload = () => {
-        img.classList.add("loaded"); // CSS 淡入
-      };
+      img.srcset = `
+        ${base}-w480${ext} 480w,
+        ${base}-w960${ext} 960w,
+        ${base}-w1920${ext} 1920w,
+      `;
     };
 
     images.push(img); // 加入陣列，方便 resize 更新
