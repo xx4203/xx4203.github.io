@@ -293,7 +293,7 @@ body {
 
 
 .progressive-img {
-  filter: blur(0.1rem);
+  filter: blur(0rem);
   transition: filter 0.3s ease;
 
   &.loaded {

@@ -17,25 +17,34 @@ function initReader(manga, mangaList) {
   const fullscreenBtn = document.getElementById("fullscreenBtn");
 
 
+  //載入圖片檔案
   function getLowResPath(path) {
     return path.replace(/(\.\w+)$/, '-low$1'); // xxx.png → xxx-low.png
   }
+
   function renderImage(src, style = {}) {
     const img = document.createElement("img");
-    img.src = getLowResPath(src); // 先放低畫質
+
+    // 先放低畫質
+    img.src = getLowResPath(src);
     img.style.objectFit = "contain";
     Object.assign(img.style, style);
 
-    // 預先載入高畫質
-    const highRes = new Image();
-    highRes.src = src;
-    highRes.onload = () => {
-      img.src = src; 
-      img.classList.add("loaded"); // 可以用 CSS transition 淡入
-    };
+    // 建立 srcset
+    const base = src.replace(/(\.\w+)$/, "");
+    const ext = src.match(/(\.\w+)$/)[0];
+
+    img.srcset = `
+      ${base}-w480${ext} 480w,
+      ${base}-w960${ext} 960w,
+      ${base}-w1920${ext} 1920w,
+      ${base}${ext} 3000w
+    `;
+    img.sizes = "100vw";
 
     return img;
   }
+
 
   // 渲染頁面
   function renderPage() {

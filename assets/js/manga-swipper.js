@@ -31,23 +31,33 @@ fetch("/assets/js/manga-library.json")
           </div>
         `
       )
-      .join("");
+    .join("");
 
 
-    //低畫質版本路徑
+    //載入圖片檔案
     function getLowResPath(path) {
-      return path.replace(/(\.\w+)$/, '-low$1'); // xxx.png → xxx-low.png
+      return path.replace(/(\.\w+)$/, '-low$1');
     }
 
-    // 低畫質載完後再替換高畫質
     document.querySelectorAll(".progressive-cover").forEach((img) => {
-      const highRes = new Image();
-      highRes.src = img.dataset.highres;
-      highRes.onload = () => {
-        img.src = highRes.src;
-        img.classList.add("loaded"); // 用 CSS 淡入
-      };
+      const src = img.dataset.highres;
+
+      // 低畫質預設
+      img.src = getLowResPath(src);
+
+      // 建立 srcset
+      const base = src.replace(/(\.\w+)$/, "");
+      const ext = src.match(/(\.\w+)$/)[0];
+
+      img.srcset = `
+        ${base}-w480${ext} 480w,
+        ${base}-w960${ext} 960w,
+        ${base}-w1920${ext} 1920w,
+        ${base}${ext} 3000w
+      `;
+      img.sizes = "100vw";
     });
+
 
     // 更新資訊的容器
     const infoBox = document.querySelector(".manga-info");
