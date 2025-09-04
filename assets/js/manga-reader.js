@@ -375,21 +375,37 @@ function initReader(manga, mangaList) {
   mangaList.forEach(m => {
     const li = document.createElement("li");
     li.className = m.title === manga.title ? "active" : "";
+
+    // 把 m.cover 拆成 base 和 ext
+    const base = m.cover.replace(/(\.\w+)$/, "");
+    const ext = m.cover.match(/(\.\w+)$/)[0];
+
     li.innerHTML = `
       <a href="${m.url}">
-          <img src="${m.cover}" alt="${m.title}">
-          <div>
-            <h4>${m.title}</h4>
-            <p>${m.year}｜${m.pages}頁</p>
-          </div>
-        </a>
+        <img 
+          src="${base}-low${ext}" 
+          alt="${m.title}"
+          srcset="
+            ${base}-w480${ext} 480w,
+            ${base}-w960${ext} 960w,
+          "
+          sizes="(max-width: 600px) 50vw, 200px"
+        >
+        <div>
+          <h4>${m.title}</h4>
+          <p>${m.year}｜${m.pages}頁</p>
+        </div>
+      </a>
     `;
+
     // 整個 li 可點
     li.addEventListener("click", () => {
       location.href = m.url;
     });
+
     chapterList.appendChild(li);
   });
+
 
   // footer
   const footerLi = document.createElement("li");
