@@ -38,11 +38,15 @@ function initReader(manga, mangaList) {
     const base = src.replace(/(\.\w+)$/, "");
     const ext = src.match(/(\.\w+)$/)[0];
 
-    img.srcset = `
-      ${base}-w480${ext} 480w,
-      ${base}-w960${ext} 960w,
-      ${base}-w1920${ext} 1920w,
-    `;
+    // 等低畫質出來，再偷偷塞 srcset 觸發高畫質下載
+    img.onload = () => {
+      img.srcset = `
+        ${base}-w480${ext} 480w,
+        ${base}-w960${ext} 960w,
+        ${base}-w1920${ext} 1920w,
+        ${base}${ext} 3000w
+      `;
+    };
 
     images.push(img); // 加入陣列，方便 resize 更新
     return img;
@@ -466,5 +470,5 @@ function initReader(manga, mangaList) {
 
 
 // 禁止右鍵與拖曳
-// document.addEventListener("contextmenu", e => { if(e.target.tagName==="IMG") e.preventDefault(); });
-// document.addEventListener("dragstart", e => { if(e.target.tagName==="IMG") e.preventDefault(); });
+document.addEventListener("contextmenu", e => { if(e.target.tagName==="IMG") e.preventDefault(); });
+document.addEventListener("dragstart", e => { if(e.target.tagName==="IMG") e.preventDefault(); });
