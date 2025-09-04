@@ -42,7 +42,6 @@ function initReader(manga, mangaList) {
       ${base}-w480${ext} 480w,
       ${base}-w960${ext} 960w,
       ${base}-w1920${ext} 1920w,
-      ${base}${ext} 3000w
     `;
 
     images.push(img); // 加入陣列，方便 resize 更新
@@ -385,11 +384,7 @@ function initReader(manga, mangaList) {
         <img 
           src="${base}-low${ext}" 
           alt="${m.title}"
-          srcset="
-            ${base}-w480${ext} 480w,
-            ${base}-w960${ext} 960w,
-          "
-          sizes="(max-width: 600px) 50vw, 200px"
+          sizes="max-width: 6rem"
         >
         <div>
           <h4>${m.title}</h4>
@@ -471,5 +466,5 @@ function initReader(manga, mangaList) {
 
 
 // 禁止右鍵與拖曳
-document.addEventListener("contextmenu", e => { if(e.target.tagName==="IMG") e.preventDefault(); });
-document.addEventListener("dragstart", e => { if(e.target.tagName==="IMG") e.preventDefault(); });
+// document.addEventListener("contextmenu", e => { if(e.target.tagName==="IMG") e.preventDefault(); });
+// document.addEventListener("dragstart", e => { if(e.target.tagName==="IMG") e.preventDefault(); });

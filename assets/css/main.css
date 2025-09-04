@@ -54,7 +54,7 @@ img {
 
 figcaption {
   font-size: 1.2rem;
-  color: #bbb;
+  color: #979797;
 }
 
 @media (min-width: 1920px) {
@@ -97,8 +97,8 @@ figcaption {
 }
 
 :root {
-  --primary-color: #666;
-  --secondary-color: #bbb;
+  --primary-color: #474747;
+  --secondary-color: #979797;
   --secondary-color-a10: color-mix(in srgb, var(--secondary-color) 10%, transparent 0%);
   --secondary-color-a20: color-mix(in srgb, var(--secondary-color) 20%, transparent 0%);
   --tertiary-color: #fff;
@@ -107,7 +107,6 @@ figcaption {
   --bg-color: #fff;
   --bg-color-a80: color-mix(in srgb, var(--bg-color) 80%, transparent 0%);
   --bg-secondary-color: #f2f2f2;
-  --bg-secondary-color-a75:color-mix(in srgb, var(--bg-secondary-color) 75%, transparent 0%);
   --bg-secondary-color-a80:color-mix(in srgb, var(--bg-secondary-color) 80%, transparent 0%);
 }
 
@@ -121,8 +120,8 @@ figcaption {
 }
 
 :root.light-mode {
-  --primary-color: #666;
-  --secondary-color: #bbb;
+  --primary-color: #474747;
+  --secondary-color: #979797;
   --tertiary-color: #fff;
   --accent-color: #304fff;
   --bg-color: #fff;
@@ -885,8 +884,6 @@ body.disable-overflow {
 
 body {
   margin: 0;
-  background: var(--bg-color);
-  color: var(--primary-color);
 }
 
 .manga-reader {
@@ -942,6 +939,9 @@ body {
 .manga-reader .control-bar button:active {
   transform: scale(1.1);
 }
+.manga-reader .control-bar button i {
+  color: white;
+}
 @media (max-width: 768px) and (hover: none) {
   .manga-reader #fullscreenBtn {
     display: none;
@@ -986,7 +986,7 @@ body {
   right: 0;
   width: 25rem;
   height: 100%;
-  background: var(--bg-secondary-color-a75);
+  background: var(--bg-secondary-color-a80);
   backdrop-filter: blur(1rem);
   padding: 2rem;
   overflow-y: auto;
@@ -1008,7 +1008,7 @@ body {
   padding: 1rem;
   background: var(--bg-color);
   border-radius: 1rem;
-  border: 0.2rem solid var(--secondary-color-a10);
+  border: 0.2rem solid rgba(0, 0, 0, 0);
   transition: transform 0.2s;
   cursor: pointer;
 }

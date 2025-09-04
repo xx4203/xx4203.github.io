@@ -1,8 +1,7 @@
 // 全域樣式
 body {
   margin: 0;
-  background: var(--bg-color);
-  color: var(--primary-color);
+  // background: var(--bg-color);
 }
 
 // 漫畫閱讀器
@@ -16,7 +15,6 @@ body {
     height: 100%;
     justify-content: center;
     align-items: center;
-    // background: red;
 
     img {
       max-height: 100%;
@@ -70,8 +68,14 @@ body {
       &:active {
         transform: scale(1.1);
       }
+
+      i {
+        color: white;
+      }
     }
   }
+ 
+  
   //工具列行動裝置設定
     @media (max-width: 768px) and (hover: none) {
     #fullscreenBtn {
@@ -125,7 +129,7 @@ body {
     right: 0;
     width: 25rem;
     height: 100%;
-    background: var(--bg-secondary-color-a75);
+    background: var(--bg-secondary-color-a80);
     backdrop-filter: blur(1rem);
     padding: 2rem;
     overflow-y: auto;
@@ -148,7 +152,7 @@ body {
         padding: 1rem;
         background: var(--bg-color);
         border-radius: 1rem;
-        border: 0.2rem solid var(--secondary-color-a10);
+        border: 0.2rem solid rgba(0, 0, 0, 0);
         transition: transform 0.2s;
         cursor: pointer; // ← 新增，整個 li 都可變手形
 
