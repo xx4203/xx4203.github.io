@@ -34,17 +34,25 @@ function initReader(manga, mangaList) {
     img.style.objectFit = "contain";
     Object.assign(img.style, style);
 
+    // 判斷裝置效能
+    const cores = navigator.hardwareConcurrency || 4; // fallback 4 核
+    let allowedWidths = [480, 960, 1920];
+    if (cores <= 2) allowedWidths = allowedWidths.filter(w => w <= 960); // 低效能裝置限制
+
     // 建立 srcset
     const base = src.replace(/(\.\w+)$/, "");
     const ext = src.match(/(\.\w+)$/)[0];
+    const srcsetStr = allowedWidths.map(w => `${base}-w${w}${ext} ${w}w`).join(", ");
 
-    // 等低畫質出來，再偷偷塞 srcset 觸發高畫質下載
+    // 等低畫質載入後，再塞 srcset 觸發高畫質下載
     img.onload = () => {
-      img.srcset = `
-        ${base}-w480${ext} 480w,
-        ${base}-w960${ext} 960w,
-        ${base}-w1920${ext} 1920w,
-      `;
+      img.srcset = srcsetStr;
+      // 也可以再預載原圖
+      const highRes = new Image();
+      highRes.src = src;
+      highRes.onload = () => {
+        img.classList.add("loaded"); // CSS 淡入
+      };
     };
 
     images.push(img); // 加入陣列，方便 resize 更新
