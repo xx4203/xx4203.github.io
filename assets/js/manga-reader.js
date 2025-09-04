@@ -44,7 +44,6 @@ function initReader(manga, mangaList) {
         ${base}-w480${ext} 480w,
         ${base}-w960${ext} 960w,
         ${base}-w1920${ext} 1920w,
-        ${base}${ext} 3000w
       `;
     };
 

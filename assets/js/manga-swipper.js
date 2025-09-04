@@ -58,10 +58,13 @@ fetch("/assets/js/manga-library.json")
       const base = src.replace(/(\.\w+)$/, "");
       const ext = src.match(/(\.\w+)$/)[0];
 
-      img.srcset = `
-        ${base}-w480${ext} 480w,
-        ${base}-w960${ext} 960w,
-      `;
+      // 等低畫質出來，再偷偷塞 srcset 觸發高畫質下載
+      img.onload = () => {
+        img.srcset = `
+          ${base}-w480${ext} 480w,
+          ${base}-w960${ext} 960w,
+        `;
+      };
     });
 
     // 更新 sizes 為 Swiper 容器寬度
