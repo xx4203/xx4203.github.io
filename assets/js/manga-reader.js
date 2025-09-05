@@ -21,7 +21,7 @@ function initReader(manga, mangaList) {
   // 載入圖片檔案
   // =========================
   function getLowResPath(path) {
-    return path.replace(/(\.\w+)$/, '-low$1'); // xxx.png → xxx-low.png
+    return path.replace(/(\.\w+)$/, '-w480$1'); // xxx.png → xxx-low.png
   }
 
   const images = []; // 儲存所有建立的 img
@@ -148,7 +148,7 @@ function initReader(manga, mangaList) {
   // =========================
   // 預載下一頁
   // =========================
-    function preloadNextPages(count = 2) {
+    function preloadNextPages(count = 3) {
       for (let i = 1; i <= count; i++) {
         const nextIndex = currentPage + i * (isDoublePage ? 2 : 1);
         if (nextIndex < allPages.length) {
@@ -158,19 +158,15 @@ function initReader(manga, mangaList) {
             img.src = getLowResPath(src);
             const base = src.replace(/(\.\w+)$/, "");
             const ext = src.match(/(\.\w+)$/)[0];
-            img.onload = () => {
-              img.srcset = `
-                ${base}-w480${ext} 480w,
-                ${base}-w960${ext} 960w,
-                ${base}-w1920${ext} 1920w,
-              `;
-            };
+            img.srcset = `
+              ${base}-w480${ext} 480w,
+              ${base}-w960${ext} 960w,
+              ${base}-w1920${ext} 1920w
+            `;
           });
         }
       }
     }
-
-
 
   // =========================
   // 翻頁提示
