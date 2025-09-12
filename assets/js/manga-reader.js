@@ -143,30 +143,29 @@ function initReader(manga, mangaList) {
       pageContainer.style.width = "";
       pageContainer.style.display = "flex";
     }
+    preloadNextPages(isDoublePage ? 2 : 1);
   }
 
   // =========================
   // 預載下一頁
   // =========================
-    function preloadNextPages(count = 3) {
+    function preloadNextPages(count = 1) {
       for (let i = 1; i <= count; i++) {
         const nextIndex = currentPage + i * (isDoublePage ? 2 : 1);
         if (nextIndex < allPages.length) {
           const nextPages = allPages.slice(nextIndex, nextIndex + (isDoublePage ? 2 : 1));
           nextPages.forEach(src => {
-            const img = new Image();
-            img.src = getLowResPath(src);
             const base = src.replace(/(\.\w+)$/, "");
             const ext = src.match(/(\.\w+)$/)[0];
-            img.srcset = `
-              ${base}-w480${ext} 480w,
-              ${base}-w960${ext} 960w,
-              ${base}-w1920${ext} 1920w
-            `;
+            
+            const preloadImg = new Image();
+            preloadImg.src = `${base}-w960${ext}`; // 中畫質足夠快顯示
+            preloadImg.sizes = "100vw"; // 告訴瀏覽器可能需要的最大尺寸
           });
         }
       }
     }
+
 
   // =========================
   // 翻頁提示
