@@ -1120,9 +1120,9 @@ body {
 }
 
 .progressive-img {
-  filter: blur(0rem);
+  opacity: 1;
   transition: filter 0.3s ease;
 }
 .progressive-img.loaded {
-  filter: blur(0);
+  opacity: 0;
 }/*# sourceMappingURL=main.css.map */

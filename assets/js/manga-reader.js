@@ -154,17 +154,19 @@ function initReader(manga, mangaList) {
     //     if (nextIndex < allPages.length) {
     //       const nextPages = allPages.slice(nextIndex, nextIndex + (isDoublePage ? 2 : 1));
     //       nextPages.forEach(src => {
+    //         const img = new Image();
+    //         img.src = getLowResPath(src);
     //         const base = src.replace(/(\.\w+)$/, "");
     //         const ext = src.match(/(\.\w+)$/)[0];
-            
-    //         const preloadImg = new Image();
-    //         preloadImg.src = `${base}-w960${ext}`; // 中畫質足夠快顯示
-    //         preloadImg.sizes = "100vw"; // 告訴瀏覽器可能需要的最大尺寸
+    //         img.srcset = `
+    //           ${base}-w480${ext} 480w,
+    //           ${base}-w960${ext} 960w,
+    //           ${base}-w1920${ext} 1920w
+    //         `;
     //       });
     //     }
     //   }
     // }
-
 
   // =========================
   // 翻頁提示
@@ -475,6 +477,88 @@ function initReader(manga, mangaList) {
 
 
   // =========================
+  // 鍵盤快捷鍵：翻頁
+  // =========================
+  let isChapterListOpen = false; // 預設章節列表關閉
+
+  function nextPage() {
+    goPage("next");
+  }
+
+  function prevPage() {
+    goPage("prev");
+  }
+
+  document.addEventListener("keydown", function (event) {
+    if (["INPUT", "TEXTAREA"].includes(event.target.tagName)) return;
+
+    if (isChapterListOpen) {
+      // 📖 章節列表模式
+      switch (event.key) {
+        case "ArrowUp":
+          event.preventDefault();
+          selectChapter(-1);
+          break;
+        case "ArrowDown":
+          event.preventDefault();
+          selectChapter(1);
+          break;
+        case "Enter":
+          event.preventDefault();
+          enterChapter();
+          break;
+        case "Tab":
+          event.preventDefault();
+          toggleChapterList(); // 關閉
+          break;
+      }
+    } else {
+      // 📖 閱讀模式
+      switch (event.key) {
+        // 下一頁
+        case "ArrowLeft":
+        case "ArrowDown":
+        case "a": case "A":
+        case "s": case "S":
+        case "PageDown":
+        case " ":
+        case "Spacebar":
+          event.preventDefault();
+          nextPage();
+          break;
+
+        // 上一頁
+        case "ArrowRight":
+        case "ArrowUp":
+        case "d": case "D":
+        case "w": case "W":
+        case "PageUp":
+          event.preventDefault();
+          prevPage();
+          break;
+
+        // 功能鍵
+        case "f": case "F":
+          event.preventDefault();
+          toggleFullscreen();
+          break;
+
+        case "p": case "P": // 改用 P 來切換單/雙頁
+          event.preventDefault();
+          togglePageMode();
+          break;
+
+        case "Tab":
+          event.preventDefault();
+          toggleChapterList(); // 開啟
+          break;
+      }
+    }
+  });
+
+
+
+  // =========================
   // 全螢幕切換 + icon 切換
   // =========================
   fullscreenBtn.addEventListener("click", () => {
@@ -496,3 +580,5 @@ function initReader(manga, mangaList) {
 // 禁止右鍵與拖曳
 document.addEventListener("contextmenu", e => { if(e.target.tagName==="IMG") e.preventDefault(); });
 document.addEventListener("dragstart", e => { if(e.target.tagName==="IMG") e.preventDefault(); });
+
+
