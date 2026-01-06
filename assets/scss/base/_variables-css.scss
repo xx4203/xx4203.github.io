@@ -29,10 +29,10 @@
 :root.dark-mode {
   --primary-color:      #e6e6e6;
   --secondary-color:    #808080;
-  --tertiary-color:     #212121;
-  --accent-color:       #2b5dff;
-  --bg-color:           #212121;
-  --bg-secondary-color: #0c0c0c;
+  --tertiary-color:     #000;
+  --accent-color:       #557dff;
+  --bg-color:           #000;
+  --bg-secondary-color: #212121;
 }
 :root.light-mode {
   --primary-color:      #{$primary-color};
@@ -47,10 +47,10 @@
 	:root {
 		--primary-color:      #e6e6e6;
     --secondary-color:    #808080;
-    --tertiary-color:     #212121;
+    --tertiary-color:     #000;
     --accent-color:       #2b5dff;
-    --bg-color:           #212121;
-    --bg-secondary-color: #0c0c0c;
+    --bg-color:           #000;
+    --bg-secondary-color: #212121;
 }
 }
 
