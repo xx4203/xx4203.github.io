@@ -305,30 +305,134 @@ function initReader(manga, mangaList) {
   let panStartX = 0;
   let panStartY = 0;
 
+
+  // =========================
+  // 慣性 pan 參數（touch）
+  // =========================
+  let inertiaId = null;           // requestAnimationFrame id
+  let lastPanX = 0;
+  let lastPanY = 0;
+  let lastPanT = 0;
+  let velocityX = 0;
+  let velocityY = 0;
+
+  const INERTIA_FRICTION = 0.92;  // 摩擦力：越小越快停（0.85~0.95 之間調）
+  const INERTIA_MIN_SPEED = 0.12; // 停止門檻(px/ms)
+  const INERTIA_MAX_SPEED = 2.5;  // 速度上限(px/ms)，避免甩太快
+
+
+  function stopInertia() {
+    if (inertiaId) cancelAnimationFrame(inertiaId);
+    inertiaId = null;
+  }
+
+  function startInertia() {
+    stopInertia();
+
+    let vx = velocityX;
+    let vy = velocityY;
+    let prevX = offsetX;
+    let prevY = offsetY;
+    let lastT = performance.now();
+
+    function step(now) {
+      const dt = now - lastT; // ms
+      lastT = now;
+
+      // 速度太小就停
+      const speed = Math.hypot(vx, vy);
+      if (speed < INERTIA_MIN_SPEED) {
+        stopInertia();
+        return;
+      }
+
+      // 用速度推進位移（px = (px/ms) * ms）
+      offsetX += vx * dt;
+      offsetY += vy * dt;
+
+      applyTransform(); // 內含 clampOffset()
+
+      // ⭐ 如果被 clamp 住（代表撞到邊界），就停止該方向慣性
+      if (offsetX === prevX) vx = 0;
+      if (offsetY === prevY) vy = 0;
+
+      prevX = offsetX;
+      prevY = offsetY;
+
+      // 摩擦衰減
+      vx *= INERTIA_FRICTION;
+      vy *= INERTIA_FRICTION;
+
+      inertiaId = requestAnimationFrame(step);
+    }
+
+    inertiaId = requestAnimationFrame(step);
+  }
+
+
+
   // =========================
   //單指「拖動畫面」
   // =========================
   viewport.addEventListener("touchstart", (e) => {
+    // 只在放大時才允許單指拖曳 pan
     if (isZoomed() && e.touches.length === 1) {
+      stopInertia(); // ⭐ 新拖曳開始，先停掉慣性
+
       isPanning = true;
-      panStartX = e.touches[0].clientX - offsetX;
-      panStartY = e.touches[0].clientY - offsetY;
+
+      const t = e.touches[0];
+      panStartX = t.clientX - offsetX;
+      panStartY = t.clientY - offsetY;
+
+      // ⭐ 初始化速度計算用的基準點/時間
+      lastPanX = t.clientX;
+      lastPanY = t.clientY;
+      lastPanT = performance.now();
+      velocityX = 0;
+      velocityY = 0;
     }
   });
+
 
   viewport.addEventListener("touchmove", (e) => {
     if (isPanning && e.touches.length === 1) {
       e.preventDefault();
       hasDragged = true;
-      offsetX = e.touches[0].clientX - panStartX;
-      offsetY = e.touches[0].clientY - panStartY;
+
+      const t = e.touches[0];
+      const now = performance.now();
+
+      // 先照你原本方式更新位置
+      offsetX = t.clientX - panStartX;
+      offsetY = t.clientY - panStartY;
       applyTransform();
+
+      // ⭐ 算速度（px/ms），用最近一小段時間的位移
+      const dt = now - lastPanT;
+      if (dt > 0) {
+        const dx = t.clientX - lastPanX;
+        const dy = t.clientY - lastPanY;
+
+        // 即時速度
+        const vx = dx / dt;
+        const vy = dy / dt;
+
+        // 做一點平滑（避免抖動）
+        velocityX = velocityX * 0.7 + vx * 0.3;
+        velocityY = velocityY * 0.7 + vy * 0.3;
+
+        // 限制最大速度，避免甩太快
+        velocityX = Math.max(-INERTIA_MAX_SPEED, Math.min(INERTIA_MAX_SPEED, velocityX));
+        velocityY = Math.max(-INERTIA_MAX_SPEED, Math.min(INERTIA_MAX_SPEED, velocityY));
+      }
+
+      lastPanX = t.clientX;
+      lastPanY = t.clientY;
+      lastPanT = now;
     }
   }, { passive: false });
 
-  viewport.addEventListener("touchend", () => {
-    isPanning = false;
-  });
 
 
   // =========================
@@ -477,6 +581,7 @@ const newScale = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, zoomScale * factor));
 
   viewport.addEventListener("touchstart", (e) => {
     if (e.touches.length === 2) {
+      stopInertia();
       const [t1, t2] = e.touches;
 
       const dx = t1.clientX - t2.clientX;
@@ -520,9 +625,19 @@ const newScale = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, zoomScale * factor));
   }, { passive: false });
 
 
-  viewport.addEventListener("touchend", () => {
-    startDistance = null;
+  viewport.addEventListener("touchend", (e) => {
+    if (!isPanning) return;
+    isPanning = false;
+
+    // 只在「仍是放大狀態」才做慣性（避免縮回時亂滑）
+    if (!isZoomed()) return;
+
+    // ⭐ 有速度才啟動慣性
+    if (Math.hypot(velocityX, velocityY) > INERTIA_MIN_SPEED) {
+      startInertia();
+    }
   });
+
 
 
   // =========================
@@ -548,6 +663,7 @@ const newScale = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, zoomScale * factor));
     if (dt < 250 && dist2 < 30 * 30) {
       e.preventDefault();
       e.stopPropagation();
+      stopInertia();
       suppressClicks(400);
 
       if (isZoomed()) {
