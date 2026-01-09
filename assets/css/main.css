@@ -892,6 +892,13 @@ body {
   width: 100vw;
   overflow: hidden;
 }
+.manga-reader .page-viewport {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  touch-action: none; /* 手勢縮放用 */
+}
 .manga-reader .page-container {
   height: 100%;
   justify-content: center;

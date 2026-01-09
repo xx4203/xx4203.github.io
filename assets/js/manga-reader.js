@@ -16,6 +16,86 @@ function initReader(manga, mangaList) {
   const chapterList = document.getElementById("chapterList");
   const fullscreenBtn = document.getElementById("fullscreenBtn");
 
+  pageContainer.style.transformOrigin = "0 0";
+
+  // =========================
+  // 縮放狀態（只影響漫畫頁面）
+  // =========================
+  const viewport = document.querySelector(".page-viewport");
+
+  let zoomScale = 1;
+  let offsetX = 0;
+  let offsetY = 0;
+  const MIN_ZOOM = 1;
+  const MAX_ZOOM = 4;
+
+
+  // =========================
+  // 放大/縮小到「某個 client 座標」為中心
+  // =========================
+  function zoomToClientPoint(clientX, clientY, targetScale) {
+    const vpRect = viewport.getBoundingClientRect();
+
+    // 1) 把 client 座標轉成 viewport 內座標（px）
+    const px = clientX - vpRect.left;
+    const py = clientY - vpRect.top;
+
+    // 2) 算出「目前」那個 px/py 對應到內容座標（content space）
+    const contentX = (px - offsetX) / zoomScale;
+    const contentY = (py - offsetY) / zoomScale;
+
+    // 3) 套用新縮放後，回推新的 offset，讓同一個 contentX/Y 仍落在 px/py
+    zoomScale = targetScale;
+    offsetX = px - contentX * zoomScale;
+    offsetY = py - contentY * zoomScale;
+
+    applyTransform(); // 你原本就會 clampOffset()
+  }
+
+  let suppressClickUntil = 0;
+  function suppressClicks(ms = 350) {
+    suppressClickUntil = Date.now() + ms;
+  }
+
+  // =========================
+  // 邊界限制函式
+  // =========================
+  function clampOffset() {
+    const viewportRect = viewport.getBoundingClientRect();
+
+    // ⭐ 用 scrollWidth / scrollHeight 拿「原始內容尺寸」
+    const contentWidth = pageContainer.scrollWidth * zoomScale;
+    const contentHeight = pageContainer.scrollHeight * zoomScale;
+
+    const minOffsetX = Math.min(0, viewportRect.width - contentWidth);
+    const minOffsetY = Math.min(0, viewportRect.height - contentHeight);
+
+    const maxOffsetX = 0;
+    const maxOffsetY = 0;
+
+    // X 軸
+    if (contentWidth <= viewportRect.width) {
+      offsetX = (viewportRect.width - contentWidth) / 2;
+    } else {
+      offsetX = Math.min(maxOffsetX, Math.max(minOffsetX, offsetX));
+    }
+
+    // Y 軸
+    if (contentHeight <= viewportRect.height) {
+      offsetY = (viewportRect.height - contentHeight) / 2;
+    } else {
+      offsetY = Math.min(maxOffsetY, Math.max(minOffsetY, offsetY));
+    }
+  }
+
+  function applyTransform() {
+    clampOffset();
+    pageContainer.style.transform =
+      `translate(${offsetX}px, ${offsetY}px) scale(${zoomScale})`;
+  }
+
+
+
 
   // =========================
   // 載入圖片檔案
@@ -145,28 +225,6 @@ function initReader(manga, mangaList) {
     }
   }
 
-  // =========================
-  // 預載下一頁
-  // =========================
-    // function preloadNextPages(count = 1) {
-    //   for (let i = 1; i <= count; i++) {
-    //     const nextIndex = currentPage + i * (isDoublePage ? 2 : 1);
-    //     if (nextIndex < allPages.length) {
-    //       const nextPages = allPages.slice(nextIndex, nextIndex + (isDoublePage ? 2 : 1));
-    //       nextPages.forEach(src => {
-    //         const img = new Image();
-    //         img.src = getLowResPath(src);
-    //         const base = src.replace(/(\.\w+)$/, "");
-    //         const ext = src.match(/(\.\w+)$/)[0];
-    //         img.srcset = `
-    //           ${base}-w480${ext} 480w,
-    //           ${base}-w960${ext} 960w,
-    //           ${base}-w1920${ext} 1920w
-    //         `;
-    //       });
-    //     }
-    //   }
-    // }
 
   // =========================
   // 翻頁提示
@@ -203,6 +261,7 @@ function initReader(manga, mangaList) {
         currentPage = Math.min(currentPage + (isDoublePage ? 2 : 1), allPages.length - 1);
         if (isDoublePage && currentPage % 2 !== 0) currentPage--;
         renderPage();
+        applyTransform();
       }
     } else if (direction === "prev") {
       if (currentPage === 0) {
@@ -214,6 +273,7 @@ function initReader(manga, mangaList) {
         currentPage = Math.max(currentPage - (isDoublePage ? 2 : 1), 0);
         if (isDoublePage && currentPage % 2 !== 0) currentPage--;
         renderPage();
+        applyTransform();
       }
     }
   }
@@ -231,6 +291,7 @@ function initReader(manga, mangaList) {
       ? '<i class="bi bi-book-fill"></i>'
       : '<i class="bi bi-book-half"></i>';
     renderPage();
+    applyTransform();
   });
 
 
@@ -240,19 +301,80 @@ function initReader(manga, mangaList) {
   let hasDragged = false;
   let startX = 0;
   let isDragging = false;
+  let isPanning = false;
+  let panStartX = 0;
+  let panStartY = 0;
 
   // =========================
-  // 檢查是否縮放 (移動端)
+  //單指「拖動畫面」
+  // =========================
+  viewport.addEventListener("touchstart", (e) => {
+    if (isZoomed() && e.touches.length === 1) {
+      isPanning = true;
+      panStartX = e.touches[0].clientX - offsetX;
+      panStartY = e.touches[0].clientY - offsetY;
+    }
+  });
+
+  viewport.addEventListener("touchmove", (e) => {
+    if (isPanning && e.touches.length === 1) {
+      e.preventDefault();
+      hasDragged = true;
+      offsetX = e.touches[0].clientX - panStartX;
+      offsetY = e.touches[0].clientY - panStartY;
+      applyTransform();
+    }
+  }, { passive: false });
+
+  viewport.addEventListener("touchend", () => {
+    isPanning = false;
+  });
+
+
+  // =========================
+  // 檢查是否縮放（只看漫畫容器）
+  // =========================
+  viewport.addEventListener("mousedown", (e) => {
+    if (!isZoomed()) return;
+
+    isPanning = true;
+    panStartX = e.clientX - offsetX;
+    panStartY = e.clientY - offsetY;
+
+    e.preventDefault();
+  });
+
+  viewport.addEventListener("mousemove", (e) => {
+    if (!isPanning) return;
+
+    offsetX = e.clientX - panStartX;
+    offsetY = e.clientY - panStartY;
+    hasDragged = true;
+    applyTransform();
+  });
+
+  viewport.addEventListener("mouseup", () => {
+    isPanning = false;
+  });
+
+  viewport.addEventListener("mouseleave", () => {
+    isPanning = false;
+  });
+
+
+
+  // =========================
+  // 檢查是否縮放（只看漫畫容器）
   // =========================
   function isZoomed() {
-    return window.visualViewport && window.visualViewport.scale > 1.0;
+    return zoomScale > 1;
   }
 
   // =========================
   // 點擊翻頁
   // =========================
-  pageContainer.addEventListener("click", (e) => {
-    if (isZoomed()) return; // 放大狀態下停用
+  viewport.addEventListener("click", (e) => {
+    if (Date.now() < suppressClickUntil) return; //雙擊時不觸發 click 翻頁/工具列
     if (hasDragged) {
       hasDragged = false; // 滑動後的點擊不觸發
       return;
@@ -262,9 +384,9 @@ function initReader(manga, mangaList) {
     const imgs = pageContainer.querySelectorAll("img");
     if (!imgs.length) return;
 
-    const rects = Array.from(imgs).map(img => img.getBoundingClientRect());
-    const minX = rects[0].left;
-    const maxX = rects[rects.length - 1].right;
+    const rect = viewport.getBoundingClientRect();
+    const minX = rect.left;
+    const maxX = rect.right;
     const totalWidth = maxX - minX;
     const clickX = e.clientX;
     const leftZone = minX + totalWidth * 0.35;
@@ -321,62 +443,200 @@ function initReader(manga, mangaList) {
   pageContainer.addEventListener("touchend", handleEnd);
 
 
+  // =========================
+  // 滾輪縮放（只縮放漫畫頁面）
+  // =========================
+  viewport.addEventListener("wheel", (e) => {
+    e.preventDefault();
+
+    const rect = pageContainer.getBoundingClientRect();
+
+    const mouseX = e.clientX - rect.left;
+    const mouseY = e.clientY - rect.top;
+
+    const zoomSpeed = 0.002; // ⭐ 調這裡：越大縮放越快
+const factor = Math.exp(-e.deltaY * zoomSpeed);
+const newScale = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, zoomScale * factor));
+
+    const scaleRatio = newScale / zoomScale;
+
+    offsetX = mouseX - scaleRatio * (mouseX - offsetX);
+    offsetY = mouseY - scaleRatio * (mouseY - offsetY);
+
+    zoomScale = newScale;
+    applyTransform();
+  }, { passive: false });
+
+
+  // =========================
+  // 手機雙指縮放（pinch zoom）
+  // =========================
+  let startDistance = null;
+  let startZoom = 1;
+  let pinchCenter = null;
+
+  viewport.addEventListener("touchstart", (e) => {
+    if (e.touches.length === 2) {
+      const [t1, t2] = e.touches;
+
+      const dx = t1.clientX - t2.clientX;
+      const dy = t1.clientY - t2.clientY;
+      startDistance = Math.hypot(dx, dy);
+      startZoom = zoomScale;
+
+      const rect = pageContainer.getBoundingClientRect();
+
+      pinchCenter = {
+        x: ((t1.clientX + t2.clientX) / 2) - rect.left,
+        y: ((t1.clientY + t2.clientY) / 2) - rect.top,
+      };
+    }
+  });
+
+
+  viewport.addEventListener("touchmove", (e) => {
+    if (e.touches.length === 2 && startDistance) {
+      e.preventDefault();
+
+      const [t1, t2] = e.touches;
+      const dx = t1.clientX - t2.clientX;
+      const dy = t1.clientY - t2.clientY;
+      const distance = Math.hypot(dx, dy);
+
+      const newScale = Math.min(
+        MAX_ZOOM,
+        Math.max(MIN_ZOOM, startZoom * (distance / startDistance))
+      );
+
+      // 🔥 核心：以 pinch 中心補償位移
+      const scaleRatio = newScale / zoomScale;
+
+      offsetX = pinchCenter.x - scaleRatio * (pinchCenter.x - offsetX);
+      offsetY = pinchCenter.y - scaleRatio * (pinchCenter.y - offsetY);
+
+      zoomScale = newScale;
+      applyTransform();
+    }
+  }, { passive: false });
+
+
+  viewport.addEventListener("touchend", () => {
+    startDistance = null;
+  });
+
+
+  // =========================
+  // 手機 double tap（兩下）放大/縮回
+  // =========================
+  let lastTapTime = 0;
+  let lastTapX = 0;
+  let lastTapY = 0;
+
+  viewport.addEventListener("touchend", (e) => {
+    // 只處理單指結束的情況（避免跟 pinch 打架）
+    if (e.changedTouches.length !== 1) return;
+
+    const t = e.changedTouches[0];
+    const now = Date.now();
+
+    const dt = now - lastTapTime;
+    const dx = t.clientX - lastTapX;
+    const dy = t.clientY - lastTapY;
+    const dist2 = dx * dx + dy * dy;
+
+    // 250ms 內 + 點的位置沒差太遠（30px 內） => 視為 double tap
+    if (dt < 250 && dist2 < 30 * 30) {
+      e.preventDefault();
+      e.stopPropagation();
+      suppressClicks(400);
+
+      if (isZoomed()) {
+        zoomScale = 1;
+        offsetX = 0;
+        offsetY = 0;
+        applyTransform();
+      } else {
+        zoomToClientPoint(t.clientX, t.clientY, DOUBLE_TAP_ZOOM);
+      }
+
+      lastTapTime = 0; // 重置，避免三連點又觸發
+      return;
+    }
+
+    lastTapTime = now;
+    lastTapX = t.clientX;
+    lastTapY = t.clientY;
+  }, { passive: false });
+
+
+
+  // =========================
+  // 連點兩下還原
+  // =========================
+  const DOUBLE_TAP_ZOOM = 2.5; // ⭐ 你想要雙擊放大的倍率在這裡調
+
+  viewport.addEventListener("dblclick", (e) => {
+    e.preventDefault();
+    e.stopPropagation();
+    suppressClicks(); // ⭐ 避免 dblclick 前後的 click 觸發翻頁/工具列
+
+    if (isZoomed()) {
+      // 已放大：雙擊縮回
+      zoomScale = 1;
+      offsetX = 0;
+      offsetY = 0;
+      applyTransform();
+    } else {
+      // 未放大：雙擊放大到滑鼠位置
+      zoomToClientPoint(e.clientX, e.clientY, DOUBLE_TAP_ZOOM);
+    }
+  });
+
+
+
 
   // =========================
   // 滑鼠翻頁手形符號
   // =========================
-  pageContainer.addEventListener("mousemove", (e) => {
-    const imgs = pageContainer.querySelectorAll("img");
-    if (!imgs.length) return;
+  viewport.addEventListener("mousemove", (e) => {
+    const rect = viewport.getBoundingClientRect();
+    const x = e.clientX;
 
-    let minX, maxX;
+    const leftZone = rect.left + rect.width * 0.35;
+    const rightZone = rect.left + rect.width * 0.65;
 
-    if (isDoublePage) {
-      if (imgs.length === 2) {
-        const rectLeft = imgs[0].getBoundingClientRect();
-        const rectRight = imgs[1].getBoundingClientRect();
-        minX = rectLeft.left;
-        maxX = rectRight.right;
-      } else {
-        const rect = pageContainer.getBoundingClientRect();
-        minX = rect.left;
-        maxX = rect.right;
+    // 菜單開啟時不要顯示 pointer（避免誤導）
+    if (!menu.classList.contains("hidden")) {
+      viewport.style.cursor = "default";
+      return;
+    }
+
+    if (x < leftZone || x > rightZone) {
+      viewport.style.cursor = "pointer";
+    } else {
+      viewport.style.cursor = "default";
+    }
+  });
+
+
+
+    // =========================
+    // 章節選單
+    // =========================
+    menuBtn.addEventListener("click", (e) => {
+      e.stopPropagation();
+      menu.classList.toggle("hidden");
+    });
+
+    
+    // =========================
+    // 點擊空白處關閉章節選單
+    // =========================
+    document.addEventListener("click", (e) => {
+      if (!menu.contains(e.target) && e.target !== menuBtn) {
+        menu.classList.add("hidden");
       }
-    } else {
-      const rect = imgs[0].getBoundingClientRect();
-      minX = rect.left;
-      maxX = rect.right;
-    }
-
-    const totalWidth = maxX - minX;
-    const leftZone = minX + totalWidth * 0.35;
-    const rightZone = minX + totalWidth * 0.65;
-
-    if (e.clientX < leftZone && e.clientX >= minX || e.clientX > rightZone && e.clientX <= maxX) {
-      pageContainer.style.cursor = "pointer"; // 或 "grab"
-    } else {
-      pageContainer.style.cursor = "default";
-    }
-  });
-
-
-  // =========================
-  // 章節選單
-  // =========================
-  menuBtn.addEventListener("click", (e) => {
-    e.stopPropagation();
-    menu.classList.toggle("hidden");
-  });
-
-  
-  // =========================
-  // 點擊空白處關閉章節選單
-  // =========================
-  document.addEventListener("click", (e) => {
-    if (!menu.contains(e.target) && e.target !== menuBtn) {
-      menu.classList.add("hidden");
-    }
-  });
+    });
 
 
   // =========================
@@ -574,6 +834,7 @@ function initReader(manga, mangaList) {
 
   // 初始渲染
   renderPage();
+  applyTransform();
 }
 
 
