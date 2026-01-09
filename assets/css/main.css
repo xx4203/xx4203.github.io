@@ -891,6 +891,12 @@ body {
   height: 100vh;
   width: 100vw;
   overflow: hidden;
+  min-height: 100dvh;
+}
+@supports not (height: 100dvh) {
+  .manga-reader {
+    min-height: 100vh;
+  }
 }
 .manga-reader .page-viewport {
   position: relative;
@@ -918,10 +924,11 @@ body {
   display: block;
 }
 .manga-reader .control-bar {
-  position: absolute;
-  top: min(100vh - 8rem, 90%);
+  position: fixed;
+  top: auto;
   left: 50%;
   transform: translateX(-50%);
+  bottom: calc(env(safe-area-inset-bottom, 0px) + 3rem);
   display: flex;
   gap: 2rem;
   background: var(--accent-color);

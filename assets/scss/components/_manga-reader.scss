@@ -10,7 +10,12 @@ body {
   height: 100vh;
   width: 100vw;
   overflow: hidden;
-  
+
+  min-height: 100dvh;
+  @supports not (height: 100dvh) {
+    min-height: 100vh;
+  }
+
   .page-viewport {
     position: relative;
     width: 100%;
@@ -46,11 +51,11 @@ body {
 
   // 工具列
   .control-bar {
-    position: absolute;
-    // top: 90%;
-    top:min(calc(100vh - 8rem), 90%);
+    position: fixed;
+    top: auto;
     left: 50%;
     transform: translateX(-50%);
+    bottom: calc(env(safe-area-inset-bottom, 0px) + 3rem);
     display: flex;
     gap: 2rem;
     background: var(--accent-color);
