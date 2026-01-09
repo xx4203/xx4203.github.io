@@ -742,6 +742,9 @@ const newScale = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, zoomScale * factor));
     menuBtn.addEventListener("click", (e) => {
       e.stopPropagation();
       menu.classList.toggle("hidden");
+      isChapterListOpen = !menu.classList.contains("hidden");
+      if (isChapterListOpen) initChapterKeyboardSelection();
+      else clearChapterKeyboardSelection();
     });
 
     
@@ -853,6 +856,106 @@ const newScale = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, zoomScale * factor));
 
 
   // =========================
+  // 鍵盤功能：補齊缺的函式
+  // =========================
+
+  // 1) 工具列（你點中間區域就是 toggle .control-bar）
+  function toggleControlBar() {
+    document.querySelector(".control-bar")?.classList.toggle("hidden");
+  }
+
+  // 2) 全螢幕（抽成可被鍵盤呼叫的版本）
+  async function toggleFullscreen() {
+    try {
+      if (!document.fullscreenElement) {
+        await document.documentElement.requestFullscreen();
+      } else {
+        await document.exitFullscreen();
+      }
+      // icon 交給 fullscreenchange 統一處理（下面有）
+    } catch (err) {
+      console.warn("Fullscreen failed:", err);
+    }
+  }
+
+  // 讓 icon 永遠跟著「真實全螢幕狀態」走（避免 ESC 離開後 icon 不對）
+  document.addEventListener("fullscreenchange", () => {
+    if (!fullscreenBtn) return;
+    fullscreenBtn.innerHTML = document.fullscreenElement
+      ? '<i class="bi bi-fullscreen-exit"></i>'
+      : '<i class="bi bi-fullscreen"></i>';
+  });
+
+  // 3) 單/雙頁切換（直接沿用你現成的 toggleBtn click）
+  function togglePageMode() {
+    toggleBtn?.click();
+  }
+
+  // 4) 章節列表開關（直接沿用 menuBtn click）
+  function toggleChapterList(force) {
+    // force: true/false 可選；不給就是 toggle
+    const isHidden = menu.classList.contains("hidden");
+    const willOpen = force === undefined ? isHidden : force;
+
+    if (willOpen && isHidden) menuBtn?.click();
+    if (!willOpen && !isHidden) menuBtn?.click();
+
+    isChapterListOpen = !menu.classList.contains("hidden");
+
+    // 開啟章節列表時，初始化鍵盤選取
+    if (isChapterListOpen) {
+      initChapterKeyboardSelection();
+    } else {
+      clearChapterKeyboardSelection();
+    }
+  }
+
+  // 5) 章節列表鍵盤上下選取 / Enter 進入
+  let chapterKeyboardIndex = 0;
+
+  function getChapterLis() {
+    // 只取章節項目：排除 header/footer
+    return Array.from(chapterList.querySelectorAll("li"))
+      .filter(li => !li.classList.contains("chapter-header") && !li.classList.contains("chapter-footer"));
+  }
+
+  function clearChapterKeyboardSelection() {
+    getChapterLis().forEach(li => li.classList.remove("kbd-active"));
+  }
+
+  function initChapterKeyboardSelection() {
+    const lis = getChapterLis();
+    if (!lis.length) return;
+
+    // 預設選到目前 active 章節，沒有就選第一個
+    chapterKeyboardIndex = Math.max(0, lis.findIndex(li => li.classList.contains("active")));
+    clearChapterKeyboardSelection();
+    lis[chapterKeyboardIndex].classList.add("kbd-active");
+    lis[chapterKeyboardIndex].scrollIntoView({ block: "nearest" });
+  }
+
+  function selectChapter(delta) {
+    const lis = getChapterLis();
+    if (!lis.length) return;
+
+    chapterKeyboardIndex = Math.max(0, Math.min(lis.length - 1, chapterKeyboardIndex + delta));
+
+    clearChapterKeyboardSelection();
+    lis[chapterKeyboardIndex].classList.add("kbd-active");
+    lis[chapterKeyboardIndex].scrollIntoView({ block: "nearest" });
+  }
+
+  function enterChapter() {
+    const lis = getChapterLis();
+    const li = lis[chapterKeyboardIndex];
+    if (!li) return;
+
+    const link = li.querySelector("a");
+    if (link?.href) location.href = link.href;
+  }
+
+
+  // =========================
   // 鍵盤快捷鍵：翻頁
   // =========================
   let isChapterListOpen = false; // 預設章節列表關閉
@@ -883,7 +986,7 @@ const newScale = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, zoomScale * factor));
           event.preventDefault();
           enterChapter();
           break;
-        case "Tab":
+        case "l": case "L":
           event.preventDefault();
           toggleChapterList(); // 關閉
           break;
@@ -897,8 +1000,6 @@ const newScale = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, zoomScale * factor));
         case "a": case "A":
         case "s": case "S":
         case "PageDown":
-        case " ":
-        case "Spacebar":
           event.preventDefault();
           nextPage();
           break;
@@ -914,20 +1015,26 @@ const newScale = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, zoomScale * factor));
           break;
 
         // 功能鍵
-        case "f": case "F":
+        case "m": case "M": // 切換工具列
+          event.preventDefault();
+          toggleControlBar();
+          break;
+        
+        case "f": case "F": // 全螢幕切換
           event.preventDefault();
           toggleFullscreen();
           break;
 
-        case "p": case "P": // 改用 P 來切換單/雙頁
+        case "p": case "P": //切換單/雙頁
           event.preventDefault();
           togglePageMode();
           break;
 
-        case "Tab":
+        case "l": case "L": // 切換章節列表
           event.preventDefault();
           toggleChapterList(); // 開啟
           break;
+
       }
     }
   });

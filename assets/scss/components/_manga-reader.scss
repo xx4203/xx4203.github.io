@@ -139,10 +139,12 @@ body {
     height: 100%;
     background: var(--bg-secondary-color-a80);
     backdrop-filter: blur(1rem);
-    padding: 2rem;
+    padding: 2rem 2rem 6rem;
+    box-sizing: border-box;
     overflow-y: auto;
     transition: transform 0.3s;
     z-index: 2;
+    scroll-padding-block: 1.5rem;
 
     &.hidden {
       transform: translateX(100%);
@@ -163,6 +165,7 @@ body {
         border: 0.2rem solid rgba(0, 0, 0, 0);
         transition: transform 0.2s;
         cursor: pointer; // ← 新增，整個 li 都可變手形
+        scroll-margin-block: 1rem; //捲動對齊時上下要留安全距離
 
         &:hover {
           border: 0.2rem solid var(--accent-color);
@@ -179,19 +182,26 @@ body {
 
           &.active {
           border: none;
-        }
-
+         }
         }
 
         &:last-of-type {
-          margin: 0 0 4rem;
+          margin: 0;
           background: none;
           border: none;
           cursor: unset;
 
           &.active {
           border: none;
+         }
         }
+
+        &.kbd-active {
+          box-shadow: 0 0 0 0.2rem var(--accent-color);
+          border-radius: 1rem;
+        }
+        &.active.kbd-active {
+          border: 0.2rem solid rgba(0, 0, 0, 0); // 選擇與當前章節衝突時關掉 active 的邊框
         }
 
         a {
