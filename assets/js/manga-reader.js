@@ -674,7 +674,13 @@ const newScale = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, zoomScale * factor));
   // =========================
   let startDistance = null;
   let startZoom = 1;
-  let pinchCenter = null;
+  // pinch 的中心點（固定用 viewport 座標系）
+  let pinchPX = 0;
+  let pinchPY = 0;
+
+  // pinch 開始時，中心點對應到的「內容座標」
+  let pinchContentX = 0;
+  let pinchContentY = 0;
 
   viewport.addEventListener("touchstart", (e) => {
     if (e.touches.length === 2) {
@@ -686,12 +692,15 @@ const newScale = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, zoomScale * factor));
       startDistance = Math.hypot(dx, dy);
       startZoom = zoomScale;
 
-      const rect = pageContainer.getBoundingClientRect();
+      const vpRect = viewport.getBoundingClientRect();
 
-      pinchCenter = {
-        x: ((t1.clientX + t2.clientX) / 2) - rect.left,
-        y: ((t1.clientY + t2.clientY) / 2) - rect.top,
-      };
+      // 1) pinch 中心點（viewport 內座標 px）
+      pinchPX = ((t1.clientX + t2.clientX) / 2) - vpRect.left;
+      pinchPY = ((t1.clientY + t2.clientY) / 2) - vpRect.top;
+
+      // 2) pinch 開始時，這個 px 對應到內容座標（content space）
+      pinchContentX = (pinchPX - offsetX) / zoomScale;
+      pinchContentY = (pinchPY - offsetY) / zoomScale;
     }
   });
 
@@ -711,12 +720,12 @@ const newScale = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, zoomScale * factor));
       );
 
       // 🔥 核心：以 pinch 中心補償位移
-      const scaleRatio = newScale / zoomScale;
-
-      offsetX = pinchCenter.x - scaleRatio * (pinchCenter.x - offsetX);
-      offsetY = pinchCenter.y - scaleRatio * (pinchCenter.y - offsetY);
-
       zoomScale = newScale;
+
+      // 讓 pinchContentX/Y 仍然落在 pinchPX/PY
+      offsetX = pinchPX - pinchContentX * zoomScale;
+      offsetY = pinchPY - pinchContentY * zoomScale;
+
       applyTransform();
     }
   }, { passive: false });
