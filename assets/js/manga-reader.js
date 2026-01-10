@@ -207,6 +207,19 @@ function initReader(manga, mangaList) {
   // =========================
   const STATE_KEY = `reader:${location.pathname}`;
 
+  const RESET_KEY = "reader:resetOnLoad";
+
+  function markResetOnNextLoad() {
+    sessionStorage.setItem(RESET_KEY, "1");
+  }
+
+  function consumeResetOnLoad() {
+    const should = sessionStorage.getItem(RESET_KEY) === "1";
+    sessionStorage.removeItem(RESET_KEY);
+    return should;
+  }
+
+
   function saveReaderState() {
     const state = {
       currentPage,
@@ -898,11 +911,15 @@ const newScale = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, zoomScale * factor));
       // ✅ 若目前在 fullscreen，標記下一頁要恢復
       if (document.fullscreenElement) markFullscreenForNextPage();
 
-      // ✅ 順便存一下目前閱讀狀態（可選，但很合理）
+      // ✅ 切章節：下一頁從第一頁開始（不要套用上一個章節的頁數）
+      markResetOnNextLoad();
+
+      // （可選）你要不要存當前章節狀態都行；存也沒問題
       saveReaderState();
 
       location.href = m.url;
     });
+
 
 
     chapterList.appendChild(li);
@@ -1049,7 +1066,12 @@ const newScale = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, zoomScale * factor));
     if (!li) return;
 
     const link = li.querySelector("a");
-    if (link?.href) location.href = link.href;
+    if (link?.href) {
+      if (document.fullscreenElement) markFullscreenForNextPage();
+      markResetOnNextLoad();
+      saveReaderState();
+      location.href = link.href;
+    }
   }
 
 
@@ -1204,7 +1226,27 @@ const newScale = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, zoomScale * factor));
 
 
   // 初始渲染
-  loadReaderState();
+  
+  if (consumeResetOnLoad()) {
+    // ✅ 切章節後：強制回到封面（第 0 頁）
+    currentPage = 0;
+
+    // ✅ 你也可以選擇保留單雙頁模式，或重置成單頁
+    // 方案 A：保留 isDoublePage（不動）
+    // 方案 B：切章節就回單頁（更直覺）
+    isDoublePage = false;
+    toggleBtn.innerHTML = '<i class="bi bi-book-half"></i>';
+
+    // ✅ 同時把 zoom/pan 清掉，避免帶到新章節
+    zoomScale = 1;
+    offsetX = 0;
+    offsetY = 0;
+
+    saveReaderState(); // 把「第 0 頁」寫進新章節自己的 state
+  } else {
+    loadReaderState();
+  }
+
   setupFullscreenRestoreOnFirstGesture();
   renderPage();
   applyTransform();
