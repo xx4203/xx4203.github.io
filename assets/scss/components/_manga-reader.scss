@@ -66,14 +66,75 @@ body {
     &.hidden {
       transform: translate(-50%, 200%);
       opacity: 0;
+      pointer-events: none;
     }
 
     button {
+      position: relative;
       background: none;
       border: none;
       font-size: $font-size-title3;
       cursor: pointer;
       transition: 0.08s ease-in-out;
+
+
+      // ===== Tooltip (desktop hover) =====
+    @media (min-width: 769px) {
+      // 小泡泡本體
+      &::after {
+        content: attr(data-tip);
+        position: absolute;
+        left: 50%;
+        bottom: calc(100% + 1rem); // 在 button 上方一點點
+        transform: translateX(-50%) translateY(0.2rem); // 初始稍微往下，等 hover 再滑上去
+        opacity: 0;
+        pointer-events: none;
+
+        background: var(--bg-secondary-color-a80);
+        backdrop-filter: blur(1rem);
+        color: var(--primary-color);
+        font-size: $font-size-footnote1;
+        padding: 0.5rem 1rem 0.7rem;
+        border-radius: 0.8rem;
+        white-space: nowrap;
+
+        transition: 0.18s ease;
+        z-index: 10;
+      }
+
+      // 倒三角形（用 clip-path 做圓角三角）
+      &::before {
+        content: "";
+        position: absolute;
+        left: 50%;
+        bottom: calc(100% + 0.35rem);
+        transform: translateX(-50%) translateY(0.2rem);
+        opacity: 0;
+        pointer-events: none;
+
+        width: 1.4rem;
+        height: 0.9rem;
+        background: var(--bg-secondary-color-a80);
+        backdrop-filter: blur(1rem);
+
+        // 圓角倒三角：用 polygon + border-radius trick
+        clip-path: polygon(50% 100%, 0 0, 100% 0);
+        border-radius: 0 0 0.4rem 0.4rem;
+
+        transition: 0.18s ease;
+        z-index: 9;
+      }
+
+      // Hover / Focus 時顯示（鍵盤 tab 也看得到）
+      &:hover::after,
+      &:focus-visible::after,
+      &:hover::before,
+      &:focus-visible::before {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0); // 滑上去一點點
+      }
+    }
+
 
       &:hover {
         transform: scale(1.1);

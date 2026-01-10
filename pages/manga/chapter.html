@@ -46,13 +46,27 @@
       <div class="control-bar">
 
         <!-- 全螢幕切換 -->
-        <button id="fullscreenBtn"><i class="bi bi-fullscreen"></i></button>
+        <button id="fullscreenBtn"
+                aria-label="全螢幕"
+                data-tip="全螢幕 (F)">
+          <i class="bi bi-fullscreen"></i>
+        </button>
 
         <!-- 單頁/雙頁切換 -->
-        <button id="toggleView" class="toggle-btn"><i class="bi bi-book-half"></i></button>
+        <button id="toggleView"
+                class="toggle-btn"
+                aria-label="單雙頁"
+                data-tip="單雙頁 (P)">
+          <i class="bi bi-book-half"></i>
+        </button>
 
         <!-- 章節選單 -->
-        <button id="menuToggle" class="menu-btn"><i class="bi bi-list-ul"></i></button>
+        <button id="menuToggle"
+                class="menu-btn"
+                aria-label="目錄"
+                data-tip="目錄 (L)">
+          <i class="bi bi-list-ul"></i>
+        </button>
       </div>
 
       <!-- 側邊章節欄位 -->

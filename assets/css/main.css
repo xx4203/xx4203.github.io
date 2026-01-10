@@ -939,13 +939,56 @@ body {
 .manga-reader .control-bar.hidden {
   transform: translate(-50%, 200%);
   opacity: 0;
+  pointer-events: none;
 }
 .manga-reader .control-bar button {
+  position: relative;
   background: none;
   border: none;
   font-size: 2.2rem;
   cursor: pointer;
   transition: 0.08s ease-in-out;
+}
+@media (min-width: 769px) {
+  .manga-reader .control-bar button::after {
+    content: attr(data-tip);
+    position: absolute;
+    left: 50%;
+    bottom: calc(100% + 1rem);
+    transform: translateX(-50%) translateY(0.2rem);
+    opacity: 0;
+    pointer-events: none;
+    background: var(--bg-secondary-color-a80);
+    backdrop-filter: blur(1rem);
+    color: var(--primary-color);
+    font-size: 1.2rem;
+    padding: 0.5rem 1rem 0.7rem;
+    border-radius: 0.8rem;
+    white-space: nowrap;
+    transition: 0.18s ease;
+    z-index: 10;
+  }
+  .manga-reader .control-bar button::before {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: calc(100% + 0.35rem);
+    transform: translateX(-50%) translateY(0.2rem);
+    opacity: 0;
+    pointer-events: none;
+    width: 1.4rem;
+    height: 0.9rem;
+    background: var(--bg-secondary-color-a80);
+    backdrop-filter: blur(1rem);
+    clip-path: polygon(50% 100%, 0 0, 100% 0);
+    border-radius: 0 0 0.4rem 0.4rem;
+    transition: 0.18s ease;
+    z-index: 9;
+  }
+  .manga-reader .control-bar button:hover::after, .manga-reader .control-bar button:focus-visible::after, .manga-reader .control-bar button:hover::before, .manga-reader .control-bar button:focus-visible::before {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
 }
 .manga-reader .control-bar button:hover {
   transform: scale(1.1);

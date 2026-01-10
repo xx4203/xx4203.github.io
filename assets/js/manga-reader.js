@@ -15,6 +15,7 @@ function initReader(manga, mangaList) {
   const menu = document.getElementById("chapterMenu");
   const chapterList = document.getElementById("chapterList");
   const fullscreenBtn = document.getElementById("fullscreenBtn");
+  let isChapterListOpen = false;
 
   pageContainer.style.transformOrigin = "0 0";
 
@@ -52,10 +53,57 @@ function initReader(manga, mangaList) {
     applyTransform(); // 你原本就會 clampOffset()
   }
 
+  // =========================
+  // 連點時間
+  // =========================
   let suppressClickUntil = 0;
   function suppressClicks(ms = 350) {
     suppressClickUntil = Date.now() + ms;
   }
+
+  let clickTimer = null;
+  let pendingClickEvent = null;
+
+  // dblclick 的時間窗口（桌機常用 250~300）
+  const CLICK_DELAY = 260;
+
+  function scheduleSingleClick(e) {
+    // 如果目前已被 suppress（例如剛 pinch / double tap 成功）
+    if (Date.now() < suppressClickUntil) return;
+
+    // 拖曳過就不算 click
+    if (hasDragged) {
+      hasDragged = false;
+      return;
+    }
+
+    // 選單開啟中不翻頁
+    if (!menu.classList.contains("hidden")) return;
+
+    // 取消上一個待處理 click（避免連點造成多次排程）
+    if (clickTimer) clearTimeout(clickTimer);
+
+    pendingClickEvent = e;
+
+    clickTimer = setTimeout(() => {
+      // 時間到了才真的當作單擊
+      pendingClickEvent = null;
+      clickTimer = null;
+
+      // ⭐ 這裡呼叫你原本 click 翻頁的內容
+      handleClickToPage(e);
+    }, CLICK_DELAY);
+  }
+
+  function cancelScheduledClick() {
+    if (clickTimer) clearTimeout(clickTimer);
+    clickTimer = null;
+    pendingClickEvent = null;
+  }
+
+
+
+
 
   // =========================
   // 邊界限制函式
@@ -153,6 +201,42 @@ function initReader(manga, mangaList) {
   // 監聽視窗 resize
   window.addEventListener("resize", () => updateImageSizes());
 
+
+  // =========================
+  // 狀態保存（F5 重整保留）
+  // =========================
+  const STATE_KEY = `reader:${location.pathname}`;
+
+  function saveReaderState() {
+    const state = {
+      currentPage,
+      isDoublePage,
+    };
+    sessionStorage.setItem(STATE_KEY, JSON.stringify(state));
+  }
+
+  function loadReaderState() {
+    try {
+      const raw = sessionStorage.getItem(STATE_KEY);
+      if (!raw) return;
+
+      const state = JSON.parse(raw);
+
+      if (Number.isInteger(state.currentPage)) {
+        currentPage = Math.max(0, Math.min(allPages.length - 1, state.currentPage));
+      }
+      if (typeof state.isDoublePage === "boolean") {
+        isDoublePage = state.isDoublePage;
+        // 雙頁時從偶數頁開始
+        if (isDoublePage && currentPage % 2 !== 0) currentPage--;
+        toggleBtn.innerHTML = isDoublePage
+          ? '<i class="bi bi-book-fill"></i>'
+          : '<i class="bi bi-book-half"></i>';
+      }
+    } catch (e) {
+      // 解析失敗就忽略
+    }
+  }
 
 
   // =========================
@@ -262,6 +346,7 @@ function initReader(manga, mangaList) {
         if (isDoublePage && currentPage % 2 !== 0) currentPage--;
         renderPage();
         applyTransform();
+        saveReaderState();
       }
     } else if (direction === "prev") {
       if (currentPage === 0) {
@@ -274,6 +359,7 @@ function initReader(manga, mangaList) {
         if (isDoublePage && currentPage % 2 !== 0) currentPage--;
         renderPage();
         applyTransform();
+        saveReaderState();
       }
     }
   }
@@ -478,13 +564,10 @@ function initReader(manga, mangaList) {
   // 點擊翻頁
   // =========================
   viewport.addEventListener("click", (e) => {
-    if (Date.now() < suppressClickUntil) return; //雙擊時不觸發 click 翻頁/工具列
-    if (hasDragged) {
-      hasDragged = false; // 滑動後的點擊不觸發
-      return;
-    }
-    if (!menu.classList.contains("hidden")) return;
+    scheduleSingleClick(e);
+  });
 
+  function handleClickToPage(e) {
     const imgs = pageContainer.querySelectorAll("img");
     if (!imgs.length) return;
 
@@ -499,7 +582,8 @@ function initReader(manga, mangaList) {
     if (clickX < leftZone) goPage("next");
     else if (clickX > rightZone) goPage("prev");
     else document.querySelector(".control-bar").classList.toggle("hidden");
-  });
+  }
+
 
   // =========================
   // 滑動翻頁（單指拖動）
@@ -664,6 +748,8 @@ const newScale = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, zoomScale * factor));
       e.preventDefault();
       e.stopPropagation();
       stopInertia();
+
+      cancelScheduledClick();
       suppressClicks(400);
 
       if (isZoomed()) {
@@ -694,7 +780,9 @@ const newScale = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, zoomScale * factor));
   viewport.addEventListener("dblclick", (e) => {
     e.preventDefault();
     e.stopPropagation();
-    suppressClicks(); // ⭐ 避免 dblclick 前後的 click 觸發翻頁/工具列
+
+    cancelScheduledClick(); // ⭐ 把可能已排程的單擊取消
+    suppressClicks(400);
 
     if (isZoomed()) {
       // 已放大：雙擊縮回
@@ -754,8 +842,11 @@ const newScale = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, zoomScale * factor));
     document.addEventListener("click", (e) => {
       if (!menu.contains(e.target) && e.target !== menuBtn) {
         menu.classList.add("hidden");
+        isChapterListOpen = false;
+        clearChapterKeyboardSelection();
       }
     });
+
 
 
   // =========================
@@ -804,8 +895,15 @@ const newScale = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, zoomScale * factor));
 
     // 整個 li 可點
     li.addEventListener("click", () => {
+      // ✅ 若目前在 fullscreen，標記下一頁要恢復
+      if (document.fullscreenElement) markFullscreenForNextPage();
+
+      // ✅ 順便存一下目前閱讀狀態（可選，但很合理）
+      saveReaderState();
+
       location.href = m.url;
     });
+
 
     chapterList.appendChild(li);
   });
@@ -956,10 +1054,56 @@ const newScale = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, zoomScale * factor));
 
 
   // =========================
+  // Fullscreen 跨章節恢復（導覽後需要 user gesture）
+  // =========================
+  const FS_KEY = "reader:shouldRestoreFullscreen";
+
+  function markFullscreenForNextPage() {
+    sessionStorage.setItem(FS_KEY, "1");
+  }
+
+  function consumeFullscreenRestoreFlag() {
+    const should = sessionStorage.getItem(FS_KEY) === "1";
+    sessionStorage.removeItem(FS_KEY);
+    return should;
+  }
+
+  // 在新章節頁載入後：等第一次「使用者操作」再恢復 fullscreen
+  function setupFullscreenRestoreOnFirstGesture() {
+    if (!consumeFullscreenRestoreFlag()) return;
+
+    const tryRestore = async () => {
+      try {
+        // 如果已經是 fullscreen 就不用做
+        if (document.fullscreenElement) return;
+        await document.documentElement.requestFullscreen();
+      } catch (e) {
+        // 失敗就算了（有些瀏覽器限制更嚴）
+      } finally {
+        window.removeEventListener("keydown", tryRestoreOnce, true);
+        window.removeEventListener("pointerdown", tryRestoreOnce, true);
+      }
+    };
+
+    const tryRestoreOnce = (e) => {
+      // 任意一次 gesture 觸發即可
+      tryRestore();
+    };
+
+    // capture:true 讓它最早拿到手勢
+    window.addEventListener("keydown", tryRestoreOnce, true);
+    window.addEventListener("pointerdown", tryRestoreOnce, true);
+
+    // （可選）給個提示：你也可以用 showHint 顯示「按 F 返回全螢幕」
+    // showHint(`<p class="paragraph">按 F 返回全螢幕</p>`, 1200);
+  }
+
+
+
+
+  // =========================
   // 鍵盤快捷鍵：翻頁
   // =========================
-  let isChapterListOpen = false; // 預設章節列表關閉
-
   function nextPage() {
     goPage("next");
   }
@@ -970,6 +1114,36 @@ const newScale = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, zoomScale * factor));
 
   document.addEventListener("keydown", function (event) {
     if (["INPUT", "TEXTAREA"].includes(event.target.tagName)) return;
+
+    // ✅ 全域：F11（不管目錄開不開都可以切全螢幕）
+    if (event.code === "F11") {
+      event.preventDefault();
+      toggleFullscreen();
+      return;
+    }
+
+    // ✅ 全域功能鍵（不管目錄開不開都可以用）
+    switch (event.key) {
+      case "m": case "M":
+        event.preventDefault();
+        toggleControlBar();
+        return;
+
+      case "f": case "F":
+        event.preventDefault();
+        toggleFullscreen();
+        return;
+
+      case "p": case "P":
+        event.preventDefault();
+        togglePageMode();
+        return;
+
+      case "l": case "L":
+        event.preventDefault();
+        toggleChapterList(); // 開/關
+        return;
+    }
 
     if (isChapterListOpen) {
       // 📖 章節列表模式
@@ -1014,27 +1188,6 @@ const newScale = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, zoomScale * factor));
           prevPage();
           break;
 
-        // 功能鍵
-        case "m": case "M": // 切換工具列
-          event.preventDefault();
-          toggleControlBar();
-          break;
-        
-        case "f": case "F": // 全螢幕切換
-          event.preventDefault();
-          toggleFullscreen();
-          break;
-
-        case "p": case "P": //切換單/雙頁
-          event.preventDefault();
-          togglePageMode();
-          break;
-
-        case "l": case "L": // 切換章節列表
-          event.preventDefault();
-          toggleChapterList(); // 開啟
-          break;
-
       }
     }
   });
@@ -1045,17 +1198,14 @@ const newScale = Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, zoomScale * factor));
   // 全螢幕切換 + icon 切換
   // =========================
   fullscreenBtn.addEventListener("click", () => {
-    if (!document.fullscreenElement) {
-      document.documentElement.requestFullscreen();
-      fullscreenBtn.innerHTML = '<i class="bi bi-fullscreen-exit"></i>';
-    } else {
-      document.exitFullscreen();
-      fullscreenBtn.innerHTML = '<i class="bi bi-fullscreen"></i>';
-    }
+    toggleFullscreen();
   });
 
 
+
   // 初始渲染
+  loadReaderState();
+  setupFullscreenRestoreOnFirstGesture();
   renderPage();
   applyTransform();
 }
